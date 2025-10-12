@@ -1,0 +1,11 @@
+.publication-container{
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    gap: 20px;
+}
+.title-publication{
+    margin: 0;
+}
+.title-description-publication{
+    gap: 20px;
+}

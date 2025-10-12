@@ -1,0 +1,35 @@
+
+<div class="principal-content-dashboard">
+    <div class="header-dashboard flex-column">
+        <div class="hero-text text-center flex-column">
+            <h1 class="title-dashboard">Encuentra tu próximo curso</h1>
+            <p class="subtitle-dashboard">Explora miles de cursos en linea impartidos por expertos</p>
+        </div>
+        <div class="search-filters flex-column">
+            <div class="search">
+                <span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="#5A6270" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <input class="input-search" type="search" placeholder="Buscar cursos por nombre o creador">
+            </div>
+            <div class="filters">
+                <ul class="list-filters flex-row">
+                    @for (filter of filters; track filters) {
+                    <li
+                        [class.active]="selectedFilter == filter"
+                        (click)="selectFilter(filter)">
+                        {{ filter }}
+                    </li>
+                }
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <app-course-list [courseList]="courses"></app-course-list>
+    
+    
+</div>

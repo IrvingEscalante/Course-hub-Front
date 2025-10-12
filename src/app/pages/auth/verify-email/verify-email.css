@@ -1,0 +1,23 @@
+.form-send-email{
+    gap: 20px;
+}
+.form-group{
+    gap: 5px;
+}
+.input-style{
+    width: 100%;
+}
+.text-title-send-email{
+    font-size: 25px;
+}
+.button-resend-code{
+    text-align: left;
+    background-color: transparent;
+    color: var(--primary-button);
+    font-size: 12px;
+    cursor: pointer;
+}
+.button-access:disabled{
+    background-color: #787D87;
+    cursor: default;
+}

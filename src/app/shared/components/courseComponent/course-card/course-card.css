@@ -1,0 +1,93 @@
+.course-card{
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    border: 1px solid var(--border);
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+}
+
+.favorite-container {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 40px;          /* ancho fijo */
+    height: 40px;         /* alto fijo */
+    border-radius: 50%;   /* lo hace redondo */
+    background-color: #fff; /* fondo del círculo */
+    display: flex;        /* centrar el ícono */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.favorite-container:hover {
+  transform: scale(1.1);
+}
+.favorite-btn {
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.favorite-container svg {
+  cursor: pointer;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.favorite-container svg:active {
+  transform: scale(1.2);
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+.course-info{
+    padding: 10px;
+    gap: 5px;
+}
+.image-container{
+    width: 100%;
+    height: 155px;
+    overflow: hidden;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: 1px solid var(--border);
+}
+.image-course{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    
+}
+
+.name-course{
+    font-size: 18px;
+}
+.user-creator-info{
+    align-items: center;
+    gap: 5px;
+}
+.photo-creator{
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+.description-course, .name-creator{
+    font-size: 13px;
+}
+.rating-course{
+    align-items: center;
+    font-size: 13px;
+    justify-content: space-between;
+}
+
+.forked-from{
+  font-size: 12px;
+  color: gray;
+}

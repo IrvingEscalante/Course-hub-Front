@@ -1,0 +1,121 @@
+:root{
+    --primary-color: #0D1117;
+    --secondary-color : #121C2D;
+    --color-bg : #0D1117;
+    --color-text : #fff;
+    --primary-button : #3B82F6;
+    --secondary-button : #787D87;
+    --color-input : #1E2A38;
+    --color-text-input : #787D87;
+    --border: #2D3A4F;
+    --border-radius : 5px;
+    --font-size-text : 15px;
+
+
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    background-color: var(--primary-color);
+    color: var(--color-text);
+}
+input{
+    font-family: var(--font-family)
+}
+p{
+    margin: 0;
+}
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+button{
+    border-style: none;
+    font-family: var(--font-family)
+}
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+.text-center{
+    text-align: center;
+}
+.text-title {
+    font-size: 30px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.input-style{
+    padding: 10px;
+    background-color: var(--color-input);
+    border: none;
+    color : var(--color-text);
+    border: 1px solid var(--border);
+    outline: none;
+    border-radius: var(--border-radius);
+}
+.input-style::placeholder{
+    color: var(--color-text-input);
+}
+.input-style:focus{
+    border: 2px solid var(--primary-button);
+}
+.button-access{
+    background-color: var(--primary-button);
+    border: none;
+    color: var(--color-text);
+    font-weight: bold;
+    font-size: var(--font-size-text);
+    font-family: var(--font-family);
+    border-radius: var(--border-radius);
+    padding: 10px;
+}
+
+.form-auth{
+    gap: 10px;
+}
+
+.form-container{
+    color: var(--color-text);
+    gap: 10px;
+    border-radius: 15px;
+    background-color: var(--bg-color);
+    margin-inline: 20px;
+}
+.error-forms{
+    color: rgb(224, 54, 54);
+}
+
+main{
+    padding-top: 60px;
+}
+
+@media(min-width:600px){
+    .form-container{
+        align-self: center;
+        width: 450px;
+        margin-top: 30px;
+        border: 1px solid var(--border);
+        padding: 20px;
+    }
+    .title-logo{
+        margin-top: 0;
+    }
+}

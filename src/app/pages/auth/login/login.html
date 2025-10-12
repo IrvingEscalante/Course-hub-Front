@@ -1,0 +1,54 @@
+<main>
+    <div class="form-container flex-column">
+    <div class="title-logo flex-row">
+        <img src="images/logo.png" width="80px" alt="logo" class="">
+        <h2 class="text-center text-title">Iniciar Sesión</h2>
+    </div>
+
+    <form [formGroup]="loginForm" (submit)="onSubmit()" class="form-auth flex-column">
+        <!-- Correo -->
+        <div class="form-group flex-column">
+        <label for="email" class="labels-form bold">Correo o nombre de usuario</label>
+        <input 
+            id="email"
+            type="email" 
+            formControlName="username" 
+            placeholder="ejemplo@correo.com"
+            class="input-style"
+        />
+        @if (loginForm.get('username')?.invalid && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)) {
+                <small class="error-forms">Este campo es obligatorio</small>
+        }
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group flex-column">
+        <label for="password" class="labels-form bold">Contraseña</label>
+        <input 
+            id="password"
+            type="password" 
+            formControlName="password" 
+            placeholder="********"
+            class="input-style"
+        />
+         @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)) {
+                <small class="error-forms">Este campo es obligatorio</small>
+        }
+        
+        </div>
+        @if (messageLogin){
+            <small class="error-forms">{{messageLogin}}</small>
+        }
+        <div class="recover-and-button flex-column">
+            <a routerLink="" class="recover-password bold">¿Olvidaste tu contraseña?</a>
+            <!-- Botón -->
+            <button class="button-access" type="submit" [disabled]="loginForm.invalid || loading"> @if(loading){Iniciando sesión...} @else{Iniciar sesión}</button>
+        </div>
+    </form>
+
+    <div class="register-text text-center bold flex-row">
+        <p>¿Aun tienes cuenta?</p>
+        <a routerLink="/register" class="create-account">Crea una</a>
+    </div>
+    </div>
+</main>

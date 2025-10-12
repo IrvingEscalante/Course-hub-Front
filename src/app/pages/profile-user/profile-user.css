@@ -1,0 +1,75 @@
+
+.principal-content-profile{
+    padding-top: 40px;
+}
+.container-profile{
+    align-items: center;
+    gap: 20px;
+}
+.photo-user{
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    margin-top: 50px;
+    align-self: center;
+}
+.name-user{
+    font-size: 30px;
+    margin: 0;
+}
+.username{
+    font-size: 15px;
+    color: #787D87;
+}
+.header-data-user{
+    justify-content: center;
+    gap: 20px;
+}
+.user-photo-name{
+    justify-content: center;
+    gap: 20px;
+}
+.user-follow{
+    justify-content: center;
+    gap: 30px;
+    font-size: 15px;
+}
+.action-buttons-profile{
+    justify-content: center;
+    align-self: center;
+    gap: 20px;
+}
+.edit-profile{
+    align-self: center;
+    background-color: #2D3A4F;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.courses-detail-user{
+    gap: 30px;
+}
+.courses-detail-user > *{
+    background: transparent;
+    color: var(--text-color);
+    background-color: #2D3A4F;
+    padding: 5px 15px 5px 15px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: ease-in-out 0.2s;
+    cursor: pointer;
+}
+.courses-detail-user > *.active {
+    background-color: #fff;
+    color: black;
+}
+.action-buttons{
+    gap: 15px;
+    margin-bottom: 30px;
+    align-self: center;
+}
+.follow{
+    background-color: var(--primary-button);
+}

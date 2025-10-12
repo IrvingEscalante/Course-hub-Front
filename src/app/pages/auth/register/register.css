@@ -1,0 +1,29 @@
+.form-group{
+    gap: 10px;
+    font-size: 15px;
+}
+.title-logo{
+    justify-content: center;
+}
+.login-text{
+    font-size: 12px;
+    justify-content: center;
+    gap: 10px;
+}
+.login{
+    color: var(--primary-button);
+}
+.button-access{
+    margin-top: 10px;
+    cursor: pointer;
+}
+.button-access:disabled{
+    background-color: #787D87;
+    cursor: default;
+}
+@media(min-width:600px){
+    main{
+        display: grid;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,102 @@
+<main>
+    <div class="form-container flex-column">
+        <div class="title-logo flex-row">
+            <img src="images/logo.png" width="80px" alt="logo" class="">
+            <h2 class="text-center text-title">Crear cuenta</h2>
+        </div>
+        <div class="form-group flex-column">
+            <form [formGroup]="registerForm" (submit)="onSubmit()" class="form-auth flex-column">
+                <div class="form-group flex-column">
+                    <label for="name" class="labels-form bold">Nombre(s)</label>
+                    <input id="name" type="text" formControlName="name" class="input-style" placeholder="Ingrese su nombre">
+                    <div class="error-forms flex-column">
+                       @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+                   
+                            @if (registerForm.get('name')?.errors?.['pattern']) {
+                                <small class="error">El formato del nombre no es válido.</small>
+                            }@if (registerForm.get('name')?.errors?.['required']){
+                                <small class="error">El nombre es obligatorio</small>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group flex-column">
+                    <label for="lastname" class="labels-form bold">Apellido(s)</label>
+                    <input id="lastname" type="text" formControlName="lastname" class="input-style" placeholder="Ingrese su apellido">
+                    <div class="error-forms">
+                        @if (registerForm.get('lastname')?.touched && registerForm.get('lastname')?.invalid) {
+                   
+                            @if (registerForm.get('lastname')?.errors?.['pattern']) {
+                                <small class="error">El formato del apellido no es válido.</small>
+                            }@if (registerForm.get('lastname')?.errors?.['required']){
+                                <small class="error">El apellido es obligatorio</small>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group flex-column">
+                    <label for="email" class="labels-form bold">Email</label>
+                    <input id="email" type="text" formControlName="email" class="input-style" placeholder="ejemplo@correo.com">
+                    <div class="error-forms flex-column">
+                       @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                            @if (registerForm.get('email')?.errors?.['required']){
+                                <small class="error">El email es obligatorio</small>
+                            }
+                            @if (registerForm.get('email')?.errors?.['email']) {
+                                <small>El formato no es válido.</small>
+                            }
+                        }
+                        @if (messageEmail) {
+                            <small class="error">{{messageEmail}}</small>
+                        }
+                    </div>
+                    
+                </div>
+                <div class="form-group flex-column">
+                    <label for="user" class="labels-form bold">Usuario</label>
+                    <input id="user" type="text" formControlName="username" class="input-style" placeholder="Elige un nombre de usuario">
+                    <div class="error-forms">
+                        @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                            @if (registerForm.get('username')?.errors?.['required']){
+                                <small class="error">El nombre de usuario es obligatorio</small>
+                            }
+                            @if (registerForm.get('username')?.errors?.['pattern']){
+                                <small class="error">El formato es invalido</small>
+                            }
+                        }
+                         @if (messageUser) {
+                            <small class="error">{{messageUser}}</small>
+                         }
+                    </div>
+                </div>
+
+                <div class="form-group flex-column">
+                    <label for="password" class="labels-form bold">Contraseña</label>
+                    <input id="password" type="password" formControlName="password" class="input-style" placeholder="Crea una contraseña">
+                    <div class="error-forms">
+                        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                            <small class="error">La contraseña es requerida</small>
+                        }
+                    </div>
+                </div>
+                <div class="form-group flex-column">
+                    <label for="confirmpassword" class="labels-form bold">Confirmar Contraseña</label>
+                    <input id="confirmpassword" type="password" formControlName="confirmPassword" class="input-style" placeholder="Repite la contraseña">
+                    <div class="error-forms flex-column">
+                        @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+                            <small class="error">La confirmación de la contraseña es requerida</small>
+                        }
+                        @if(registerForm.hasError('mismatch') && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)){
+                            <small class="error">Las contraseñas no coinciden</small>
+                        }
+                    </div>
+                </div>
+                <button class="button-access" type="submit" [disabled]="registerForm.invalid || loading">@if (loading) {Enviando correo} @else {Crear cuenta}</button>
+            </form>
+            <div class="login-text text-center bold flex-row">
+                <p>¿Ya tienes una cuenta?</p>
+                <a routerLink="/login" class="login">Inicia sesión</a>
+            </div>
+        </div>
+    </div>
+</main>

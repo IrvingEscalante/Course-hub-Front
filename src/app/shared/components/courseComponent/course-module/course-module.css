@@ -1,0 +1,45 @@
+.container-module{
+    align-items: center;
+    background-color: var(--secondary-color);
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    height: 60px;
+    padding-inline: 20px;
+}
+.icon-title{
+    align-items: center;
+    gap: 20px;
+}
+
+.container-icon-open{
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 3px;
+}
+.title-module{
+    font-size: 15px;
+}
+.container-module.active {
+  border-radius: 10px 10px 0 0;
+}
+
+app-course-publication-list {
+  display: block;
+  overflow: hidden;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,16 @@
+<div class="menu-profile flex-column">
+    <div class="detail-user flex-row">
+        <div class="container-image">
+            <img class="image-user" [src]="avatarUrl" alt="">
+        </div>
+        <div class="data-user flex-column">
+            <strong class="name-user bold">{{user.name.concat(' ', user.lastname)}}</strong>
+            <p class="email-user">{{user.email}}</p>
+        </div>
+    </div>
+    <div class="action-buttons flex-column">
+        <a class="link-myprofile bold" (click)="Profile()">Mi perfil</a>
+        <div class="line-space"></div>
+        <button class="button-logout bold" (click)="logout()">Cerrar sesión</button>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+@if (userExist){
+<div class="principal-content-profile">
+    <div class="container-profile flex-column">
+        <div class="header-data-user flex-column">
+            <div class="user-photo-name flex-column">
+                <img [src]="avatarUrl" alt="Imagen" class="photo-user">
+                <h1 class="name-user text-center">{{this.user.name + " " + this.user.lastname}}</h1>
+                <span class="username bold text-center">@{{this.user.username}}</span>
+            </div>
+            <div class="user-follow flex-row">
+                <span class="followers bold">145 seguidores</span>
+                <span class="followed bold">Siguiendo a 0</span>
+            </div>
+        </div>
+        @if (isMyProfile) {
+            <div class="action-buttons flex-row">
+                <a class="edit-profile">Editar perfil</a>
+                <a class="edit-profile">Compartir perfil</a>
+            </div>
+        }@else {
+            <a class="edit-profile follow">Seguir</a>
+        }
+        <div class="courses-detail-user flex-row">
+            <button (click)="selectTab('creados')" [class.active]="selectedTab === 'creados'">Cursos creados</button>
+            <button (click)="selectTab('favoritos')" [class.active]="selectedTab === 'favoritos'">Cursos favoritos</button>
+        </div>
+    </div>
+    <app-course-list title="Cursos creados" [courseList]="courses"></app-course-list>
+</div>
+}@else {Usuario no encontrado}
