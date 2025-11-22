@@ -1,9 +1,9 @@
 <div class="principal-container-detail-course">
     <div class="content-course">
         <div class="info-course flex-column">
-            <h1 class="name-course">Introducción a python</h1>
-            <p class="description-course">Lorem ipsum dolor sit amet consectetur adipiscing elit sed, mollis facilisi lectus etiam per cursus et, curae natoque massa posuere porttitor suscipit eget. Imperdiet mauris vel fames neque pretium phasellus nascetur varius, elementum convallis nisi auctor.</p>
-            <img src="https://i.pinimg.com/1200x/d3/a5/dd/d3a5dd971525531e98eea818e002c276.jpg" alt="" class="image-course">
+            <h1 class="name-course">{{course?.name_course}}</h1>
+            <p class="description-course">{{course?.description_course}}</p>
+            <img [src]="course?.image" alt="" class="image-course">
         </div>
         <div class="content-course-content">
             <div class="subtitle-copycourse flex-row">
@@ -22,10 +22,17 @@
                     <p>Copiar curso</p>
                 </div>
             </div>
+            <div class="module-list-comments flex-column">
                 <app-course-module-list></app-course-module-list>
+                <app-course-comments></app-course-comments>
+            </div>
+                
         </div>
     </div>
     <div class="more-info-course flex-column">
+        @if (course?.is_my_course) {
+            <button class="button-access">Editar curso</button>
+        }
         <div class="container-info rating flex-column">
             <div class="rating">
                 <div class="rating-detail flex-row">
@@ -72,7 +79,7 @@
         <div class="user flex-row">
             <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
             <div class="text-info-use flex-column">
-                <strong>Kevlog</strong>
+                <strong>{{course?.user?.username}}</strong>
                 <div class="followers-courses flex-row">
                     <p>400 seguidores</p>
                     <p>10 cursos</p>

@@ -3,10 +3,6 @@
     <div class="card-list">
         @for (course of courseList; track $index) {
             <app-course-card [course]="course"></app-course-card>
-        }@empty {
-            <div class="empty-courses">
-                <h2 class="text-center">No hay cursos creados</h2>
-            </div>
         }
     </div>
 </div>

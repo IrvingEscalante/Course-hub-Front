@@ -11,10 +11,10 @@
         <img class="image-course" [src]="course?.image" alt="imagen" width="260px" loading="lazy">
     </div>
     <div class="course-info flex-column">
-        <a routerLink="/course/detail" class="name-course bold">{{course?.name_course}}</a>
+        <a [routerLink]="'/course/detail/'+course?.id_course" class="name-course bold">{{course?.name_course}}</a>
         <div class="user-creator-info flex-row">
             <a [routerLink]="'/'+course?.user?.username"><img class="photo-creator" [src]="avatarUrl" alt="Img"></a>
-            <span class="name-creator bold">By {{course?.user?.username}}</span>
+            <span class="name-creator">By {{course?.user?.username}}</span>
         </div>
         <p class="description-course">{{course?.description_course}}</p>
         <div class="rating-course flex-row">

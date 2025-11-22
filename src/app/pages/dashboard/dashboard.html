@@ -1,4 +1,5 @@
 
+@if (loading) {cargando}@else {
 <div class="principal-content-dashboard">
     <div class="header-dashboard flex-column">
         <div class="hero-text text-center flex-column">
@@ -16,7 +17,7 @@
             </div>
             <div class="filters">
                 <ul class="list-filters flex-row">
-                    @for (filter of filters; track filters) {
+                    @for (filter of filters; track $index) {
                     <li
                         [class.active]="selectedFilter == filter"
                         (click)="selectFilter(filter)">
@@ -29,7 +30,13 @@
         </div>
     </div>
 
-    <app-course-list [courseList]="courses"></app-course-list>
-    
+    @defer{
+        <app-course-list [courseList]="courses"></app-course-list>
+    }@placeholder {
+        <div class="loading">.</div>
+    }@loading {
+         <div class="loading">Cargando cursos</div>
+    }
     
 </div>
+}

@@ -15,8 +15,7 @@ export class UserMenu {
   avatarUrl:string='';
   
 
-  constructor(private authService:AuthService, private router:Router){
-  }
+  constructor(private authService:AuthService, private router:Router){}
   ngOnInit():void{
     this.avatarUrl = this.authService.getAvatarUrl(this.user.name, this.user.photo)
   }
@@ -26,10 +25,9 @@ export class UserMenu {
   }
 
   logout(){
-    console.log("logout")
     this.authService.logout();
     this.close.emit();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
 }

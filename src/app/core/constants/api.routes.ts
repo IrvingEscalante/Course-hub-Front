@@ -10,6 +10,14 @@ export const API_ROUTES = {
     profile: '/users/user/'
   },
   courses: {
-    courses_dashboard: '/course/courses'
+    courses_dashboard: '/course/courses',
+    course_detail:'/detail_course/detail/'
+  },
+  favorites:{
+    add_delete_favorites: '/users/user/favorite',
+    get_favorites: '/users/user/favorites/'
+  },
+  follow:{
+    follow_unfollow: '/users/user/follow_unfollow/'
   }
 }

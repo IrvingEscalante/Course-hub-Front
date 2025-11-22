@@ -1,4 +1,7 @@
-@if (userExist){
+@if (isLoading){
+    <div class="loading text-center">Cargando perfil...</div>
+}
+@else if (userExist){
 <div class="principal-content-profile">
     <div class="container-profile flex-column">
         <div class="header-data-user flex-column">
@@ -8,23 +11,42 @@
                 <span class="username bold text-center">@{{this.user.username}}</span>
             </div>
             <div class="user-follow flex-row">
-                <span class="followers bold">145 seguidores</span>
-                <span class="followed bold">Siguiendo a 0</span>
+                <span class="followers bold">{{this.user.followers_count}} Seguidores</span>
+                <span class="followed bold">Siguiendo a {{this.user.following_count}}</span>
             </div>
+            @if (this.user.biography) {
+                <div class="description-user text-center flex-column">
+                    <p class="text-center">{{this.user.biography}}</p>
+                </div>
+            }
         </div>
         @if (isMyProfile) {
             <div class="action-buttons flex-row">
-                <a class="edit-profile">Editar perfil</a>
-                <a class="edit-profile">Compartir perfil</a>
+                <a routerLink="/edit-profile" class="edit-profile">Editar perfil</a>
+                <a routerLink="/compartir" class="edit-profile">Compartir perfil</a>
             </div>
         }@else {
-            <a class="edit-profile follow">Seguir</a>
+            <button class="edit-profile follow" (click)="followUnfollow()">{{ isFollowing ? 'Dejar de seguir' : 'Seguir' }}</button>
         }
         <div class="courses-detail-user flex-row">
-            <button (click)="selectTab('creados')" [class.active]="selectedTab === 'creados'">Cursos creados</button>
-            <button (click)="selectTab('favoritos')" [class.active]="selectedTab === 'favoritos'">Cursos favoritos</button>
+            <button (click)="selectTab('created')" [class.active]="selectedTab === 'created'">Cursos creados</button>
+            <button (click)="selectTab('favorites')" [class.active]="selectedTab === 'favorites'">Cursos favoritos</button>
         </div>
     </div>
-    <app-course-list title="Cursos creados" [courseList]="courses"></app-course-list>
+    @if (selectedTab === "created") {
+        <app-course-list
+            title="Cursos creados"
+            [courseList]="courses"
+            [username]="this.user.username">
+        </app-course-list>
+        }
+        @else if (selectedTab === "favorites") {
+        <app-course-list
+            title="Cursos favoritos"
+            [courseList]="courses_favorites"
+            [username]="this.user.username"
+            [isFavorites]="true">
+        </app-course-list>
+    }
 </div>
 }@else {Usuario no encontrado}

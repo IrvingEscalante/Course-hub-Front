@@ -39,20 +39,20 @@
                 </li>
             }@else {
                 @if(!user){
-                @if (router.url ==='/login') {
-                    <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <a routerLink="/register" class="item access">Registrarse</a>
-                    </li>
-                }@else if (router.url ==='/register') {
-                    <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <a routerLink="/login" class="item access">Login</a>
-                    </li>
-                }@else{
-                    <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                        <a routerLink="/login" class="item access">Login</a>
-                    </li>
+                    @if (router.url ==='/login') {
+                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <a routerLink="/register" class="item access">Registrarse</a>
+                        </li>
+                    }@else if (router.url ==='/register') {
+                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <a routerLink="/login" class="item access">Login</a>
+                        </li>
+                    }@else{
+                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <a routerLink="/login" class="item access">Login</a>
+                        </li>
+                    }
                 }
-            }
             }
             </ul>
     </div>

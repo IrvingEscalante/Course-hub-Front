@@ -8,5 +8,5 @@ import { YoutubePlayer } from "../course-content-publication/youtube-player/yout
   styleUrl: './course-publication.css'
 })
 export class CoursePublication {
-  videoId:string = 'TCd6PfxOy0Y';
+  videoId:string = 'nKPbfIU442g';
 }

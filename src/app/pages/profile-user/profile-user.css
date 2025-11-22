@@ -72,4 +72,10 @@
 }
 .follow{
     background-color: var(--primary-button);
+    color: white;
+}
+.description-user{
+    align-self: center;
+    max-width: 500px;
+    color: #858B96;
 }

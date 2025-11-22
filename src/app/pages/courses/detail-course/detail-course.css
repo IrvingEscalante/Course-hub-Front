@@ -23,6 +23,14 @@
     gap: 30px;
 
 }
+.image-course {
+  width: 100%;
+  height: 300px;       /* O el alto que quieras */
+  object-fit: cover;   /* Recorta y mantiene buena calidad */
+  border-radius: 10px; /* opcional */
+  display: block;
+}
+
 .more-info-course{
     gap: 20px;
 }
@@ -133,6 +141,9 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 2px solid var(--border);
+}
+.module-list-comments{
+    gap: 40px;
 }
 
 @media(max-width:900px){

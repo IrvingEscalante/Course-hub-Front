@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -11,13 +11,23 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Register {
 
-  registerForm!:FormGroup;
+ /* registerForm = new FormGroup({
+    name: new FormControl(''),
+    lastname: new FormControl(''),
+    email: new FormControl(''),
+    username: new FormControl(''),
+    password: new FormControl(''),
+    confirmPassword: new FormControl('')
+  })*/
+    registerForm!:FormGroup;
     loading:boolean = false;
     messageEmail:string = '';
     messageUser:string = '';
     validatorNames = /^([A-Za-zÁÉÍÓÚáéíóúÑñ]{2,50})(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]{2,50})*$/;
+
     validateUser = /^[a-zA-Z0-9]{2,30}$/
-    constructor(private fb: FormBuilder, private router:Router, private authService:AuthService) {
+
+    constructor(private fb: FormBuilder, private authService:AuthService) {
     this.registerForm = this.fb.group({
       name: ['',[Validators.required, Validators.pattern(this.validatorNames)]],
       lastname: ['', [Validators.required, Validators.pattern(this.validatorNames)]],
@@ -36,8 +46,6 @@ export class Register {
 
   onSubmit(){
     if (this.registerForm.valid){
-        this.messageEmail = '';
-        this.messageUser = '';
         this.loading = true;
         console.log("datos del registro: ", this.registerForm.value)
         const {confirmPassword, ...userData} = this.registerForm.value;

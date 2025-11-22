@@ -86,6 +86,7 @@ button{
     font-family: var(--font-family);
     border-radius: var(--border-radius);
     padding: 10px;
+    cursor: pointer;
 }
 
 .form-auth{
@@ -101,6 +102,9 @@ button{
 }
 .error-forms{
     color: rgb(224, 54, 54);
+}
+.form-group{
+    gap: 5px;
 }
 
 main{

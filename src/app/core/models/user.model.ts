@@ -15,10 +15,23 @@ export interface UserProfilePublic {
   photo: string | null;
   biography: string | null;
   date_joined: string; // o Date
-  courses: Course[];
+  followers_count : number
+  following_count : number
+  following : boolean
+  mutual : boolean
+  courses_create: Course[];
+  courses_favorites: Course[];
 }
 
 export interface UserProfilePrivate extends UserProfilePublic {
   id: number;
   email: string;
+}
+
+export interface UserFollow{
+  username:string;
+  name:string;
+  lastname:string;
+  photo:string;
+  following:boolean;
 }

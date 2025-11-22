@@ -1,6 +1,7 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { CourseCard } from "../course-card/course-card";
 import { Course } from '../../../../core/models/course.model';
+
 
 @Component({
   selector: 'app-course-list',
@@ -9,9 +10,8 @@ import { Course } from '../../../../core/models/course.model';
   styleUrl: './course-list.css'
 })
 export class CourseList {
-  @Input() title:string = "Cursos destacados"
-  @Input() userId?: number;
-  @Input() courseList:Course[] = [];
-
-
+  @Input() title: string = "Cursos destacados";
+  @Input() courseList: Course[] = [];
+  @Input() username: string = '';
+  @Input() isFavorites: boolean = false;
 }

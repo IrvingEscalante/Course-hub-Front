@@ -17,7 +17,7 @@ export class Header {
   showMenu : boolean = false;
   currentUrl: string = '';
   avatarUrl:string = '';
-
+  userLoaded:boolean = false;
   constructor(private authService: AuthService, public router:Router) {
     
   }
@@ -27,8 +27,10 @@ export class Header {
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
-      this.loading = false;
       this.avatarUrl = this.authService.getAvatarUrl(String(user?.name), user?.photo);
+      this.loading = false;
+      
+      if (this.user){this.userLoaded = true}
     });
   }
 

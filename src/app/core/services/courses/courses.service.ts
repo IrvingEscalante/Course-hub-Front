@@ -15,4 +15,7 @@ export class CoursesService {
   getCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.baseUrl}${API_ROUTES.courses.courses_dashboard}`);
   }
+  getDetailCourse(id_course:number):Observable<Course>{
+    return this.http.get<Course>(`${this.baseUrl}${API_ROUTES.courses.course_detail}${id_course}`);
+  }
 }
