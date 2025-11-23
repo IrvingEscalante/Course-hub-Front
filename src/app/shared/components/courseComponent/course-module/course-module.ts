@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CoursePublicationList } from '../course-publication-list/course-publication-list';
+import { ModuleCourseResponse } from '../../../../core/models/detail_course.model';
 
 @Component({
   selector: 'app-course-module',
@@ -9,7 +10,7 @@ import { CoursePublicationList } from '../course-publication-list/course-publica
 })
 export class CourseModule {
   isOpen:boolean = false;
-
+  @Input() moduleCourse!:ModuleCourseResponse;
   togglePublication(){
 
     this.isOpen = !this.isOpen;

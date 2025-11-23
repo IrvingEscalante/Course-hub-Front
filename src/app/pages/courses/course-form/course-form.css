@@ -1,37 +1,217 @@
-.principal-content-formcourse{
-    padding: 60px 100px;
-}
-.title-form{
-    font-size: 25px;
-}
-.container-form{
-    background-color: #121C2D;
-    padding: 20px;
-    border-radius: 10px;
-}
-.form-group{
-    gap: 20px;
-    font-size: 15px;
-}
-.form{
-    gap: 20px;
-}
-.description-image{
-    gap: 20px;
-}
-.name-theme{
-    width: 100%;
-    gap: 30px;
-}
-.name-theme >*{
-    width: 100%;
-}
-.button-public{
-    background-color: var(--primary-button);
-    width: fit-content;
-    align-self: flex-end;
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
+.course-form-container {
+    padding: 70px 90px;
     color: var(--text-color);
-    padding: 10px 30px;
+}
+
+.course-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* Tarjeta principal */
+.course-card {
+    background-color: #121C2D;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* ==================== TIPOGRAFÍA ==================== */
+.section-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.sub-section-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ==================== GRIDS ==================== */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* ==================== FORM ==================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.input-style {
+    padding: 12px;
+    background-color: #0C1622;
+    border: 1px solid #2b3c52;
+    border-radius: 10px;
+    color: var(--text-color);
+    transition: 0.2s;
+}
+
+.input-style:focus {
+    border-color: var(--primary-button);
+    outline: none;
+}
+
+/* ==================== DROPZONE ==================== */
+.image-dropzone {
+    border: 2px dashed #2b3c52;
+    border-radius: 12px;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s;
+}
+
+.image-dropzone:hover {
+    border-color: var(--primary-button);
+}
+
+.image-input {
+    opacity: 0;
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.dropzone-content {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* ==================== TARJETAS DE MÓDULOS ==================== */
+.module-card {
+    background-color: #0E1A2A;
+    padding: 22px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    border: 1px solid #1f2c3d;
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.module-header strong {
+    font-size: 16px;
+}
+
+/* ==================== TARJETA DE PUBLICACIÓN ==================== */
+.publication-card {
+    background-color: #0C1622;
+    border: 1px solid #1d2a3b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.pub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* ==================== BOTONES ==================== */
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid #3A6FF8;
+    color: #3A6FF8;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-outline:hover {
+    background-color: rgba(58, 111, 248, 0.15);
+}
+
+/* Botón principal */
+.btn-submit {
+    background-color: var(--primary-button);
+    color: var(--text-color);
+    padding: 12px 35px;
     font-size: 15px;
     border-radius: 30px;
+    margin-top: 30px;
+    float: right;
+}
+
+/* ==================== SELECTOR DE RECURSOS ==================== */
+.resource-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 18px 0;
+}
+
+.resource-selector button {
+    background-color: #1D2A3F;
+    padding: 7px 14px;
+    border-radius: 16px;
+    border: 1px solid #2b3c52;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.resource-selector button:hover {
+    background-color: #243754;
+}
+
+/* ==================== RECURSOS ==================== */
+.resource-fields {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.resource-row {
+    background-color: #0A1320;
+    border: 1px solid #253344;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.resource-row-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.resource-type {
+    background-color: #1e2a3b;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    border: 1px solid #30435c;
+    opacity: 0.8;
+}
+
+.small-muted {
+    font-size: 13px;
+    opacity: 0.75;
+    margin-top: 5px;
+}
+
+.submit-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
 }

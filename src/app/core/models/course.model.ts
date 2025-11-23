@@ -18,3 +18,4 @@ export interface Course {
   user: UserOut;     
   author: UserOut;  
 }
+

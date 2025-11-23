@@ -23,8 +23,9 @@
                 </div>
             </div>
             <div class="module-list-comments flex-column">
-                <app-course-module-list></app-course-module-list>
-                <app-course-comments></app-course-comments>
+                @for (module of modules; track $index) {
+                    <app-course-module [moduleCourse]="module"></app-course-module>
+                }
             </div>
                 
         </div>

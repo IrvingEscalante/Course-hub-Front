@@ -12,10 +12,14 @@ export class CoursesService {
 
   baseUrl = environment.apiUrl;
   constructor(private http:HttpClient){}
+
+  createCourse(formData: FormData): Observable<any> {
+    return this.http.post(this.baseUrl+API_ROUTES.courses.create, formData);
+  }
   getCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${this.baseUrl}${API_ROUTES.courses.courses_dashboard}`);
   }
   getDetailCourse(id_course:number):Observable<Course>{
-    return this.http.get<Course>(`${this.baseUrl}${API_ROUTES.courses.course_detail}${id_course}`);
+    return this.http.get<Course>(this.baseUrl+API_ROUTES.courses.course_detail+id_course);
   }
 }

@@ -4,10 +4,13 @@ import { CourseComments } from "../../../shared/components/courseComponent/cours
 import { CoursesService } from '../../../core/services/courses/courses.service';
 import { Course } from '../../../core/models/course.model';
 import { ActivatedRoute } from '@angular/router';
+import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
+import { ModuleCourseResponse } from '../../../core/models/detail_course.model';
+import { CourseModule } from "../../../shared/components/courseComponent/course-module/course-module";
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModuleList, CourseComments],
+  imports: [CourseModule],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
@@ -15,6 +18,8 @@ export class DetailCourse {
   courseService = inject(CoursesService)
   route = inject(ActivatedRoute)
   course?:Course;
+  detailService = inject(DetailCourses);
+  modules:ModuleCourseResponse[] = []
 
    ratings = [
     { stars: 5, percent: 50 },
@@ -27,6 +32,7 @@ export class DetailCourse {
   ngOnInit(){
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getCourseDetail(id);
+    this.getModules(id);
   }
 
   getCourseDetail(id_course:number){
@@ -37,6 +43,18 @@ export class DetailCourse {
       },
       error:(err)=>{
         console.log(err)
+      }
+    })
+  }
+
+  getModules(id_course:number){
+    this.detailService.getModules(id_course).subscribe({
+      next:(data)=>{
+        console.log(data);
+        this.modules = data;
+      },
+      error:(err)=>{
+        console.log(err);
       }
     })
   }

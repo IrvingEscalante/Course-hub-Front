@@ -1,32 +1,184 @@
-<div class="principal-content-formcourse">
-    <h1 class="title-form">{{title}}</h1>
-    <div class="container-form">
-        <form class="form flex-column">
-            <div class="name-theme flex-row">
-                <div class="form-group flex-column">
-                    <label for="" class="bold">Nombre del curso</label>
-                    <input type="text" class="input-style">
-                </div>
-                <div class="form-group flex-column">
-                    <label for="" class="bold">Tema relacionado</label>
-                    <select name="" id="" class="input-style">
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                    </select>
-                </div>
+<div class="course-form-container" [formGroup]="courseForm">
+  <h1 class="course-title">{{ title }}</h1>
+
+  <div class="course-card">
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="course-form" novalidate>
+
+      <!-- 1. Course details -->
+      <h2 class="section-title">1. Detalles del curso</h2>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Nombre del curso</label>
+          <input formControlName="title" class="input-style" />
+        </div>
+
+        <div class="form-group">
+          <label>Tema relacionado</label>
+          <select formControlName="topic" class="input-style">
+            <option value="">Selecciona</option>
+
+            @for (t of topics; track $index) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción del curso</label>
+        <textarea formControlName="description" class="input-style" rows="4"></textarea>
+      </div>
+
+      <!-- Image dropzone -->
+      <div class="form-group">
+        <label>Imagen del curso</label>
+
+        <div class="image-dropzone" (click)="coverInput.click()">
+          <input #coverInput type="file" (change)="onCoverSelected($event)" class="image-input" />
+
+          <div class="dropzone-content">
+            @if (!coverPreview) {
+              <p>Click o arrastra una imagen aquí</p>
+            } @else {
+              <img [src]="coverPreview" alt="preview" style="max-height:140px; border-radius:8px;" />
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Modules -->
+      <h2 class="section-title">2. Agrega módulos</h2>
+
+      <div formArrayName="modules">
+        @for (modCtrl of modules.controls; track $index; let mi = $index) {
+          <div [formGroupName]="mi" class="module-card">
+
+            <!-- Module Header -->
+            <div class="module-header">
+              <strong>Módulo {{ mi + 1 }}</strong>
+              <button type="button" class="btn-outline" (click)="removeModule(mi)">Eliminar módulo</button>
             </div>
-            <div class="description-image flex-column">
-                <div class="form-group flex-column">
-                    <label for="" class="bold">Descripción del curso</label>
-                    <textarea class="input-style"></textarea>
-                </div>
-                <div class="form-group flex-column">
-                    <label for="" class="bold">Imagen del curso</label>
-                    <input type="file">
-                </div>
+
+            <div class="form-group">
+              <label>Título del módulo</label>
+              <input formControlName="title" class="input-style" />
             </div>
-            <button class="button-public bold">Publicar curso</button>
-        </form>
-    </div>
+
+            <div class="form-group">
+              <label>Descripción del módulo</label>
+              <textarea formControlName="description" class="input-style" rows="2"></textarea>
+            </div>
+
+            <!-- Publications -->
+            <div formArrayName="publications" class="publications">
+
+              <h3 class="sub-section-title">Publicaciones</h3>
+
+              <button type="button" class="btn-outline" (click)="addPublication(mi)">+ Nueva publicación</button>
+
+              @for (pubCtrl of getPublications(mi).controls; track $index; let pi = $index) {
+
+                <div [formGroupName]="pi" class="publication-card">
+
+                  <div class="pub-header">
+                    <strong>Publicación {{ pi + 1 }}</strong>
+                    <button type="button" class="btn-outline" (click)="removePublication(mi, pi)">Eliminar</button>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Título de la publicación</label>
+                    <input formControlName="title" class="input-style" />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea formControlName="description" class="input-style" rows="2"></textarea>
+                  </div>
+
+                  <!-- Resource selector -->
+                  <div class="resource-selector">
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'image')">📷 Imagen</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'video')">🔗 Video</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'pdf')">📄 PDF</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'pptx')">📊 PPTX</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'note')">📝 Nota</button>
+                  </div>
+
+                  <!-- Resources -->
+                  <div formArrayName="resources" class="resource-fields">
+
+                    @for (resCtrl of getResources(mi, pi).controls; track $index; let ri = $index) {
+
+                      <div [formGroupName]="ri" class="resource-row">
+
+                        <div class="resource-row-header">
+                          <small class="resource-type">{{ resCtrl.get('type')?.value | uppercase }}</small>
+                          <button type="button" class="btn-outline" (click)="removeResource(mi, pi, ri)">Eliminar</button>
+                        </div>
+
+                        @switch (resCtrl.get('type')?.value) {
+
+                          @case ('image') {
+                            <label>Imagen</label>
+                            <input type="file" (change)="onFileSelected($event, mi, pi, ri)" />
+
+                            @if (resCtrl.get('preview')?.value) {
+                              <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
+                            }
+                          }
+                          @case ('pdf') {
+                            <label>Imagen</label>
+                            <input type="file" (change)="onFileSelected($event, mi, pi, ri)" />
+
+                            @if (resCtrl.get('preview')?.value) {
+                              <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
+                            }
+                          }
+
+                          @case ('pptx') {
+                            <div class="resources-container flex-column">
+                                <label>Archivo PDF, PPTX</label>
+                                <input type="file" accept=".pdf,.pptx" (change)="onFileSelected($event, mi, pi, ri)" />
+                            </div>
+                            @if (resCtrl.get('fileName')?.value) {
+                              <div class="small-muted">{{ resCtrl.get('fileName')?.value }}</div>
+                            }
+                          }
+
+                          @case ('video') {
+                            <div class="resources-container flex-column">
+                                <label>Link de YouTube</label>
+                                <input formControlName="value" type="text" class="input-style" placeholder="https://youtube.com/..." />
+                            </div>
+                          }
+
+                          @case ('note') {
+                            <label>Nota</label>
+                            <textarea formControlName="value" class="input-style" rows="3"></textarea>
+                          }
+
+                        }
+
+                      </div>
+                    }
+                  </div>
+
+                </div>
+
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+
+      <button type="button" class="btn-outline" (click)="addModule()">+ Agregar módulo</button>
+
+      <div class="submit-row">
+        <button type="submit" class="btn-submit">Publicar curso</button>
+      </div>
+
+    </form>
+  </div>
 </div>
