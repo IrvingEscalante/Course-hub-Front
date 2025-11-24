@@ -22,10 +22,13 @@
                     <p>Copiar curso</p>
                 </div>
             </div>
-            <div class="module-list-comments flex-column">
+            <div class="container-modules flex-column">
                 @for (module of modules; track $index) {
-                    <app-course-module [moduleCourse]="module"></app-course-module>
+                        <app-course-module [moduleCourse]="module"></app-course-module>
                 }
+            </div>
+            <div class="module-list-comments flex-column">
+                <app-course-comments></app-course-comments>
             </div>
                 
         </div>
@@ -37,7 +40,7 @@
         <div class="container-info rating flex-column">
             <div class="rating">
                 <div class="rating-detail flex-row">
-                    <h1 class="number">4.7</h1>
+                    <h1 class="number">{{course?.avg_rating}}</h1>
                     <div class="flex-row">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.37508 14.8542L10.0001 13.2708L12.6251 14.875L11.9376 11.875L14.2501 9.875L11.2084 9.60417L10.0001 6.77083L8.79175 9.58333L5.75008 9.85417L8.06258 11.875L7.37508 14.8542ZM4.85425 18.3333L6.20842 12.4792L1.66675 8.54167L7.66675 8.02083L10.0001 2.5L12.3334 8.02083L18.3334 8.54167L13.7917 12.4792L15.1459 18.3333L10.0001 15.2292L4.85425 18.3333Z" fill="#FFD700"/>

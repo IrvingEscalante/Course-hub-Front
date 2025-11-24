@@ -1,47 +1,77 @@
-.container-module{
-    align-items: center;
-    background-color: var(--secondary-color);
-    justify-content: space-between;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    height: 60px;
-    padding-inline: 20px;
-}
-.icon-title{
-    align-items: center;
-    gap: 20px;
+.container-module {
+  align-items: center;
+  background-color: var(--secondary-color);
+  justify-content: space-between;
+  border-radius: 12px;
+  height: 60px;
+  padding-inline: 20px;
+  cursor: pointer;
+  transition: background 0.25s ease, border-radius 0.25s ease;
 }
 
-.container-icon-open{
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    cursor: pointer;
-    padding: 3px;
+.container-module:hover {
+  background-color: rgba(255,255,255,0.03);
 }
-.course-publication-list{
-    background-color: var(--secondary-color);
-    border: 1px solid var(--border);
-    border-radius: 0 0 10px 10px;
-}
-.title-module{
-    font-size: 15px;
-}
+
 .container-module.active {
-  border-radius: 10px 10px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
-app-course-publication-list {
-  display: block;
+.icon-title {
+  align-items: center;
+  gap: 16px;
+}
+
+.module-icon {
+  width: 24px;
+  height: 24px;
+  stroke: #7D848D;
+  transition: stroke 0.2s ease;
+}
+
+.container-module:hover .module-icon {
+  stroke: #A5A9AF;
+}
+
+.title-module {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.container-icon-open {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.container-icon-open svg path {
+  stroke: #B2B6BB;
+}
+
+.container-icon-open:hover {
+  background-color: rgba(255,255,255,0.06);
+}
+
+.container-icon-open.rotated {
+  transform: rotate(180deg);
+}
+
+.course-publication-list {
+  background-color: var(--secondary-color);
+  border-radius: 0 0 12px 12px;
+  padding: 5px 0;
   overflow: hidden;
-  animation: slideDown 0.3s ease forwards;
+  animation: slideDown 0.28s ease-out forwards;
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-6px);
   }
   to {
     opacity: 1;

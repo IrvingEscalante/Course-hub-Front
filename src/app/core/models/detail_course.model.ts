@@ -13,6 +13,7 @@ export interface ContentCoursePublishResponse {
     id_course_publish: number;
     content: string;
     status: boolean;
+    type_content:string;
 }
 
 export interface CoursePublishResponse {

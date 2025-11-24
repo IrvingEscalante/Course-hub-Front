@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { CourseModuleList } from '../../../shared/components/courseComponent/course-module-list/course-module-list';
 import { CourseComments } from "../../../shared/components/courseComponent/course-comments/course-comments";
 import { CoursesService } from '../../../core/services/courses/courses.service';
 import { Course } from '../../../core/models/course.model';
@@ -10,7 +9,7 @@ import { CourseModule } from "../../../shared/components/courseComponent/course-
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule],
+  imports: [CourseModule, CourseComments],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })

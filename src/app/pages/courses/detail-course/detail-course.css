@@ -144,6 +144,10 @@
 .module-list-comments{
     gap: 40px;
 }
+.container-modules{
+    gap: 15px;
+    margin-block: 20px 50px;
+}
 
 @media(max-width:900px){
 .principal-container-detail-course{

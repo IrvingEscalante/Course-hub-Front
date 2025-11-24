@@ -1,11 +1,154 @@
-.publication-container{
-    padding: 20px;
-    border-top: 1px solid var(--border);
-    gap: 20px;
+/* Contenedor principal */
+.publication-container {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 900px;
+  margin: auto;
 }
-.title-publication{
-    margin: 0;
+
+/* Cabecera */
+.publication-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-.title-description-publication{
-    gap: 20px;
+
+.publication-title {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.publication-description {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Contenido general */
+.publication-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Tarjetas de cada contenido */
+.content-card {
+  background: var(--secondary-color);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: 0.2s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 22px rgba(0,0,0,0.08);
+}
+
+/* Imagen */
+.content-image {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Video */
+.content-video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* PDF */
+.pdf-card {
+  width: 100%;
+  max-width: 250px;
+  background: var(--secondary-color);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+}
+
+/* ---------------- HEADER ---------------- */
+.pdf-card-header {
+  background: #3b2223;
+  padding: 20px;
+  position: relative;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pdf-badge {
+  background: #000000aa;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 6px 10px;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdf-icon-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------------- BODY ---------------- */
+.pdf-card-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdf-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f1f1f1;
+}
+
+.pdf-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #bfc5cc;
+  font-size: 13px;
+}
+
+
+/* Enlaces de descarga */
+.content-download {
+  color: var(--primary, #0066ff);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.content-download:hover {
+  color: #0049cc;
+  text-decoration: underline;
 }
