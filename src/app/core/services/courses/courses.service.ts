@@ -4,6 +4,7 @@ import { Course } from '../../models/course.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { API_ROUTES } from '../../constants/api.routes';
+import { ThemeResponse } from '../../models/theme.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,8 @@ export class CoursesService {
   }
   getDetailCourse(id_course:number):Observable<Course>{
     return this.http.get<Course>(this.baseUrl+API_ROUTES.courses.course_detail+id_course);
+  }
+  getThemes():Observable<ThemeResponse[]>{
+    return this.http.get<ThemeResponse[]>(this.baseUrl+API_ROUTES.themes.theme);
   }
 }

@@ -140,7 +140,6 @@
 .subtitle-copycourse{
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid var(--border);
 }
 .module-list-comments{
     gap: 40px;

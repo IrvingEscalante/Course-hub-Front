@@ -18,8 +18,8 @@
           <select formControlName="topic" class="input-style">
             <option value="">Selecciona</option>
 
-            @for (t of topics; track $index) {
-              <option [value]="t">{{ t }}</option>
+            @for (t of themes; track $index) {
+              <option [value]="t.id_theme">{{ t.name_theme }}</option>
             }
           </select>
         </div>

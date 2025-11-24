@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 import { CoursesService } from '../../../core/services/courses/courses.service';
+import { ThemeResponse } from '../../../core/models/theme.model';
 
 @Component({
   selector: 'app-course-form',
@@ -21,6 +22,7 @@ export class CourseForm {
 
   courseForm!: FormGroup;
   coverFile?: File;
+  themes:ThemeResponse[] = [];
   coverPreview?: string | ArrayBuffer | null;
   publications: any[] = [];
 
@@ -33,9 +35,21 @@ export class CourseForm {
       description: [''],
       modules: this.fb.array([])
     });
-
+    this.getThemes();
     // inicio con 1 módulo por defecto
     this.addModule();
+  }
+
+  getThemes(){
+    this.courseService.getThemes().subscribe({
+      next:(data)=>{
+        console.log(data);
+        this.themes = data;
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
   }
 
   // ---------- Getter helpers ----------
@@ -230,5 +244,7 @@ export class CourseForm {
     }
   });
 }
+
+
 
 }

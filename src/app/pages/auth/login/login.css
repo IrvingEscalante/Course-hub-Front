@@ -1,35 +1,137 @@
+/* MAIN LOGIN CONTAINER */
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--primary-color);
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-.recover-password{
-    align-self: flex-end;
+/* CARD LOGIN */
+.login-card {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* TITLE & LOGO */
+.title-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 10px;
+}
+
+/* FORM GROUP */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group input {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db; /* gris neutro */
+    font-size: 14px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-button);
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+/* RECOVER PASSWORD */
+.recover-and-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.recover-password {
     font-size: 12px;
     color: var(--primary-button);
-}
-.recover-and-button{
-    gap: 10px;
-}
-.title-logo{
-    justify-content: center;
-}
-.register-text{
-    font-size: 12px;
-    justify-content: center;
-    gap: 10px;
-}
-.create-account{
-    color: var(--primary-button);
-}
-.form-group{
-    gap: 10px;
-}
-.button-access{
     cursor: pointer;
+    transition: color 0.3s;
 }
-.button-access:disabled{
+
+.recover-password:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* ACCESS BUTTON */
+.button-access {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--primary-button);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.button-access:hover:not(:disabled) {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.button-access:disabled {
     background-color: #787D87;
     cursor: default;
+    transform: none;
+    box-shadow: none;
 }
+
+/* REGISTER TEXT */
+.register-text {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+.create-account {
+    color: var(--primary-button);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.create-account:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
 @media(min-width:600px){
-    main{
+    main {
         display: grid;
         justify-content: center;
     }

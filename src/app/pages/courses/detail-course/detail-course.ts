@@ -58,4 +58,14 @@ export class DetailCourse {
       }
     })
   }
+  getPublications(id_module:number){
+    this.detailService.getPublications(id_module).subscribe({
+      next:(data)=>{
+        console.log(data);
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
+  }
 }

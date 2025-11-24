@@ -15,7 +15,8 @@ export const API_ROUTES = {
     course_detail:'/detail_course/detail/'
   },
   detail_course:{
-    get_modules: '/detail_course/modules/'
+    get_modules: '/detail_course/modules/',
+    get_publications:'/detail_course/publications/'
   },
   favorites:{
     add_delete_favorites: '/users/user/favorite',
@@ -23,5 +24,8 @@ export const API_ROUTES = {
   },
   follow:{
     follow_unfollow: '/users/user/follow_unfollow/'
+  },
+  themes:{
+    theme:'/theme/'
   }
 }

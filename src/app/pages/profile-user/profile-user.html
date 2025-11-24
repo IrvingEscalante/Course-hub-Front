@@ -5,6 +5,7 @@
 <div class="principal-content-profile">
     <div class="container-profile flex-column">
         <div class="header-data-user flex-column">
+            <img src="https://i.pinimg.com/736x/78/26/4d/78264d3ebca1f385593ff1a6552b5a7e.jpg" alt="Portada" class="user-cover">
             <div class="user-photo-name flex-column">
                 <img [src]="avatarUrl" alt="Imagen" class="photo-user">
                 <h1 class="name-user text-center">{{this.user.name + " " + this.user.lastname}}</h1>
@@ -14,12 +15,11 @@
                 <span class="followers bold">{{this.user.followers_count}} Seguidores</span>
                 <span class="followed bold">Siguiendo a {{this.user.following_count}}</span>
             </div>
-            @if (this.user.biography) {
-                <div class="description-user text-center flex-column">
-                    <p class="text-center">{{this.user.biography}}</p>
-                </div>
-            }
+            <div class="description-user text-center flex-column">
+                <p>{{this.user.biography}}</p>
+            </div>
         </div>
+
         @if (isMyProfile) {
             <div class="action-buttons flex-row">
                 <a routerLink="/edit-profile" class="edit-profile">Editar perfil</a>

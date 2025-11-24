@@ -8,7 +8,7 @@
     align-items: center;
     height: 60px;
     padding-inline: 10px;
-    background-color: #121C2D;
+    background-color: black;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
 }

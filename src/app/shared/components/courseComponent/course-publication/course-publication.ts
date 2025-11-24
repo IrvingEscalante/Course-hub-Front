@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { YoutubePlayer } from "../course-content-publication/youtube-player/youtube-player";
+import { CoursePublishResponse } from '../../../../core/models/detail_course.model';
 
 @Component({
   selector: 'app-course-publication',
@@ -9,4 +10,6 @@ import { YoutubePlayer } from "../course-content-publication/youtube-player/yout
 })
 export class CoursePublication {
   videoId:string = 'nKPbfIU442g';
+  @Input() publication!: CoursePublishResponse;
+  
 }
