@@ -6,74 +6,76 @@
   </div>
 
   <div class="publication-content">
-    @for (content of publication.content; track $index) {
 
-      @switch (content.type_content) {
+    <!-- GRID para PDFs -->
+    <div class="pdf-grid">
+      @for (content of publication.content; track $index) {
+        @if (content.type_content === 'pdf') {
 
-        @case ('image') {
-          <div class="content-card">
-            <img [src]="content.content" alt="Imagen" class="content-image" />
-          </div>
-        }
+          <div class="pdf-card" (click)="openPdf(content.content)">
 
-        @case ('video') {
-          <div class="content-card">
-            <video [src]="content.content" controls class="content-video"></video>
-          </div>
-        }
+            <div class="pdf-card-header">
+        
 
-        @case ('pdf') {
-            <div class="pdf-card" (click)="openPdf(content.content)">
-                
-                <div class="pdf-card-header">
-                <span class="pdf-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" stroke="white" fill="none">
-                    <path d="M7 2H14L19 7V22H7V2Z" stroke-width="2"/>
-                    <path d="M14 2V7H19" stroke-width="2"/>
-                    </svg>
-                    PDF
-                </span>
-
-                <div class="pdf-icon-wrapper">
-                    <svg width="40" height="40" viewBox="0 0 24 24" stroke="white" fill="none">
-                    <path d="M7 2H14L19 7V22H7V2Z" stroke-width="2.4"/>
-                    <path d="M14 2V7H19" stroke-width="2.4"/>
-                    </svg>
-                </div>
-                </div>
-
-                <div class="pdf-card-body">
-                <p class="pdf-title">{{ publication.name_publication }}</p>
-
-                <div class="pdf-meta">
-                    <span>{{ '---' }} páginas</span>
-                    <span>{{ '---' }}</span>
-
-                    <svg width="20" height="20" viewBox="0 0 24 24" stroke="#bfc5cc" fill="none">
-                    <path d="M12 5V19M5 12L12 19L19 12" 
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                </div>
-
+              <div class="pdf-icon-wrapper">
+                <svg width="40" height="40" viewBox="0 0 24 24" stroke="white" fill="none">
+                  <path d="M7 2H14L19 7V22H7V2Z" stroke-width="2.4"/>
+                  <path d="M14 2V7H19" stroke-width="2.4"/>
+                </svg>
+              </div>
             </div>
-            }
 
+            <div class="pdf-card-body">
+              <p class="pdf-title">{{ publication.name_publication }}</p>
 
-        @case ('youtube') {
-          <div class="content-card">
-            <app-youtube-player [video]="content.content"></app-youtube-player>
+              <div class="pdf-meta">
+                <span>{{ '23' }} páginas</span>
+              </div>
+            </div>
+
           </div>
-        }
 
-        @default {
-          <div class="content-card">
-            <a [href]="content.content" target="_blank" class="content-download">
-              Descargar archivo ({{ content.type_content }})
-            </a>
-          </div>
         }
       }
+    </div>
+    <!-- FIN GRID PDFs -->
+
+    <!-- CONTENIDO QUE NO ES PDF -->
+    @for (content of publication.content; track $index) {
+      @if (content.type_content !== 'pdf') {
+
+        @switch (content.type_content) {
+
+          @case ('image') {
+            <div class="content-card">
+              <img [src]="content.content" alt="Imagen" class="content-image" />
+            </div>
+          }
+
+          @case ('video') {
+            <div class="content-card">
+              <video [src]="content.content" controls class="content-video"></video>
+            </div>
+          }
+
+          @case ('youtube') {
+            <div class="content-card">
+              <app-youtube-player [video]="content.content"></app-youtube-player>
+            </div>
+          }
+
+          @default {
+            <div class="content-card">
+              <a [href]="content.content" target="_blank" class="content-download">
+                Descargar archivo ({{ content.type_content }})
+              </a>
+            </div>
+          }
+
+        }
+
+      }
     }
+
   </div>
 </div>

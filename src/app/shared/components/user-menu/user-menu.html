@@ -1,7 +1,7 @@
 <div class="menu-profile flex-column">
     <div class="detail-user flex-row">
         <div class="container-image">
-            <img class="image-user" [src]="avatarUrl" alt="">
+            <app-avatar [size]="50" [name]="user.name" [photo]="user.photo"></app-avatar>
         </div>
         <div class="data-user flex-column">
             <strong class="name-user bold">{{user.name.concat(' ', user.lastname)}}</strong>

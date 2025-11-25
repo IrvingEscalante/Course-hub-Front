@@ -58,13 +58,6 @@ export class AuthService {
     );
   }
 
-  getAvatarUrl(name:string, photo:string=''): string {
-    const firstLetter = name.charAt(0).toUpperCase() || '';
-    return photo
-          ? photo
-          : `https://api.dicebear.com/9.x/initials/svg?seed=${firstLetter}`;
-  }
-
   setToken(token: string) {
     if (this.isBrowser) localStorage.setItem('token', token);
   }

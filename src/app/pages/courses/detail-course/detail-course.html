@@ -1,10 +1,14 @@
 <div class="principal-container-detail-course">
     <div class="content-course">
-        <div class="info-course flex-column">
-            <h1 class="name-course">{{course?.name_course}}</h1>
-            <p class="description-course">{{course?.description_course}}</p>
-            <img [src]="course?.image" alt="" class="image-course">
-        </div>
+        @if (course) {
+            <div class="info-course flex-column">
+                <h1 class="name-course">{{course.name_course}}</h1>
+                <p class="description-course">{{course.description_course}}</p>
+                
+                <img [src]="course.image" alt="" class="image-course">
+                
+            </div>
+        }
         <div class="content-course-content">
             <div class="subtitle-copycourse flex-row">
                 <h2>Contenido del curso</h2>
@@ -28,7 +32,9 @@
                 }
             </div>
             <div class="module-list-comments flex-column">
-                <app-course-comments></app-course-comments>
+                @if (course) {
+                    <app-course-comments [(value)]="courseRating" [id_course]="course.id_course"></app-course-comments>
+                }
             </div>
                 
         </div>

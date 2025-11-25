@@ -2,10 +2,11 @@ import { Component, Output,EventEmitter, Input } from '@angular/core';
 import { UserOut } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { Avatar } from "../avatar/avatar";
 
 @Component({
   selector: 'app-user-menu',
-  imports: [],
+  imports: [Avatar],
   templateUrl: './user-menu.html',
   styleUrl: './user-menu.css'
 })
@@ -16,9 +17,7 @@ export class UserMenu {
   
 
   constructor(private authService:AuthService, private router:Router){}
-  ngOnInit():void{
-    this.avatarUrl = this.authService.getAvatarUrl(this.user.name, this.user.photo)
-  }
+
   Profile(){
     this.close.emit();
     this.router.navigate(['/'+this.user.username]);

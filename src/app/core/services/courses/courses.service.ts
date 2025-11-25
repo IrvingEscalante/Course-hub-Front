@@ -17,8 +17,13 @@ export class CoursesService {
   createCourse(formData: FormData): Observable<any> {
     return this.http.post(this.baseUrl+API_ROUTES.courses.create, formData);
   }
-  getCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(`${this.baseUrl}${API_ROUTES.courses.courses_dashboard}`);
+  getCourses(search?:string): Observable<Course[]> {
+    const params: any = {};
+
+    if (search) {
+      params.search = search;
+    }
+    return this.http.get<Course[]>(`${this.baseUrl}${API_ROUTES.courses.courses_dashboard}`, {params});
   }
   getDetailCourse(id_course:number):Observable<Course>{
     return this.http.get<Course>(this.baseUrl+API_ROUTES.courses.course_detail+id_course);

@@ -27,4 +27,5 @@ export class UserService {
   followUnfollow(username:string):Observable<UserFollow>{
     return this.http.post<UserFollow>(`${this.baseUrl}${API_ROUTES.follow.follow_unfollow}${username}`, {});
   }
+
 }

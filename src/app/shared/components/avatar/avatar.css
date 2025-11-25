@@ -1,0 +1,15 @@
+.avatar {
+  border-radius: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  overflow: hidden;
+  user-select: none;
+}
+
+.avatar-img {
+  object-fit: cover;
+  border-radius: 500px;
+}

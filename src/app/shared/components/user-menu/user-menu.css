@@ -3,7 +3,7 @@
     top:-20%;
     right: -30%;
     z-index: 1000;
-    background-color: #192539;
+    background-color: var(--secondary-color);
     margin: 70px 20px 20px ;
     padding: 15px;
     width: 300px;

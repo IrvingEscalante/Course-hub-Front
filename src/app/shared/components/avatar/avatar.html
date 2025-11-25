@@ -1,0 +1,20 @@
+<div
+  class="avatar"
+  [style.width.px]="size"
+  [style.height.px]="size"
+  [style.fontSize.px]="size / 2"
+  [style.backgroundColor]="photo ? 'transparent' : bgColor"
+>
+
+  <!-- Mostrar imagen si existe -->
+   @if (photo) {
+        <img [src]="photo" [style.width.px]="size" [style.height.px]="size" class="avatar-img">
+   }@else {
+
+    <!-- Mostrar inicial si NO hay imagen -->
+    <span>
+        {{ initial }}
+    </span>
+    }
+
+</div>

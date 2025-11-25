@@ -19,6 +19,7 @@ export class DetailCourse {
   course?:Course;
   detailService = inject(DetailCourses);
   modules:ModuleCourseResponse[] = []
+  courseRating:number=0;
 
    ratings = [
     { stars: 5, percent: 50 },

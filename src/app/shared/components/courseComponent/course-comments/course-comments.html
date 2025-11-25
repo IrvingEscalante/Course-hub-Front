@@ -1,12 +1,46 @@
 <div class="comments-container flex-column">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+
     <h2 class="title-comments">Comentarios y calificaciones</h2>
+
     <div class="comment-rating flex-column">
+
+        <!-- ⭐ Rating -->
         <div class="rating flex-row">
-            <strong>Califica este curso</strong>
-            <div class="stars"></div>
+            <div class="star-rating">
+                @for (star of stars; track $index) {
+                   <span
+                        class="star"
+                        [class.filled]="star <= commentForm.get('rating')?.value"
+                        (click)="setRating(star)"
+                        >
+                        ★
+                    </span>
+
+                }
+            </div>
         </div>
-        <textarea class="text-area-comment" name="text-area-comment" id="comment" placeholder="Escribe un texto aquí"></textarea>
-        <button class="send-comment-button bold">Enviar comentario</button>
+
+        <!-- 📝 Textarea -->
+        <textarea
+            formControlName="comment"
+            class="text-area-comment"
+            placeholder="Escribe un comentario aquí"
+        ></textarea>
+
+        <!-- Enviar -->
+        <button class="send-comment-button bold" type="submit" [disabled]="commentForm.invalid">
+            Enviar comentario
+        </button>
     </div>
-    <app-course-list-comments></app-course-list-comments>
+
+</form>
+    <div class="comment-list flex-column">
+        @for (comment of comments; track $index) {
+            <app-course-user-comment [comment]="comment"></app-course-user-comment>
+            @if (comments.length>1) {
+                <div class="border"></div>
+            }
+        }
+    </div>
 </div>

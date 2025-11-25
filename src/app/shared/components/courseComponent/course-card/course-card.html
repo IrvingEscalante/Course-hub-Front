@@ -13,7 +13,7 @@
     <div class="course-info flex-column">
         <a [routerLink]="'/course/detail/'+course?.id_course" class="name-course bold">{{course?.name_course}}</a>
         <div class="user-creator-info flex-row">
-            <a [routerLink]="'/'+course?.user?.username"><img class="photo-creator" [src]="avatarUrl" alt="Img"></a>
+            <a [routerLink]="'/'+course?.user?.username"><app-avatar class="photo-creator" [name]="course?.user?.name || ''" [photo]="course?.user?.photo || ''"></app-avatar></a>
             <span class="name-creator">By {{course?.user?.username}}</span>
         </div>
         <p class="description-course">{{course?.description_course}}</p>

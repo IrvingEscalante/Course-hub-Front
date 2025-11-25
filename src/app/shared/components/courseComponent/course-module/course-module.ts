@@ -7,7 +7,7 @@ import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-course-module',
-  imports: [CoursePublication, SafeUrlPipe],
+  imports: [CoursePublication],
   templateUrl: './course-module.html',
   styleUrl: './course-module.css'
 })

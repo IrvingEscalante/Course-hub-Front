@@ -17,3 +17,16 @@
     font-size: 13px;
     color: #858B96;
 }
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  font-size: 16px;
+  color: #ccc; /* estrellas vacías */
+}
+
+.star.filled {
+  color: #f3c63f; /* estrellas llenas */
+}

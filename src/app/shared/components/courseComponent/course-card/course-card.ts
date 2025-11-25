@@ -3,11 +3,12 @@ import { Course } from '../../../../core/models/course.model';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UserService } from '../../../../core/services/user/user.service';
+import { Avatar } from "../../avatar/avatar";
 
 
 @Component({
   selector: 'app-course-card',
-  imports: [RouterModule],
+  imports: [RouterModule, Avatar],
   templateUrl: './course-card.html',
   styleUrl: './course-card.css'
 })
@@ -24,9 +25,6 @@ export class CourseCard {
     this.isFavorite = this.course!.is_my_favorite;
   }
 
-  ngOnInit():void{
-    this.avatarUrl = this.authservice.getAvatarUrl(String(this.course?.user.username), this.course?.user.photo)
-  }
   
   toggleFavorite(){
     if (!this.authservice.isLoggedIn()) return;

@@ -27,5 +27,9 @@ export const API_ROUTES = {
   },
   themes:{
     theme:'/theme/'
+  },
+  rating_comments:{
+    create:'/rating_comments/create',
+    getAllComments:'/rating_comments/course/'
   }
 }

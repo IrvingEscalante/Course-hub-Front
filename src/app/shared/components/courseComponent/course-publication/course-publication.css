@@ -67,88 +67,83 @@
   width: 100%;
   border-radius: 12px;
 }
+/* GRID de PDFs (no cambiar) */
+.pdf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
 
-/* PDF */
+/* ---------------- NUEVA PDF CARD ELEGANTE Y CHICA ---------------- */
 .pdf-card {
-  width: 100%;
-  max-width: 250px;
-  background: var(--secondary-color);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform .2s ease, box-shadow .2s ease;
+  background: #3b2223;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  padding: 14px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transition: all 0.25s ease;
 }
 
 .pdf-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+  border-color: rgba(255,255,255,0.12);
 }
 
-/* ---------------- HEADER ---------------- */
-.pdf-card-header {
-  background: #3b2223;
-  padding: 20px;
-  position: relative;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+/* ---------------- ICONO ---------------- */
+.pdf-icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
 
-.pdf-badge {
-  background: #000000aa;
-  color: white;
-  font-weight: 600;
-  font-size: 12px;
-  border-radius: 20px;
-  padding: 6px 10px;
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 6px;
-}
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
-.pdf-icon-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-/* ---------------- BODY ---------------- */
-.pdf-card-body {
-  padding: 18px 20px;
+/* ---------------- TEXTOS ---------------- */
+.pdf-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .pdf-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 0.92rem;
   font-weight: 600;
-  color: #f1f1f1;
+  color: #f2f4f7;
 }
 
-.pdf-meta {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  color: #bfc5cc;
-  font-size: 13px;
+.pdf-subtitle {
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: #9aa1ac;
+}
+
+/* ---------------- FLECHA ---------------- */
+.pdf-arrow {
+  opacity: 0.8;
+  transition: 0.25s ease;
+}
+
+.pdf-card:hover .pdf-arrow {
+  opacity: 1;
+  transform: translateY(2px);
 }
 
 
-/* Enlaces de descarga */
-.content-download {
-  color: var(--primary, #0066ff);
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
 
-.content-download:hover {
-  color: #0049cc;
-  text-decoration: underline;
-}

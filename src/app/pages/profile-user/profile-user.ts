@@ -5,10 +5,11 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserProfilePrivate, UserProfilePublic } from '../../core/models/user.model';
 import { Course } from '../../core/models/course.model';
 import { UserService } from '../../core/services/user/user.service';
+import { Avatar } from "../../shared/components/avatar/avatar";
 
 @Component({
   selector: 'app-profile-user',
-  imports: [CourseList, RouterModule],
+  imports: [CourseList, RouterModule, Avatar],
   templateUrl: './profile-user.html',
   styleUrl: './profile-user.css'
 })
@@ -48,7 +49,6 @@ export class ProfileUser {
           }
           this.userExist = true;
           this.isLoading = false;
-          this.avatarUrl = this.authService.getAvatarUrl(String(userData.name), userData.photo || '');
           this.isFollowing = userData.following;
           this.courses = userData.courses_create;
           this.courses_favorites = userData.courses_favorites;

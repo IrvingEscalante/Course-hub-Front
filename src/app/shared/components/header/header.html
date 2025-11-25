@@ -28,7 +28,7 @@
                 @if (user) {
                 <li class="element-item-photo">
                     <button class="button-show-modal-profile flex-row" (click)="toggleMenu()">
-                        <img [src]="avatarUrl" [alt]="user.name" width="40" height="40" class="photo" />
+                        <app-avatar [size]="40" [name]="user.name" [photo]="user.photo"></app-avatar>
                         <svg w idth="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
