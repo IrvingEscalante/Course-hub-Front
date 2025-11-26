@@ -3,7 +3,7 @@
   <div class="user-info-comment flex-column">
     <div class="user-publication-date flex-row">
       <p class="user-name bold">{{ comment.user_rating.username }}</p>
-      <p class="publication-date">Hace un momento</p>
+      <p class="publication-date">{{comment.date_created | timeAgo}}</p>
     </div>
 
     <div class="stars flex-row">

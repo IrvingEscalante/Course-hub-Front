@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
 import { ModuleCourseResponse } from '../../../core/models/detail_course.model';
 import { CourseModule } from "../../../shared/components/courseComponent/course-module/course-module";
+import { LoaderService } from '../../../core/services/loader';
 
 @Component({
   selector: 'app-detail-course',
@@ -18,6 +19,7 @@ export class DetailCourse {
   route = inject(ActivatedRoute)
   course?:Course;
   detailService = inject(DetailCourses);
+  loaderService = inject(LoaderService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
 
@@ -33,6 +35,8 @@ export class DetailCourse {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.getCourseDetail(id);
     this.getModules(id);
+    this.loaderService.show();
+
   }
 
   getCourseDetail(id_course:number){
@@ -40,6 +44,8 @@ export class DetailCourse {
       next:(data)=>{
         console.log(data)
         this.course=data;
+        this.loaderService.hide();
+
       },
       error:(err)=>{
         console.log(err)

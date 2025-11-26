@@ -4,6 +4,7 @@ import { RatingCommentsService } from '../../../../core/services/courses/rating-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseUserComment } from "../course-user-comment/course-user-comment";
 import { RatingCommentsResponse } from '../../../../core/models/rating_comments';
+import { LoaderService } from '../../../../core/services/loader';
 
 @Component({
   selector: 'app-course-comments',
@@ -16,6 +17,7 @@ export class CourseComments {
   @Output() valueChange = new EventEmitter<number>();
   @Input() id_course:number=0;
   ratingCommentsService = inject(RatingCommentsService);
+  loaderService=inject(LoaderService);
   stars = [1, 2, 3, 4, 5];
   commentForm!: FormGroup;
   comments:RatingCommentsResponse[] = [];
@@ -38,6 +40,7 @@ export class CourseComments {
 
 
   onSubmit() {
+    this.loaderService.show();
     if (this.commentForm.invalid) {
       this.commentForm.markAllAsTouched();
       return;
@@ -53,6 +56,8 @@ export class CourseComments {
     this.ratingCommentsService.createRating(payload).subscribe({
       next:(data)=>{
         console.log("Enviado correctamente");
+        this.loaderService.hide();
+        this.getAllComments(this.id_course);
       },
       error:(err)=>{
         console.log(err);

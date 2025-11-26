@@ -1,7 +1,4 @@
 .user-comment{
-    gap: 15px;
-}
-.user-info-comment{
     gap: 10px;
 }
 .img-user{
@@ -20,6 +17,7 @@
 .stars {
   display: flex;
   gap: 4px;
+  margin-bottom: 10px;
 }
 
 .star {

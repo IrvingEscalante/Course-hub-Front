@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { LoaderService } from '../../../core/services/loader';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class Login {
   loginForm: FormGroup;
   loading:boolean = false;
   messageLogin: string = '';
+  loaderService=inject(LoaderService);
 
   constructor(private fb: FormBuilder, private router: Router, private auth_service:AuthService) {
     this.loginForm = this.fb.group({
@@ -23,6 +25,7 @@ export class Login {
   }
 
    onSubmit() {
+    this.loaderService.show();
     if (this.loginForm.valid) {
       this.loading = true;
       this.auth_service.login(this.loginForm.value).subscribe({

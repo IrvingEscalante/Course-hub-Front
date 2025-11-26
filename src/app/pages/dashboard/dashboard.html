@@ -32,13 +32,5 @@
 
         </div>
     </div>
-
-    @defer{
-        <app-course-list [courseList]="courses"></app-course-list>
-    }@placeholder {
-        <div class="loading">.</div>
-    }@loading {
-         <div class="loading">Cargando cursos</div>
-    }
-    
+    <app-course-list [courseList]="courses"></app-course-list>
 </div>

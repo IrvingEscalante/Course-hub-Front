@@ -27,6 +27,10 @@ body{
 input{
     font-family: var(--font-family)
 }
+textarea{
+    font-family: var(--font-family)
+
+}
 p{
     margin: 0;
 }

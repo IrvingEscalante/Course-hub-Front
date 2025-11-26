@@ -52,7 +52,6 @@ export class CourseForm {
     })
   }
 
-  // ---------- Getter helpers ----------
   get modules(): FormArray {
     return this.courseForm.get('modules') as FormArray;
   }

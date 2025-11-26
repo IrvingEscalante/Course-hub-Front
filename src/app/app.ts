@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Header } from './shared/components/header/header';
 import { AuthService } from './core/services/auth.service';
+import { Loader } from "./shared/components/loader/loader";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header],
+  imports: [RouterOutlet, Header, Loader],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
