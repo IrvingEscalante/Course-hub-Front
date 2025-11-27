@@ -20,36 +20,42 @@ export class ProfileUser {
   user !:UserProfilePrivate | UserProfilePublic;
   favoritesService=inject(FavoritesService);
   userExist : boolean = false;
-  isMyProfile : boolean = false;
+
   avatarUrl : string = '';
   courses : Course[] = [];
   courses_favorites: Course[] = [];
   typeListCourses:string = "created"
   isFollowing:boolean = false;
   loaderService=inject(LoaderService);
+  auth=inject(AuthService);
   isLoading:boolean = true;
-  
+  userLogged!:string | null;
+  username!:string | null;
 
   selectTab(tab: 'created' | 'favorites') {
     this.getCoursesFavorites(this.user.username);
     this.selectedTab = tab;
   }
 
-  constructor(private route:ActivatedRoute, private authService:AuthService, private userService:UserService){
-    this.isMyProfile = false;
-  }
+  constructor(private route:ActivatedRoute, private authService:AuthService, private userService:UserService){}
 
   ngOnInit(): void {
-    this.loaderService.show();
+  this.loaderService.show();
   this.route.paramMap.subscribe(params => {
-    const username = params.get('username');
-    if (username && username !== 'null') {
-      this.getUserProfile(username);
-      this.getCoursesFavorites(username);
+    this.username = params.get('username');
+    this.userLogged = this.auth.currentUserValue?.username ?? null;
+    if (this.username && this.username !== 'null') {
+      this.getUserProfile(this.username);
+      this.getCoursesFavorites(this.username);
     }
       
   });
 }
+
+  isOwner(): boolean {
+    return this.userLogged === this.username;
+  }
+
 
   getCoursesFavorites(username:string){
     this.favoritesService.getFavorites(username).subscribe({
@@ -79,7 +85,6 @@ export class ProfileUser {
     this.authService.getUserProfile(username).subscribe({
       next: (userData) => {
         if ('id' in userData) {
-        this.isMyProfile = true;
           this.user = userData as UserProfilePrivate;
         } else {
           this.user = userData as UserProfilePublic;
