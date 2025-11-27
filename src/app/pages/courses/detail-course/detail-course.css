@@ -121,6 +121,8 @@
     font-weight: bold;
 }
 .bio-user{
+    color: #999da4;
+    font-weight: 400;
     font-size: 15px;
 }
 .item-photo-colab{

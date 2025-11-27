@@ -19,8 +19,8 @@ export const API_ROUTES = {
     get_publications:'/detail_course/publications/'
   },
   favorites:{
-    add_delete_favorites: '/users/user/favorite',
-    get_favorites: '/users/user/favorites/'
+    add_delete_favorites: '/favorites/add_delete/',
+    get_favorites: '/favorites/'
   },
   follow:{
     follow_unfollow: '/users/user/follow_unfollow/'

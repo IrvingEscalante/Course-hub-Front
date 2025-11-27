@@ -41,7 +41,6 @@
         }
         <div class="recover-and-button flex-column">
             <a routerLink="/recover-password" class="recover-password bold">¿Olvidaste tu contraseña?</a>
-            <!-- Botón -->
             <button class="button-access" type="submit" [disabled]="loginForm.invalid || loading"> @if(loading){Iniciando sesión...} @else{Iniciar sesión}</button>
         </div>
     </form>

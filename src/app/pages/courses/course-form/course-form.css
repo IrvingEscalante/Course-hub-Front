@@ -132,6 +132,7 @@
     color: #3A6FF8;
     padding: 8px 18px;
     border-radius: 20px;
+    width: fit-content;
     font-size: 13px;
     cursor: pointer;
     transition: 0.2s;
@@ -139,6 +140,10 @@
 
 .btn-outline:hover {
     background-color: rgba(58, 111, 248, 0.15);
+}
+
+.publications{
+    gap: 15px;
 }
 
 /* Botón principal */
@@ -214,4 +219,11 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 30px;
+}
+
+@media(max-width:900px){
+    .course-form-container {
+        padding: 50px;
+        color: var(--text-color);
+    }    
 }

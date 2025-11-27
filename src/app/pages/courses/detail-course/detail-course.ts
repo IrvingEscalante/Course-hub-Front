@@ -2,15 +2,16 @@ import { Component, inject } from '@angular/core';
 import { CourseComments } from "../../../shared/components/courseComponent/course-comments/course-comments";
 import { CoursesService } from '../../../core/services/courses/courses.service';
 import { Course } from '../../../core/models/course.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
 import { ModuleCourseResponse } from '../../../core/models/detail_course.model';
 import { CourseModule } from "../../../shared/components/courseComponent/course-module/course-module";
 import { LoaderService } from '../../../core/services/loader';
+import { Avatar } from "../../../shared/components/avatar/avatar";
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })

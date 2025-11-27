@@ -6,6 +6,7 @@ export interface UserOut{
   lastname:string;
   email: string;
   photo:string;
+  biography:string | null;
 }
 
 export interface UserProfilePublic {

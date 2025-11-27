@@ -71,11 +71,10 @@
             </div>
 
             <!-- Publications -->
-            <div formArrayName="publications" class="publications">
+            <div formArrayName="publications" class="publications flex-column">
 
               <h3 class="sub-section-title">Publicaciones</h3>
 
-              <button type="button" class="btn-outline" (click)="addPublication(mi)">+ Nueva publicación</button>
 
               @for (pubCtrl of getPublications(mi).controls; track $index; let pi = $index) {
 
@@ -167,6 +166,7 @@
                 </div>
 
               }
+              <button type="button" class="btn-outline" (click)="addPublication(mi)">+ Nueva publicación</button>
             </div>
 
           </div>

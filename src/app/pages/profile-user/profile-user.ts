@@ -7,6 +7,7 @@ import { Course } from '../../core/models/course.model';
 import { UserService } from '../../core/services/user/user.service';
 import { Avatar } from "../../shared/components/avatar/avatar";
 import { LoaderService } from '../../core/services/loader';
+import { FavoritesService } from '../../core/services/courses/favorites.service';
 
 @Component({
   selector: 'app-profile-user',
@@ -17,6 +18,7 @@ import { LoaderService } from '../../core/services/loader';
 export class ProfileUser {
   selectedTab: 'created' | 'favorites' = 'created'; // Valor inicial
   user !:UserProfilePrivate | UserProfilePublic;
+  favoritesService=inject(FavoritesService);
   userExist : boolean = false;
   isMyProfile : boolean = false;
   avatarUrl : string = '';
@@ -29,6 +31,7 @@ export class ProfileUser {
   
 
   selectTab(tab: 'created' | 'favorites') {
+    this.getCoursesFavorites(this.user.username);
     this.selectedTab = tab;
   }
 
@@ -42,12 +45,23 @@ export class ProfileUser {
     const username = params.get('username');
     if (username && username !== 'null') {
       this.getUserProfile(username);
+      this.getCoursesFavorites(username);
     }
       
   });
 }
 
-  activateCoursesFavorites(){}
+  getCoursesFavorites(username:string){
+    this.favoritesService.getFavorites(username).subscribe({
+      next:(data)=>{
+        console.log("favs", data);
+        this.courses_favorites = data;
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
 
   followUnfollow(){
     this.userService.followUnfollow(this.user.username).subscribe({

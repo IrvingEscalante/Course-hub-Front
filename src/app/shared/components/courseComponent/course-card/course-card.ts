@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UserService } from '../../../../core/services/user/user.service';
 import { Avatar } from "../../avatar/avatar";
+import { FavoritesService } from '../../../../core/services/courses/favorites.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class CourseCard {
   @Input() favoriteIds: number[] = [];
   @Input() isFavorite: boolean = false;
   
-  constructor(private userService:UserService, private authservice:AuthService){}
+  constructor(private favoriteService:FavoritesService, private authservice:AuthService){}
 
   avatarUrl:string = '';
 
@@ -30,7 +31,7 @@ export class CourseCard {
     if (!this.authservice.isLoggedIn()) return;
     this.isFavorite = !this.isFavorite;
     if (!this.course?.id_course) return
-    this.userService.addDeleteFavorites(this.course.id_course).subscribe({
+    this.favoriteService.addDeleteFavorites(this.course.id_course).subscribe({
       next:(res)=>{
         console.log(res);
          

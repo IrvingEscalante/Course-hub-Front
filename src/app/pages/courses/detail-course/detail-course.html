@@ -87,7 +87,7 @@
     <div class="container-info user flex-column">
         <h2 class="title-info">Creador</h2>
         <div class="user flex-row">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
+            <a [routerLink]="'/'+course?.user?.username"><app-avatar [size]="40" [name]="course?.user?.name || ''" [photo]="course?.user?.photo || ''"></app-avatar></a>
             <div class="text-info-use flex-column">
                 <strong>{{course?.user?.username}}</strong>
                 <div class="followers-courses flex-row">
@@ -96,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <p class="bio-user">Apasionado por la programación y futuro fullstack</p>
+        <p class="bio-user">{{course?.user?.biography}}</p>
     </div>
     <div class="container-info colab flex-column">
         <h2 class="title-info">Colaboradores</h2>
