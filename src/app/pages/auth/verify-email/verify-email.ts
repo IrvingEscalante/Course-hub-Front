@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { VerifyEmailPayload } from '../../../core/models/auth.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { LoaderService } from '../../../core/services/loader';
 
 @Component({
   selector: 'app-verify-email',
@@ -13,6 +14,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 export class VerifyEmail {
   seconds: number = 0;
   intervalo: any;
+  loaderService=inject(LoaderService);
   loading:boolean = false;
   verifyEmailForm!:FormGroup
   email:string = '';
@@ -43,9 +45,9 @@ export class VerifyEmail {
   }
 
   onSubmit(){
+    this.loaderService.show();
     if (this.verifyEmailForm.valid){
- 
-console.log(this.email);
+
       this.loading = true;
       const code = this.verifyEmailForm.value.emailverify;
       const payload:VerifyEmailPayload = {
@@ -54,11 +56,11 @@ console.log(this.email);
       };
       this.authService.verify_email(payload).subscribe({
         next:(res)=>{
-          console.log("verificacion exitosa", res)
+          this.loaderService.hide();
           this.router.navigate(['/login']);
         },
         error:(err) =>{
-          console.log("Ocurrio un error en la verificacion", err?.error.detail)
+          this.loaderService.hide();
           if (err?.error.detail === "Codigo invalido o expirado"){
             this.messageCode = err?.error.detail;
           }
@@ -71,11 +73,12 @@ console.log(this.email);
   }
 
   resendCode(){
+    this.loaderService.show();
     if (this.email){
       console.log(this.email);
       this.authService.resend_code_verification(this.email).subscribe({
         next:(res) =>{
-          console.log("Se ha enviado el codigo de manera correcta", res)
+          this.loaderService.hide();
           this.startCountdown();
         },
         error:(error)=>{

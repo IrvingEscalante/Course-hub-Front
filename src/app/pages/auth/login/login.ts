@@ -16,6 +16,12 @@ export class Login {
   loading:boolean = false;
   messageLogin: string = '';
   loaderService=inject(LoaderService);
+  showPassword = false;
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
 
   constructor(private fb: FormBuilder, private router: Router, private auth_service:AuthService) {
     this.loginForm = this.fb.group({

@@ -22,20 +22,36 @@
         </div>
 
         <!-- Contraseña -->
-        <div class="form-group flex-column">
-        <label for="password" class="labels-form bold">Contraseña</label>
+<div class="form-group flex-column">
+    <label for="password" class="labels-form bold">Contraseña</label>
+
+    <div class="input-password-wrapper">
         <input 
             id="password"
-            type="password" 
+            [type]="showPassword ? 'text' : 'password'"
             formControlName="password" 
             placeholder="********"
-            class="input-style"
+            class="input-style password_input"
         />
-         @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)) {
-                <small class="error-forms">Este campo es obligatorio</small>
-        }
-        
-        </div>
+
+        <button type="button" class="toggle-password" (click)="togglePassword()">
+            @if(showPassword){
+                <span class="material-icons">
+                    visibility
+                </span>
+            } @else {
+                <span class="material-icons">
+                    visibility_off
+                </span>
+            }
+        </button>
+    </div>
+
+    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)) {
+        <small class="error-forms">Este campo es obligatorio</small>
+    }
+</div>
+
         @if (messageLogin){
             <small class="error-forms">{{messageLogin}}</small>
         }

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { __param } from 'tslib';
+import { LoaderService } from '../../../core/services/loader';
 
 @Component({
   selector: 'app-register',
@@ -19,8 +21,10 @@ export class Register {
     password: new FormControl(''),
     confirmPassword: new FormControl('')
   })*/
+  loaderService=inject(LoaderService);
     registerForm!:FormGroup;
     loading:boolean = false;
+    router=inject(Router);
     messageEmail:string = '';
     messageUser:string = '';
     validatorNames = /^([A-Za-zÁÉÍÓÚáéíóúÑñ]{2,50})(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]{2,50})*$/;
@@ -45,17 +49,21 @@ export class Register {
   }
 
   onSubmit(){
+    this.loaderService.show();
     if (this.registerForm.valid){
         this.loading = true;
         console.log("datos del registro: ", this.registerForm.value)
         const {confirmPassword, ...userData} = this.registerForm.value;
         this.authService.register(userData).subscribe({
           next:(res)=>{
-            console.log("Se envio el correo");
+            this.loaderService.hide();
+            this.router.navigate(
+              ['/verify-email'],
+              { queryParams: { token: res.token_verification } }
+            );
           },
           error: (err) =>{
             this.loading = false;
-            console.log("Error al registrar", err.error.detail)
             if(err.error.detail == "El usuario ya está registrado"){
               this.messageUser = "Este nombre de usuario ya está registrado, por favor ingresa otro.";
             }else if (err.error.detail == "El correo ya está registrado"){

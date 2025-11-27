@@ -1,3 +1,5 @@
+import { UserOut } from "./user.model";
+
 // Datos que se envían al backend al registrarse
 export interface RegisterRequest {
   username:string;
@@ -34,12 +36,6 @@ export interface MessageResponse {
 }
 // Respuesta completa del backend al registrar
 export interface RegisterResponse {
-  id:number;
-  name:string;
-  email:string;
-  username:string;
-  lastname:string;
-  photo:string;
-  date_joined:Date;
-  biography:string;
+  user:UserOut;
+  token_verification:string;
 }

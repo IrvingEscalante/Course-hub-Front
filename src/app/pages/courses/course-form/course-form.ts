@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { Course } from '../../../core/models/course.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 import { CoursesService } from '../../../core/services/courses/courses.service';
@@ -16,6 +16,7 @@ import { LoaderService } from '../../../core/services/loader';
 export class CourseForm {
   courseService=inject(CoursesService)
   loaderService=inject(LoaderService);
+  router=inject(Router);
   @Input() mode :'create' | 'edit' | 'copy' = 'create';
   @Input() course?: Course;
 
@@ -102,7 +103,7 @@ export class CourseForm {
 
   // resource: { type: 'image'|'video'|'pdf'|'pptx'|'note', value?: string, file?: File, fileName?: string }
   createResourceGroup(type: string): FormGroup {
-    if (type === 'image' || type === 'pdf' || type === 'pptx') {
+    if (type === 'image' || type === 'archive') {
       return this.fb.group({
         type: [type],
         value: [null],
@@ -201,7 +202,7 @@ export class CourseForm {
         resources.controls.forEach((resCtrl, ri) => {
           const r = resCtrl.value;
 
-          if (r.type === 'image' || r.type === 'pdf' || r.type === 'pptx') {
+          if (r.type === 'image' || r.type === 'archive') {
             const fileKey = `file_m${mi}_p${pi}_r${ri}`;
 
             if (r.file) {
@@ -237,8 +238,8 @@ export class CourseForm {
     this.courseService.createCourse(fd).subscribe({
       next: (resp) => {
         console.log("Curso creado:", resp);
-        alert("Curso creado correctamente");
         this.loaderService.hide();
+        this.router.navigate(['/course/detail/'+resp.course_id]);
       },
       error: (err) => {
         console.log("Error al crear curso:", err);

@@ -220,7 +220,13 @@
     justify-content: flex-end;
     margin-top: 30px;
 }
+.resource-btn{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-color);
 
+}
 @media(max-width:900px){
     .course-form-container {
         padding: 50px;

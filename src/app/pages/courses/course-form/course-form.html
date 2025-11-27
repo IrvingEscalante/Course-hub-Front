@@ -97,10 +97,11 @@
 
                   <!-- Resource selector -->
                   <div class="resource-selector">
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'image')">📷 Imagen</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'video')">🔗 Video</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'pdf')">📄 PDF</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'pptx')">📊 PPTX</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'image')"><span class="material-symbols-outlined">
+image
+</span> Imagen</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'video-embed')">🔗 Video</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'archive')">📄 Archivo</button>
                     <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'note')">📝 Nota</button>
                   </div>
 
@@ -126,16 +127,7 @@
                               <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
                             }
                           }
-                          @case ('pdf') {
-                            <label>Imagen</label>
-                            <input type="file" (change)="onFileSelected($event, mi, pi, ri)" />
-
-                            @if (resCtrl.get('preview')?.value) {
-                              <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
-                            }
-                          }
-
-                          @case ('pptx') {
+                          @case ('archive') {
                             <div class="resources-container flex-column">
                                 <label>Archivo PDF, PPTX</label>
                                 <input type="file" accept=".pdf,.pptx" (change)="onFileSelected($event, mi, pi, ri)" />
@@ -145,7 +137,7 @@
                             }
                           }
 
-                          @case ('video') {
+                          @case ('video-embed') {
                             <div class="resources-container flex-column">
                                 <label>Link de YouTube</label>
                                 <input formControlName="value" type="text" class="input-style" placeholder="https://youtube.com/..." />

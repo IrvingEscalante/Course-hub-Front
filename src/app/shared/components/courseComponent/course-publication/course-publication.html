@@ -10,30 +10,29 @@
     <!-- GRID para PDFs -->
     <div class="pdf-grid">
       @for (content of publication.content; track $index) {
-        @if (content.type_content === 'pdf') {
+        @if (content.type_content === 'pdf' || content.type_content === 'pptx') {
 
           <div class="pdf-card" (click)="openPdf(content.content)">
 
-            <div class="pdf-card-header">
-        
+        <!-- Mitad superior: PREVIEW -->
+        <div class="pdf-preview-wrapper">
+          <object 
+            [data]="apiUrlBack + content.content | safeUrl" 
+            class="pdf-preview">
+          </object>
+        </div>
 
-              <div class="pdf-icon-wrapper">
-                <svg width="40" height="40" viewBox="0 0 24 24" stroke="white" fill="none">
-                  <path d="M7 2H14L19 7V22H7V2Z" stroke-width="2.4"/>
-                  <path d="M14 2V7H19" stroke-width="2.4"/>
-                </svg>
-              </div>
-            </div>
+        <!-- Mitad inferior: Información -->
+        <div class="pdf-card-body">
+          <p class="pdf-title">{{ getFilename(content.content) }}</p>
 
-            <div class="pdf-card-body">
-              <p class="pdf-title">{{ publication.name_publication }}</p>
-
-              <div class="pdf-meta">
-                <span>{{ '23' }} páginas</span>
-              </div>
-            </div>
-
+          <div class="pdf-meta">
+            <span>PDF</span>
           </div>
+        </div>
+
+      </div>
+
 
         }
       }
@@ -60,15 +59,16 @@
 
           @case ('youtube') {
             <div class="content-card">
-              <app-youtube-player [video]="content.content"></app-youtube-player>
+            <youtube-player
+              [videoId]="extractYouTubeId(content.content) || ''"
+              [playerVars]="{ autoplay: 0 }">
+            </youtube-player>
             </div>
           }
 
           @default {
             <div class="content-card">
-              <a [href]="content.content" target="_blank" class="content-download">
-                Descargar archivo ({{ content.type_content }})
-              </a>
+              <p>{{content.content}}</p>
             </div>
           }
 
