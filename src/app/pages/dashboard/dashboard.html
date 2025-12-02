@@ -32,5 +32,8 @@
 
         </div>
     </div>
-    <app-course-list [courseList]="courses"></app-course-list>
+    @if (courses) {
+        <app-course-list [courseList]="courses"></app-course-list>
+        <app-course-list [courseList]="courses" title="Cursos populares"></app-course-list>
+    }
 </div>

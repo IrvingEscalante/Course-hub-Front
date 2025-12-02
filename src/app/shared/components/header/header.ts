@@ -21,18 +21,11 @@ export class Header {
   avatarUrl:string = '';
   userLoaded:boolean = false;
   userService = inject(UserService);
-  constructor(private authService: AuthService, public router:Router) {
-    
-  }
-  loading: boolean = true;
-  
+  constructor(private authService: AuthService, public router:Router) { }
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
-      this.loading = false;
-      
-      if (this.user){this.userLoaded = true}
     });
   }
 

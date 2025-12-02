@@ -120,16 +120,16 @@ image
                         @switch (resCtrl.get('type')?.value) {
 
                           @case ('image') {
-                            <label>Imagen</label>
+                            <div class="resources-container flex-column">
                             <input type="file" (change)="onFileSelected($event, mi, pi, ri)" />
 
                             @if (resCtrl.get('preview')?.value) {
                               <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
                             }
+                            </div>
                           }
                           @case ('archive') {
                             <div class="resources-container flex-column">
-                                <label>Archivo PDF, PPTX</label>
                                 <input type="file" accept=".pdf,.pptx" (change)="onFileSelected($event, mi, pi, ri)" />
                             </div>
                             @if (resCtrl.get('fileName')?.value) {
@@ -139,14 +139,14 @@ image
 
                           @case ('video-embed') {
                             <div class="resources-container flex-column">
-                                <label>Link de YouTube</label>
                                 <input formControlName="value" type="text" class="input-style" placeholder="https://youtube.com/..." />
                             </div>
                           }
 
                           @case ('note') {
-                            <label>Nota</label>
-                            <textarea formControlName="value" class="input-style" rows="3"></textarea>
+                            <div class="resources-container flex-column">
+                              <textarea formControlName="value" class="input-style" rows="3"></textarea>
+                            </div>
                           }
 
                         }

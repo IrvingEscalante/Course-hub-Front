@@ -227,6 +227,47 @@
     color: var(--text-color);
 
 }
+/* Contenedor elegante */
+.resource-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+/* Etiqueta profesional */
+.resource-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #c8d0e0;
+    letter-spacing: 0.3px;
+}
+
+/* Input moderno */
+.resource-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: #0C1622;
+    border: 1px solid #233040;
+    color: #e5eaf2;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+.resource-input:hover {
+    border-color: #3A6FF8;
+}
+
+/* Focus estilo premium */
+.resource-input:focus {
+    outline: none;
+    border-color: #4C8DFF;
+    background-color: #101b2a;
+    box-shadow: 0 0 0 4px rgba(74, 123, 255, 0.12);
+}
+
 @media(max-width:900px){
     .course-form-container {
         padding: 50px;

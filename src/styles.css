@@ -106,7 +106,8 @@ button{
     margin-inline: 20px;
 }
 .error-forms{
-    color: rgb(224, 54, 54);
+    color: rgb(176, 45, 45);
+    font-weight: 600;
 }
 .form-group{
     gap: 5px;
