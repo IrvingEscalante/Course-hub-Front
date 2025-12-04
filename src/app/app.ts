@@ -3,11 +3,12 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Header } from './shared/components/header/header';
 import { AuthService } from './core/services/auth.service';
 import { Loader } from "./shared/components/loader/loader";
+import { ToastrModule } from 'ngx-toastr';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Loader],
+  imports: [RouterOutlet, Header, Loader, ToastrModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

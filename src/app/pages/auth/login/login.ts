@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoaderService } from '../../../core/services/loader';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { LoaderService } from '../../../core/services/loader';
   styleUrl: './login.css'
 })
 export class Login {
+  toast=inject(ToastrService)
   loginForm: FormGroup;
   loading:boolean = false;
   messageLogin: string = '';
@@ -38,6 +40,7 @@ export class Login {
         next: (response) => {
           this.auth_service.setToken(response.access_token);
           this.router.navigate(['/']);
+          this.toast.success("Inicio de sesion bien")
         },
         error: (err) => {
           console.error('Error en login:', err.error.detail);
