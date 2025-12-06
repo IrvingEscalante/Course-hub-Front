@@ -41,7 +41,7 @@
     </div>
     <div class="more-info-course flex-column">
         @if (course?.is_my_course) {
-            <button class="button-access">Editar curso</button>
+            <a [routerLink]="'/course/edit/'+course?.id_course" class="button-access">Editar curso</a>
         }
         <div class="container-info rating flex-column">
             <div class="rating">

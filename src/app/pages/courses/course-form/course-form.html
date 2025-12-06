@@ -97,55 +97,77 @@
 
                   <!-- Resource selector -->
                   <div class="resource-selector">
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'image')"><span class="material-symbols-outlined">
-image
-</span> Imagen</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'video-embed')">🔗 Video</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'archive')">📄 Archivo</button>
-                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'note')">📝 Nota</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'image')"><span class="material-icons">image</span> Imagen</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'video-embed')"><span class="material-icons">link</span> Video</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'archive')"><span class="material-icons">article</span> Archivo</button>
+                    <button type="button" class="resource-btn" (click)="addResource(mi, pi, 'note')"><span class="material-icons">note_add</span> Nota</button>
                   </div>
 
                   <!-- Resources -->
                   <div formArrayName="resources" class="resource-fields">
 
+                   
                     @for (resCtrl of getResources(mi, pi).controls; track $index; let ri = $index) {
 
                       <div [formGroupName]="ri" class="resource-row">
 
                         <div class="resource-row-header">
-                          <small class="resource-type">{{ resCtrl.get('type')?.value | uppercase }}</small>
                           <button type="button" class="btn-outline" (click)="removeResource(mi, pi, ri)">Eliminar</button>
                         </div>
 
                         @switch (resCtrl.get('type')?.value) {
 
-                          @case ('image') {
-                            <div class="resources-container flex-column">
-                            <input type="file" (change)="onFileSelected($event, mi, pi, ri)" />
-
-                            @if (resCtrl.get('preview')?.value) {
-                              <img [src]="resCtrl.get('preview')?.value" style="max-height:120px; margin-top:8px;">
-                            }
-                            </div>
-                          }
-                          @case ('archive') {
-                            <div class="resources-container flex-column">
-                                <input type="file" accept=".pdf,.pptx" (change)="onFileSelected($event, mi, pi, ri)" />
-                            </div>
-                            @if (resCtrl.get('fileName')?.value) {
-                              <div class="small-muted">{{ resCtrl.get('fileName')?.value }}</div>
-                            }
-                          }
-
-                          @case ('video-embed') {
-                            <div class="resources-container flex-column">
-                                <input formControlName="value" type="text" class="input-style" placeholder="https://youtube.com/..." />
+                          @case('image') {
+                            <div class="resource-total">
+                              <label class="resource-total-label">Imagen</label>
+                              <div class="resource-total-input-wrapper">
+                                <input type="file" accept="image/*" (change)="onFileSelected($event, mi, pi, ri)" />
+                              </div>
+                              @if (resCtrl.get('preview')?.value) {
+                                <img [src]="resCtrl.get('preview')?.value" class="resource-image-preview" />
+                              }
                             </div>
                           }
 
-                          @case ('note') {
-                            <div class="resources-container flex-column">
-                              <textarea formControlName="value" class="input-style" rows="3"></textarea>
+                        @case('archive') {
+                            <div class="resource-total">
+                              <label class="resource-total-label">Archivo (PDF o PPTX)</label>
+
+                              <!-- Input para subir nuevo archivo -->
+                              <div class="resource-total-input-wrapper">
+                                <input 
+                                  type="file" 
+                                  accept=".pdf,.pptx"
+                                  (change)="onFileSelected($event, mi, pi, ri)"
+                                  class="resource-total-input"
+                                />
+                              </div>
+
+                              <!-- Mostrar archivo existente como enlace -->
+                              @if (resCtrl.get('fileName')?.value && resCtrl.get('value')?.value) {
+                                <div class="resource-total-hint">
+                                  <a [href]="apiurlforStatics+resCtrl.get('value')?.value" target="_blank">{{ resCtrl.get('fileName')?.value }}</a>
+                                </div>
+                              }
+                            </div>
+                          }
+
+
+                          @case('video-embed') {
+                            <div class="resource-total">
+                              <label class="resource-total-label">Link de video incrustado</label>
+                              <div class="resource-total-input-wrapper">
+                                <span class="material-icons input-icon">link</span>
+                                <input formControlName="value" type="text" class="resource-total-input" placeholder="https://youtube.com/..." />
+                              </div>
+                              <p class="resource-total-hint">Solamente acepta enlaces de YouTube.</p>
+                            </div>
+                          }
+
+                          @case('note') {
+                            <div class="resource-total">
+                              <label class="resource-total-label">Nota</label>
+                              <textarea formControlName="value" rows="3" class="resource-total-input textarea" placeholder="Escriba una nota..."></textarea>
                             </div>
                           }
 
@@ -153,6 +175,7 @@ image
 
                       </div>
                     }
+
                   </div>
 
                 </div>

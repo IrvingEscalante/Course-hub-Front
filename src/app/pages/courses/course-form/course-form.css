@@ -1,276 +1,416 @@
-/* ==================== CONTENEDOR PRINCIPAL ==================== */
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
 .course-form-container {
-    padding: 70px 150px;
+    padding: 60px 120px;
     color: var(--text-color);
-}
-
-.course-title {
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 25px;
-}
-
-/* Tarjeta principal */
-.course-card {
-    background-color: #121C2D;
-    padding: 35px;
-    border-radius: 18px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
-}
-
-/* ==================== TIPOGRAFÍA ==================== */
-.section-title {
-    font-size: 20px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.sub-section-title {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-/* ==================== GRIDS ==================== */
-.grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 25px;
 }
 
-/* ==================== FORM ==================== */
+.course-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* ============================================================
+   TARJETA PRINCIPAL
+   ============================================================ */
+.course-card {
+    background: linear-gradient(135deg, #101827, #0b121d);
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   TIPOGRAFÍA
+   ============================================================ */
+.section-title {
+    font-size: 21px;
+    margin: 30px 0 18px;
+    font-weight: 600;
+    color: #e8efff;
+    border-left: 4px solid var(--primary-button);
+    padding-left: 12px;
+}
+
+.sub-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0 15px;
+    color: #bfd4ff;
+}
+
+/* ============================================================
+   GRIDS
+   ============================================================ */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+/* ============================================================
+   FORM GROUPS
+   ============================================================ */
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 22px;
 }
 
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #cfd8e6;
+}
+
+/* Inputs */
 .input-style {
-    padding: 12px;
-    background-color: #0C1622;
-    border: 1px solid #2b3c52;
+    padding: 12px 14px;
+    background-color: #0d1624;
+    border: 1px solid #2a3a51;
     border-radius: 10px;
     color: var(--text-color);
-    transition: 0.2s;
+    transition: 0.25s ease;
+}
+
+.input-style:hover {
+    border-color: #3a6ff8;
 }
 
 .input-style:focus {
-    border-color: var(--primary-button);
+    border-color: #4c8dff;
     outline: none;
+    box-shadow: 0 0 0 4px rgba(74, 123, 255, 0.12);
 }
 
-/* ==================== DROPZONE ==================== */
+/* ============================================================
+   DROPZONE
+   ============================================================ */
 .image-dropzone {
-    border: 2px dashed #2b3c52;
-    border-radius: 12px;
-    padding: 35px;
+    border: 2px dashed #334157;
+    border-radius: 14px;
+    padding: 45px;
     text-align: center;
     cursor: pointer;
     position: relative;
-    transition: border-color 0.2s;
+    transition: 0.3s ease;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .image-dropzone:hover {
     border-color: var(--primary-button);
+    background: rgba(58, 111, 248, 0.05);
 }
 
 .image-input {
     opacity: 0;
     width: 100%;
-    height: 150px;
+    height: 170px;
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
 }
 
 .dropzone-content {
     pointer-events: none;
     opacity: 0.8;
+    color: #b8c8dd;
 }
 
-/* ==================== TARJETAS DE MÓDULOS ==================== */
+/* ============================================================
+   MÓDULOS
+   ============================================================ */
 .module-card {
-    background-color: #0E1A2A;
-    padding: 22px;
-    border-radius: 14px;
+    background: #0d1726;
+    padding: 26px;
+    border-radius: 16px;
+    border: 1px solid #1e2b3c;
     margin-bottom: 25px;
-    border: 1px solid #1f2c3d;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 .module-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .module-header strong {
     font-size: 16px;
+    color: #d9e6ff;
 }
 
-/* ==================== TARJETA DE PUBLICACIÓN ==================== */
+/* ============================================================
+   PUBLICACIONES
+   ============================================================ */
 .publication-card {
-    background-color: #0C1622;
+    background: #0a1320;
     border: 1px solid #1d2a3b;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 15px;
+    padding: 22px;
+
+    border-radius: 14px;
+    margin-block: 15px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
 }
 
 .pub-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
-/* ==================== BOTONES ==================== */
+/* ============================================================
+   BOTONES
+   ============================================================ */
 .btn-outline {
     background-color: transparent;
     border: 1px solid #3A6FF8;
     color: #3A6FF8;
     padding: 8px 18px;
-    border-radius: 20px;
-    width: fit-content;
+    border-radius: 24px;
     font-size: 13px;
+    width: fit-content;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.25s ease;
 }
 
 .btn-outline:hover {
-    background-color: rgba(58, 111, 248, 0.15);
+    background-color: rgba(58, 111, 248, 0.18);
+    transform: translateY(-1px);
 }
 
-.publications{
-    gap: 15px;
-}
-
-/* Botón principal */
+/* Botón submit */
 .btn-submit {
     background-color: var(--primary-button);
     color: var(--text-color);
-    padding: 12px 35px;
-    font-size: 15px;
+    padding: 14px 38px;
+    font-size: 16px;
     border-radius: 30px;
-    margin-top: 30px;
-    float: right;
+    align-self: flex-end;
+    margin-top: 35px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-/* ==================== SELECTOR DE RECURSOS ==================== */
+.btn-submit:hover {
+    background-color: #4c8dff;
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   SELECTOR DE RECURSOS
+   ============================================================ */
 .resource-selector {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     margin: 10px 0 18px 0;
 }
 
-.resource-selector button {
-    background-color: #1D2A3F;
-    padding: 7px 14px;
-    border-radius: 16px;
+.resource-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #1a2637;
+    padding: 8px 16px;
+    border-radius: 18px;
     border: 1px solid #2b3c52;
-    font-size: 12px;
+    color: #dce6f8;
+    font-size: 13px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
-.resource-selector button:hover {
-    background-color: #243754;
+.resource-btn:hover {
+    background-color: #263651;
 }
 
-/* ==================== RECURSOS ==================== */
+/* ============================================================
+   RECURSOS
+   ============================================================ */
 .resource-fields {
-    margin-top: 10px;
+    margin-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 20px;
 }
 
 .resource-row {
-    background-color: #0A1320;
+    background-color: #0a1320;
     border: 1px solid #253344;
-    padding: 15px;
-    border-radius: 12px;
+    padding: 18px;
+    border-radius: 14px;
 }
 
 .resource-row-header {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.resource-type {
-    background-color: #1e2a3b;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    border: 1px solid #30435c;
-    opacity: 0.8;
+    justify-content: flex-end;
+    margin-bottom: 12px;
 }
 
 .small-muted {
     font-size: 13px;
     opacity: 0.75;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
-.submit-row {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-}
-.resource-btn{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--text-color);
+/* ==========================
+   RESOURCE TOTAL (VIDEO LINK)
+   ========================== */
 
-}
-/* Contenedor elegante */
-.resource-field {
+.resource-total {
+    padding: 12px 18px;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 10px;
+    gap: 8px;
+    animation: fadeIn 0.25s ease-out;
 }
 
-/* Etiqueta profesional */
-.resource-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #c8d0e0;
-    letter-spacing: 0.3px;
-}
-
-/* Input moderno */
-.resource-input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 10px;
-    background-color: #0C1622;
-    border: 1px solid #233040;
-    color: #e5eaf2;
+/* Label */
+.resource-total-label {
     font-size: 14px;
-    transition: all 0.2s ease;
+    font-weight: 600;
+    color: #d6e0f5;
+    letter-spacing: .3px;
+    margin-bottom: 4px;
+}
+
+/* Input container */
+.resource-total-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Icon inside the input */
+.input-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 18px;
+    opacity: 0.7;
+}
+
+/* Modern input */
+.resource-total-input {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    border-radius: 10px;
+    background-color: #0F1C2B;
+    border: 1px solid #233040;
+    color: #eef1f7;
+    font-size: 14px;
+    transition: all .25s ease;
+}
+
+.resource-total-input::placeholder {
+    color: #7f8a9a;
+    opacity: 0.6;
 }
 
 /* Hover */
-.resource-input:hover {
+.resource-total-input:hover {
     border-color: #3A6FF8;
 }
 
-/* Focus estilo premium */
-.resource-input:focus {
+/* Focus ultra premium */
+.resource-total-input:focus {
     outline: none;
     border-color: #4C8DFF;
-    background-color: #101b2a;
-    box-shadow: 0 0 0 4px rgba(74, 123, 255, 0.12);
+    background-color: #122033;
+    box-shadow: 0 0 0 4px rgba(74, 123, 255, 0.18);
 }
 
-@media(max-width:900px){
+/* Hint text */
+.resource-total-hint {
+    font-size: 13px;
+    opacity: 0.6;
+    color: #c9d4e8;
+    margin-top: 2px;
+}
+
+.resource-file {
+    background: #0B1624;
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Label */
+.resource-file-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #d6e0f5;
+    margin-bottom: 4px;
+}
+
+/* File input wrapper */
+.file-input-wrapper input[type="file"] {
+    background: #101c2f;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #c9d4e8;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.file-input-wrapper input[type="file"]::-webkit-file-upload-button {
+    background: #1d2a45;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #e2e8f8;
+    cursor: pointer;
+}
+
+/* Texto debajo con el nombre */
+.resource-file-name {
+    font-size: 13px;
+    color: #c9d4e8;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+
+/* Appearance animation */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(4px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width: 900px) {
     .course-form-container {
-        padding: 50px;
-        color: var(--text-color);
-    }    
+        padding: 35px 20px;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
+        padding: 28px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        margin-top: 20px;
+    }
 }

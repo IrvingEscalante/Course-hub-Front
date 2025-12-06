@@ -6,41 +6,56 @@ import { UpperCasePipe } from '@angular/common';
 import { CoursesService } from '../../../core/services/courses/courses.service';
 import { ThemeResponse } from '../../../core/models/theme.model';
 import { LoaderService } from '../../../core/services/loader';
+import { CourseFullResponse, CoursePublishResponse } from '../../../core/models/detail_course.model';
+import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-course-form',
-  imports: [ReactiveFormsModule, UpperCasePipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './course-form.html',
   styleUrl: './course-form.css'
 })
 export class CourseForm {
-  courseService=inject(CoursesService)
+  courseService=inject(CoursesService);
+  detailCourseService=inject(DetailCourses);
   loaderService=inject(LoaderService);
   router=inject(Router);
+  apiurlforStatics = environment.apiUrlForStatics;
   @Input() mode :'create' | 'edit' | 'copy' = 'create';
-  @Input() course?: Course;
+  @Input() course!: CourseFullResponse;
 
   title = 'Crear un nuevo curso';
   topics = ['Desarrollo', 'Diseño', 'Data', 'Marketing'];
-
   courseForm!: FormGroup;
   coverFile?: File;
   themes:ThemeResponse[] = [];
   coverPreview?: string | ArrayBuffer | null;
   publications: any[] = [];
+  route = inject(ActivatedRoute);
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+    const id = this.route.snapshot.params['id'];
+    if (id){
+      console.log("esta editando");
+      this.detailCourseService.getFulldataCourse(id).subscribe(res => {
+        this.course = res;
+        console.log(res);
+        this.buildFormFromCourse(this.course);
+      });
+    }else{
+      this.addModule();
+    }
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
-      topic: [''],
-      description: [''],
+      topic: ['', Validators.required],
+      description: ['', Validators.required],
       modules: this.fb.array([])
     });
     this.getThemes();
     // inicio con 1 módulo por defecto
-    this.addModule();
   }
 
   getThemes(){
@@ -165,6 +180,7 @@ export class CourseForm {
     this.loaderService.show();
     if (this.courseForm.invalid) {
       console.log("incompleto");
+      this.loaderService.hide();
       this.courseForm.markAllAsTouched();
       return;
     }
@@ -248,6 +264,70 @@ export class CourseForm {
     });
   }
 
+buildFormFromCourse(course: CourseFullResponse) {
 
+  if (course.image) {
+    this.coverPreview = course.image;
+  }
 
+  this.courseForm.patchValue({
+    title: course.name_course,
+    topic: course.id_theme,
+    description: course.description_course
+  });
+
+  this.modules.clear(); // limpiar módulos previos
+
+  course?.modules.forEach(m => {
+    const modGroup = this.createModuleGroup();
+    modGroup.patchValue({
+      title: m.name_module,
+      description: m.description_module
+    });
+
+    const pubsFA = modGroup.get('publications') as FormArray;
+
+    m.course_publish.forEach(p => {
+      const pubGroup = this.createPublicationGroup();
+      pubGroup.patchValue({
+        title: p.name_publication,
+        description: p.description
+      });
+
+      const resFA = pubGroup.get('resources') as FormArray;
+
+      p.content.forEach(r => {
+        let type = r.type_content;
+        if (type === 'text') type = 'note';
+        if (type === 'pdf') type = 'archive'; // mapeo pdf -> archive
+
+        const resGroup = this.createResourceGroup(type);
+
+        if (type === 'image') {
+          resGroup.patchValue({
+            value: r.content ?? null,
+            preview: r.content ?? null
+          });
+        } else if (type === 'archive') {
+          const fileName = r.content?.split('/').pop() ?? '';
+          resGroup.patchValue({
+            fileName,
+            value: r.content
+          });
+        } else {
+          // video-embed o note
+          resGroup.patchValue({
+            value: r.content ?? ''
+          });
+        }
+
+        resFA.push(resGroup);
+      });
+
+      pubsFA.push(pubGroup);
+    });
+
+    this.modules.push(modGroup);
+  });
+}
 }
