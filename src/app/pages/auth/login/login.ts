@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoaderService } from '../../../core/services/loader';
-import { ToastrService } from 'ngx-toastr';
-
+import { ToastService } from '../../../core/services/toast.service';
 
 
 @Component({
@@ -14,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.css'
 })
 export class Login {
-  toastr = inject (ToastrService);
+  toastr = inject (ToastService);
   loginForm: FormGroup;
   loading:boolean = false;
   messageLogin: string = '';
@@ -41,12 +40,14 @@ export class Login {
         next: (response) => {
           this.auth_service.setToken(response.access_token);
           this.router.navigate(['/']);
-          this.toastr.success("Login exitoso");
+          this.toastr.success("Se ha iniciado sesión con éxito");
         },
         error: (err) => {
+          this.loading=false;
+          this.loaderService.hide();
           console.error('Error en login:', err.error.detail);
-          this.loading = false;
           this.messageLogin = err.error.detail;
+          this.toastr.error("Usuario no encontrado o contraseña incorrecta");
         },
         complete: () => {
           console.log('Observable completado');

@@ -24,7 +24,9 @@ export const API_ROUTES = {
     get_favorites: '/favorites/'
   },
   follow:{
-    follow_unfollow: '/users/user/follow_unfollow/'
+    follow_unfollow: '/users/user/follow_unfollow/',
+    get_followers: '/follow/followers/',
+    get_following: '/follow/following/'
   },
   themes:{
     theme:'/theme/'

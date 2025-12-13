@@ -9,6 +9,14 @@ export interface UserOut{
   biography:string | null;
 }
 
+export interface UserOutFollow{
+  username:string;
+  name: string;
+  lastname:string;
+  photo:string;
+  is_following:boolean;
+}
+
 export interface UserProfilePublic {
   username: string;
   name: string;

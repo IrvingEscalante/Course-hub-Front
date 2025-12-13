@@ -12,12 +12,17 @@
                 <span class="username bold text-center">@{{this.user.username}}</span>
             </div>
             <div class="user-follow flex-row">
-                <span class="followers bold">{{this.user.followers_count}} Seguidores</span>
-                <span class="followed bold">Siguiendo a {{this.user.following_count}}</span>
+                <span class="followers bold" (click)="openFollowers()">{{this.user.followers_count}} Seguidores</span>
+                <span class="followed bold" (click)="openFollowing()">Siguiendo a {{this.user.following_count}}</span>
             </div>
-            <div class="description-user text-center flex-column">
-                <p>{{this.user.biography}}</p>
-            </div>
+            @if (showModal) {
+            <app-follower-following-modal [title]="modalTitle" [users]="modalUsers" (closed)="showModal = false"> </app-follower-following-modal>
+            }
+            @if (user.biography) {
+                <div class="description-user text-center flex-column">
+                    <p>{{this.user.biography}}</p>
+                </div>
+            }
         </div>
 
         @if (isOwner()) {
@@ -26,7 +31,7 @@
                 <a routerLink="/compartir" class="edit-profile">Compartir perfil</a>
             </div>
         }@else {
-            <button class="edit-profile follow" (click)="followUnfollow()">{{ isFollowing ? 'Dejar de seguir' : 'Seguir' }}</button>
+            <button class="edit-profile follow" [class.unfollow]="isFollowing" (click)="followUnfollow()">{{ isFollowing ? 'Dejar de seguir' : 'Seguir' }}</button>
         }
         <div class="courses-detail-user flex-row">
             <button (click)="selectTab('created')" [class.active]="selectedTab === 'created'">Cursos creados</button>

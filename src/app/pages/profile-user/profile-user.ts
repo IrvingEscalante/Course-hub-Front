@@ -2,16 +2,18 @@ import { Component, inject } from '@angular/core';
 import { CourseList } from "../../shared/components/courseComponent/course-list/course-list";
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { UserProfilePrivate, UserProfilePublic } from '../../core/models/user.model';
+import { UserFollow, UserOutFollow, UserProfilePrivate, UserProfilePublic } from '../../core/models/user.model';
 import { Course } from '../../core/models/course.model';
 import { UserService } from '../../core/services/user/user.service';
 import { Avatar } from "../../shared/components/avatar/avatar";
 import { LoaderService } from '../../core/services/loader';
 import { FavoritesService } from '../../core/services/courses/favorites.service';
+import { FollowService } from '../../core/services/follow/follow.service';
+import { FollowerFollowingModal } from "../../shared/components/follower-following-modal/follower-following-modal";
 
 @Component({
   selector: 'app-profile-user',
-  imports: [CourseList, RouterModule, Avatar],
+  imports: [CourseList, RouterModule, Avatar, FollowerFollowingModal],
   templateUrl: './profile-user.html',
   styleUrl: './profile-user.css'
 })
@@ -20,7 +22,10 @@ export class ProfileUser {
   user !:UserProfilePrivate | UserProfilePublic;
   favoritesService=inject(FavoritesService);
   userExist : boolean = false;
-
+  showModal: boolean = false;
+  modalTitle: string = "";
+  followService = inject(FollowService);
+  modalUsers: UserOutFollow[] = [];
   avatarUrl : string = '';
   courses : Course[] = [];
   courses_favorites: Course[] = [];
@@ -55,6 +60,40 @@ export class ProfileUser {
   isOwner(): boolean {
     return this.userLogged === this.username;
   }
+
+  
+openFollowers() {
+  console.log("jbevjbk")
+  this.modalTitle = "Seguidores";
+  this.showModal = true;
+
+  this.followService.getFollowers(this.user.username).subscribe({
+    next: (data) => {
+      this.modalUsers = data;
+    },
+    error: (err) => {
+      console.error("Error cargando seguidores", err);
+      this.modalUsers = [];
+    }
+  });
+}
+
+openFollowing() {
+
+  this.modalTitle = "Siguiendo";
+  this.showModal = true;
+
+  this.followService.getFollowing(this.user.username).subscribe({
+    next: (data) => {
+      console.log(data);
+      this.modalUsers = data;
+    },
+    error: (err) => {
+      console.error("Error cargando seguidos", err);
+      this.modalUsers = [];
+    }
+  });
+}
 
 
   getCoursesFavorites(username:string){

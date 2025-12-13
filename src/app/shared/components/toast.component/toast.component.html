@@ -1,0 +1,25 @@
+<div class="toast-container">
+  @for (toast of toasts; track toast.id) {
+    <div class="toast {{ toast.type }}">
+      
+      <div class="toast-icon">
+        @if(toast.type === 'success'){<span>✔</span>}
+        @if (toast.type === 'error'){<span>✕</span>}
+        @if(toast.type === 'info'){<span>ℹ</span>}
+      </div>
+
+      <div class="toast-content">
+        <p class="toast-title">
+          {{ toast.type === 'success' ? 'Éxito' :
+             toast.type === 'error' ? 'Error' : 'Info' }}
+        </p>
+        <p class="toast-message">
+          {{ toast.message }}
+        </p>
+      </div>
+
+      <button class="toast-close" (click)="close(toast.id)">✕</button>
+
+    </div>
+  }
+</div>

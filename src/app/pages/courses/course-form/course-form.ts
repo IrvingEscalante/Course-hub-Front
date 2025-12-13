@@ -9,6 +9,7 @@ import { LoaderService } from '../../../core/services/loader';
 import { CourseFullResponse, CoursePublishResponse } from '../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
 import { environment } from '../../../../environments/environment';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-course-form',
@@ -20,6 +21,7 @@ export class CourseForm {
   courseService=inject(CoursesService);
   detailCourseService=inject(DetailCourses);
   loaderService=inject(LoaderService);
+  toastService=inject(ToastService);
   router=inject(Router);
   apiurlforStatics = environment.apiUrlForStatics;
   @Input() mode :'create' | 'edit' | 'copy' = 'create';
@@ -38,6 +40,13 @@ export class CourseForm {
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
+    this.courseForm = this.fb.group({
+      title: ['', Validators.required],
+      topic: ['', Validators.required],
+      description: ['', Validators.required],
+      modules: this.fb.array([])
+    });
+    this.getThemes();
     if (id){
       console.log("esta editando");
       this.detailCourseService.getFulldataCourse(id).subscribe(res => {
@@ -48,14 +57,6 @@ export class CourseForm {
     }else{
       this.addModule();
     }
-    this.courseForm = this.fb.group({
-      title: ['', Validators.required],
-      topic: ['', Validators.required],
-      description: ['', Validators.required],
-      modules: this.fb.array([])
-    });
-    this.getThemes();
-    // inicio con 1 módulo por defecto
   }
 
   getThemes(){
@@ -182,6 +183,7 @@ export class CourseForm {
       console.log("incompleto");
       this.loaderService.hide();
       this.courseForm.markAllAsTouched();
+      this.toastService.error("Error no estan completos los datos del formulario");
       return;
     }
     console.log("hola");
@@ -255,6 +257,7 @@ export class CourseForm {
       next: (resp) => {
         console.log("Curso creado:", resp);
         this.loaderService.hide();
+        this.toastService.success("El curso ha sido creado correctamente");
         this.router.navigate(['/course/detail/'+resp.course_id]);
       },
       error: (err) => {
