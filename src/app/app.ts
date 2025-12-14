@@ -4,10 +4,11 @@ import { Header } from './shared/components/header/header';
 import { AuthService } from './core/services/auth.service';
 import { Loader } from "./shared/components/loader/loader";
 import { ToastComponent } from "./shared/components/toast.component/toast.component";
+import { Footer } from "./shared/components/footer/footer";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Loader, ToastComponent],
+  imports: [RouterOutlet, Header, Loader, ToastComponent, Footer],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

@@ -10,6 +10,7 @@ import { LoaderService } from '../../core/services/loader';
 import { FavoritesService } from '../../core/services/courses/favorites.service';
 import { FollowService } from '../../core/services/follow/follow.service';
 import { FollowerFollowingModal } from "../../shared/components/follower-following-modal/follower-following-modal";
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-profile-user',
@@ -32,6 +33,7 @@ export class ProfileUser {
   typeListCourses:string = "created"
   isFollowing:boolean = false;
   loaderService=inject(LoaderService);
+  toastService=inject(ToastService);
   auth=inject(AuthService);
   isLoading:boolean = true;
   userLogged!:string | null;
@@ -113,6 +115,11 @@ openFollowing() {
       next:(res)=>{
         console.log(res)
         this.isFollowing = res.following
+        if (res.following){
+          this.toastService.success("Se ha empezado a seguir al usuario "+res.username);
+        }else{
+          this.toastService.success("Se ha dejado de seguir al usuario "+res.username);
+        }
       },
       error:(err)=>{
         console.log(err)

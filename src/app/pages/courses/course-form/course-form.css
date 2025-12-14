@@ -33,7 +33,7 @@
     font-size: 21px;
     margin: 30px 0 18px;
     font-weight: 600;
-    color: #e8efff;
+    color: var(--text-color);;
     border-left: 4px solid var(--primary-button);
     padding-left: 12px;
 }
@@ -42,7 +42,7 @@
     font-size: 18px;
     font-weight: 600;
     margin: 10px 0 15px;
-    color: #bfd4ff;
+    color: var(--text-color);
 }
 
 /* ============================================================
@@ -67,7 +67,7 @@
 .form-group label {
     font-size: 14px;
     font-weight: 500;
-    color: #cfd8e6;
+    color: var(--text-color);
 }
 
 /* Inputs */
@@ -121,7 +121,7 @@
 .dropzone-content {
     pointer-events: none;
     opacity: 0.8;
-    color: #b8c8dd;
+    color: var(--text-color);
 }
 
 /* ============================================================
@@ -145,7 +145,7 @@
 
 .module-header strong {
     font-size: 16px;
-    color: #d9e6ff;
+    color: var(--text-color);
 }
 
 /* ============================================================

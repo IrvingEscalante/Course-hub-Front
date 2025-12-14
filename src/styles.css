@@ -1,7 +1,7 @@
 @import 'ngx-toastr/toastr';
 
 :root{
-    --primary-color: #060b16;
+    --primary-color: #050a14;
     --secondary-color : #0d172d;
     --color-bg : #0D1117;
     --color-text : #fff;
