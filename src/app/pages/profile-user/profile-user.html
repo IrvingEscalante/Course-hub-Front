@@ -16,7 +16,7 @@
                 <span class="followed bold" (click)="openFollowing()">Siguiendo a {{this.user.following_count}}</span>
             </div>
             @if (showModal) {
-            <app-follower-following-modal [title]="modalTitle" [users]="modalUsers" (closed)="showModal = false"> </app-follower-following-modal>
+            <app-follower-following-modal [title]="modalTitle" [users]="modalUsers" (closed)="showModal = false" [loading]="isModalLoading"> </app-follower-following-modal>
             }
             @if (user.biography) {
                 <div class="description-user text-center flex-column">

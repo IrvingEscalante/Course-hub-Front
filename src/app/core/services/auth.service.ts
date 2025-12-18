@@ -86,6 +86,10 @@ export class AuthService {
     );
   }
 
+  getProfile(){
+    return this.http.get<UserOut>(`${this.baseUrl}${API_ROUTES.users.my_data}`);
+  }
+
   getUserProfile(username: string): Observable<UserProfilePublic | UserProfilePrivate>{
     return this.http.get<UserProfilePublic | UserProfilePrivate>(`${this.baseUrl}${API_ROUTES.users.profile}${username}`)
   } 

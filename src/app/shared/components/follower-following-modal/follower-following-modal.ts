@@ -13,8 +13,8 @@ import { RouterLink, RouterModule } from "@angular/router";
 export class FollowerFollowingModal {
   @Input() title: string = 'Seguidores';
   @Input() users: UserOutFollow[] = [];
+  @Input() loading = false;
   @Output() closed = new EventEmitter<void>();
-  isFollowing:boolean = false
   close() {
     this.closed.emit();
   }
@@ -22,15 +22,15 @@ export class FollowerFollowingModal {
     console.log(this.users);
   }
   userService = inject(UserService)
-    followUnfollow(user:string){
-    this.userService.followUnfollow(user).subscribe({
-      next:(res)=>{
-        console.log(res)
-        this.isFollowing = res.following
+    followUnfollow(user: UserOutFollow) {
+    this.userService.followUnfollow(user.username).subscribe({
+      next: (res) => {
+        user.is_following = res.following;
       },
-      error:(err)=>{
-        console.log(err)
+      error: (err) => {
+        console.error(err);
       }
-    })
+    });
   }
+
 }

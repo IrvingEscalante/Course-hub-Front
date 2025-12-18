@@ -13,8 +13,12 @@
     --border-radius : 5px;
     --font-size-text : 15px;
     --color-unfollow: #475569;
-
-
+    --loader-size: 28px;
+    --loader-color: #9CA3AF; /* gris elegante */
+    --card-bg: var(--secondary-color);
+    --card-radius: 14px;
+    --muted-text: #9CA3AF;
+    --loader-bg: rgba(156,163,175,0.25);
     --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{
@@ -121,7 +125,35 @@ main{
     padding-top: 60px;
 }
 
+.loader {
+  width: var(--loader-size);
+  height: var(--loader-size);
+  border-radius: 50%;
+  border: 3px solid var(--loader-bg);
+  border-top-color: var(--loader-color);
+  animation: spin 0.8s linear infinite;
+}
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loader-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+.loader-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loader-small {
+  --loader-size: 16px;
+}
 
 @media(min-width:600px){
     .form-container{

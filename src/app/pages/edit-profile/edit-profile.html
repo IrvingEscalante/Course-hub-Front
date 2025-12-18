@@ -1,53 +1,105 @@
 <main>
-  <div class="edit-profile-container flex-column">
+  <div class="edit-profile-container">
     <h1>Editar Perfil</h1>
     <p class="subtitle">Actualiza tu información personal.</p>
 
-    <div class="container-edit flex-column">
-      <div class="change-photo flex-column">
-        <div class="photo-wrapper flex-column">
-          <img class="photo-user" src="https://i.pinimg.com/736x/60/82/a0/6082a02c43178b3586604e642c3f100a.jpg" alt="Foto de usuario">
-          <button class="change-button button-access">Cambiar foto</button>
+    <div class="profile-card">
+      <!-- FOTO -->
+      <div class="photo-section">
+        <div class="photo-container">
+          @if (user) {
+            <app-avatar class="photo-user" [size]="100" [name]="user.name" [photo]="user.photo"></app-avatar>
+          }
+          <!-- INPUT FILE OCULTO -->
+          <input
+            type="file"
+            accept="image/*"
+            #fileInput
+            (change)="onFileSelected($event)"
+            hidden
+          />
+
+          <button
+            type="button"
+            class="edit-photo-btn"
+            (click)="fileInput.click()"
+          >
+            ✎
+          </button>
         </div>
       </div>
 
-      <form class="form-edit flex-column">
-        <div class="inputs-2column flex-row">
-            <div class="input-group">
-                <label>Nombre</label>
-                <input type="text" placeholder="Ana">
-            </div>
-            <div class="input-group">
-                <label>Apellidos</label>
-                <input type="text" placeholder="López">
-            </div>
-        </div>
-        <div class="inputs-2column flex-row">
-            <div class="input-group">
-            <label>Correo electrónico</label>
-            <input type="email" placeholder="ana.lopez@email.com">
-            </div>
-            <div class="input-group">
-            <label>Nombre de usuario</label>
-            <input type="text" placeholder="@analopez">
-            </div>
-        </div>
-        <div class="input-group">
-          <label>Biografía</label>
-          <textarea placeholder="Cuéntanos un poco sobre ti..."></textarea>
-        </div>
-        <div class="inputs-2column flex-row">
-            <div class="input-group">
-            <label>Cambiar contraseña</label>
-            <input type="password" placeholder="Si no desea cambiarla, deje en blanco este espacio">
-            </div>
-            <div class="input-group">
-            <label>Confirmar contraseña</label>
-            <input type="password" placeholder="Cambiar contraseña">
-            </div>
+      <!-- FORMULARIO -->
+      <form
+        class="form-edit"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <!-- DATOS PERSONALES -->
+        <div class="inputs-2column">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" formControlName="name" />
+          </div>
+
+          <div class="input-group">
+            <label>Apellidos</label>
+            <input type="text" formControlName="lastname" />
+          </div>
         </div>
 
-        <button class="button-access">Guardar Cambios</button>
+        <div class="inputs-2column">
+          <div class="input-group">
+            <label>Correo electrónico</label>
+            <input type="email" formControlName="email" />
+          </div>
+
+          <div class="input-group">
+            <label>Nombre de usuario</label>
+            <input type="text" formControlName="username" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Biografía</label>
+          <textarea formControlName="biography"></textarea>
+        </div>
+
+        <!-- SEPARADOR -->
+        <div class="divider">
+          <span>Cambiar contraseña (opcional)</span>
+        </div>
+
+        <!-- PASSWORD GROUP -->
+        <div formGroupName="passwords">
+          <div class="inputs-2column">
+            <div class="input-group">
+              <label>Contraseña actual</label>
+              <input type="password" formControlName="currentPassword" />
+            </div>
+
+            <div class="input-group">
+              <label>Nueva contraseña</label>
+              <input type="password" formControlName="newPassword" />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Confirmar nueva contraseña</label>
+            <input type="password" formControlName="confirmPassword" />
+          </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="actions">
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="profileForm.invalid"
+          >
+            Guardar Cambios
+          </button>
+        </div>
       </form>
     </div>
   </div>

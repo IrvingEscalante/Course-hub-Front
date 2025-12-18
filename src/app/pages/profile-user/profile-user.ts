@@ -38,6 +38,7 @@ export class ProfileUser {
   isLoading:boolean = true;
   userLogged!:string | null;
   username!:string | null;
+  isModalLoading = false;
 
   selectTab(tab: 'created' | 'favorites') {
     this.getCoursesFavorites(this.user.username);
@@ -63,38 +64,47 @@ export class ProfileUser {
     return this.userLogged === this.username;
   }
 
-  
-openFollowers() {
-  console.log("jbevjbk")
-  this.modalTitle = "Seguidores";
-  this.showModal = true;
 
-  this.followService.getFollowers(this.user.username).subscribe({
-    next: (data) => {
-      this.modalUsers = data;
-    },
-    error: (err) => {
-      console.error("Error cargando seguidores", err);
-      this.modalUsers = [];
-    }
-  });
+  getFollowers(){
+    this.followService.getFollowers(this.user.username).subscribe({
+      next: (data) => {
+        this.modalUsers = data;
+        this.isModalLoading = false;
+      },
+      error: (err) => {
+        console.error("Error cargando seguidores", err);
+        this.modalUsers = [];
+      }
+    });
+  }
+  
+  getFollowing(){
+    this.followService.getFollowing(this.user.username).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.modalUsers = data;
+        this.isModalLoading = false;
+      },
+      error: (err) => {
+        console.error("Error cargando seguidos", err);
+        this.modalUsers = [];
+      }
+    });
+  }
+openFollowers() {
+  this.modalTitle = "Seguidores";
+  this.modalUsers = [];
+  this.isModalLoading = true;
+  this.showModal = true;
+  this.getFollowers();
 }
 
 openFollowing() {
-
   this.modalTitle = "Siguiendo";
+  this.modalUsers = [];  
+  this.isModalLoading = true;
   this.showModal = true;
-
-  this.followService.getFollowing(this.user.username).subscribe({
-    next: (data) => {
-      console.log(data);
-      this.modalUsers = data;
-    },
-    error: (err) => {
-      console.error("Error cargando seguidos", err);
-      this.modalUsers = [];
-    }
-  });
+  this.getFollowing();
 }
 
 
@@ -103,6 +113,7 @@ openFollowing() {
       next:(data)=>{
         console.log("favs", data);
         this.courses_favorites = data;
+        
       },
       error:(err)=>{
         console.log(err)

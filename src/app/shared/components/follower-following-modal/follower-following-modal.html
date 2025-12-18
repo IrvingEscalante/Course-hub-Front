@@ -7,6 +7,14 @@
     </div>
 
     <div class="followers-list">
+        @if (loading) {
+            <div class="loader-center">
+                <div class="loader"></div>
+            </div>
+        } @else {
+            @if (users.length === 0) {
+                <p class="empty">No hay usuarios</p>
+            } @else {
         @for (u of users; track $index) {
             <div class="user-row">
                 <div class="left">
@@ -20,10 +28,12 @@
                 <button 
                     class="follow-btn" 
                     [class.unfollow]="u.is_following" 
-                    (click)="followUnfollow(u.username)">
+                    (click)="followUnfollow(u)">
                     {{ u.is_following ? 'Siguiendo' : 'Seguir' }}
                 </button>
             </div>
+        }
+    }
         }
     </div>
 </div>
