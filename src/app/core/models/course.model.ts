@@ -19,3 +19,14 @@ export interface Course {
   author: UserOut;  
 }
 
+export interface CourseBase {
+  id_course: number;
+  name_course: string;
+  description_course: string;
+  image: string;
+  is_forked: boolean;
+  id_theme: number;
+  status_course?: boolean;
+}
+
+

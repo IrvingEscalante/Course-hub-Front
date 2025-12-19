@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Course } from '../../models/course.model';
+import { Course, CourseBase } from '../../models/course.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { API_ROUTES } from '../../constants/api.routes';
@@ -30,5 +30,8 @@ export class CoursesService {
   }
   getThemes():Observable<ThemeResponse[]>{
     return this.http.get<ThemeResponse[]>(this.baseUrl+API_ROUTES.themes.theme);
+  }
+  copyCourse(id_course : number):Observable<CourseBase>{
+    return this.http.post<CourseBase>(this.baseUrl+API_ROUTES.courses.copy_course+id_course,{});
   }
 }

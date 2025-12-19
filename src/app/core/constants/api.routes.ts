@@ -13,7 +13,8 @@ export const API_ROUTES = {
   courses: {
     create: '/course/create',
     courses_dashboard: '/course/courses',
-    course_detail:'/detail_course/detail/'
+    course_detail:'/detail_course/detail/',
+    copy_course: '/course/copy/'
   },
   detail_course:{
     get_full_data_course: '/detail_course/course/raw/',

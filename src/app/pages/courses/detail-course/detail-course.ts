@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CourseComments } from "../../../shared/components/courseComponent/course-comments/course-comments";
 import { CoursesService } from '../../../core/services/courses/courses.service';
-import { Course } from '../../../core/models/course.model';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Course, CourseBase } from '../../../core/models/course.model';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
 import { ModuleCourseResponse } from '../../../core/models/detail_course.model';
 import { CourseModule } from "../../../shared/components/courseComponent/course-module/course-module";
 import { LoaderService } from '../../../core/services/loader';
 import { Avatar } from "../../../shared/components/avatar/avatar";
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-detail-course',
@@ -18,7 +19,10 @@ import { Avatar } from "../../../shared/components/avatar/avatar";
 export class DetailCourse {
   courseService = inject(CoursesService)
   route = inject(ActivatedRoute)
+  router = inject(Router);
+  toastService = inject(ToastService);
   course?:Course;
+  courseCopy?:CourseBase;
   detailService = inject(DetailCourses);
   loaderService = inject(LoaderService);
   modules:ModuleCourseResponse[] = []
@@ -32,12 +36,13 @@ export class DetailCourse {
     { stars: 1, percent: 5 }
   ];
 
-  ngOnInit(){
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.getCourseDetail(id);
-    this.getModules(id);
-    this.loaderService.show();
-
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
+      this.loaderService.show();
+      this.getCourseDetail(id);
+      this.getModules(id);
+    });
   }
 
   getCourseDetail(id_course:number){
@@ -72,6 +77,18 @@ export class DetailCourse {
       },
       error:(err)=>{
         console.log(err);
+      }
+    })
+  }
+
+  copyCourse(id_course:number){
+    this.courseService.copyCourse(id_course).subscribe({
+      next:(course) =>{
+        this.toastService.success("Exito al copiar el curso "+course.name_course);
+        this.router.navigate(['/course/detail/'+course.id_course]);
+      }, error:(err)=>{
+        console.log(err);
+        this.toastService.error(err.error.detail);
       }
     })
   }
