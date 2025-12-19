@@ -7,7 +7,8 @@ export const API_ROUTES = {
   },
   users: {
     my_data: '/users/profile',
-    profile: '/users/user/'
+    profile: '/users/user/',
+    edit_profile: '/users/edit-profile'
   },
   courses: {
     create: '/course/create',

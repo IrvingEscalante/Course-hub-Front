@@ -22,4 +22,8 @@ export class UserService {
     return this.http.post<UserFollow>(`${this.baseUrl}${API_ROUTES.follow.follow_unfollow}${username}`, {});
   }
 
+  editProfile(formData:FormData):Observable<UserOut>{
+    return this.http.patch<UserOut>(this.baseUrl+API_ROUTES.users.edit_profile, formData);
+  }
+
 }

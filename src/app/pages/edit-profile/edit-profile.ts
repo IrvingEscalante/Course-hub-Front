@@ -3,6 +3,10 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserOut } from '../../core/models/user.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Avatar } from "../../shared/components/avatar/avatar";
+import { UserService } from '../../core/services/user/user.service';
+import { ToastService } from '../../core/services/toast.service';
+import { Router } from '@angular/router';
+import { LoaderService } from '../../core/services/loader';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,6 +16,10 @@ import { Avatar } from "../../shared/components/avatar/avatar";
 })
 export class EditProfile {
   authService = inject(AuthService);
+  userService = inject(UserService);
+  router = inject(Router);
+  loaderService = inject(LoaderService);
+  toastService = inject(ToastService);
   profileForm!: FormGroup;
   user:UserOut | null = null;
   previewImage: string | null = null;
@@ -82,7 +90,7 @@ onFileSelected(event: Event) {
 
   onSubmit(): void {
     if (this.profileForm.invalid) return;
-
+    this.loaderService.show();
     const formValue = this.profileForm.value;
 
     const payload: any = {
@@ -93,17 +101,31 @@ onFileSelected(event: Event) {
       biography: formValue.biography
     };
 
-    // Enviar contraseña SOLO si el usuario la quiere cambiar
     if (formValue.passwords.newPassword) {
       payload.currentPassword = formValue.passwords.currentPassword;
       payload.newPassword = formValue.passwords.newPassword;
     }
 
-    // Imagen
     if (this.selectedFile) {
       payload.avatar = this.selectedFile;
     }
+    const formData = new FormData();
 
+    Object.entries(payload).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        formData.append(key, value as any);
+      }
+    });
+    this.userService.editProfile(formData).subscribe({
+      next:(data)=>{
+        this.loaderService.hide();
+        this.toastService.success("Se ha editado su perfil correctamente");
+        this.router.navigate(['/'+data.username]);
+      },error:(err)=>{
+        this.toastService.error(err.detail);
+        console.log(err);
+      }
+    })
     console.log('Payload listo para backend:', payload);
   }
 }
