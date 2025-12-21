@@ -5,7 +5,7 @@ import { DetailCourse } from "./detail-course/detail-course";
 
 
 export const COURSES_ROUTES: Routes = [
-    {path: 'create', component:CourseForm},
+    {path: 'create', component:CourseForm, canActivate:[authGuardsGuard]},
     {path: 'edit/:id', component:CourseForm},
     {path: 'copy/:id', component:CourseForm},
     {path: 'detail/:id', component:DetailCourse}

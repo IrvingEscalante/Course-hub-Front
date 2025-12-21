@@ -41,10 +41,12 @@ export class AuthService {
     );
   }
 
-  //Registro
-
   register(user:RegisterRequest): Observable<RegisterResponse>{
     return this.http.post<RegisterResponse>(`${this.baseUrl}${API_ROUTES.auth.register}`, user);
+  }
+
+  recover_password(email:string):Observable<MessageResponse>{
+    return this.http.post<MessageResponse>(this.baseUrl+API_ROUTES.auth.recover_password, {email});
   }
 
   verify_email(verify:VerifyEmailPayload):Observable<MessageResponse>{
