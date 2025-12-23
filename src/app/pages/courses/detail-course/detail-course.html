@@ -11,7 +11,12 @@
         }
         <div class="content-course-content">
             <div class="subtitle-copycourse flex-row">
-                <h2>Contenido del curso</h2>
+                <div class="tabs-options flex-row">
+                    <h3 class="option-tabs" [class.selected]="selectedTab=='content-course'" (click)="changeSelectedTab('content-course')">Contenido del curso</h3>
+                    @if (course?.is_my_course) {
+                        <h3 class="option-tabs" [class.selected]="selectedTab=='content-pull-request'" (click)="changeSelectedTab('content-pull-request')">Peticiones de cambios</h3>
+                    }
+                </div>
                 @if (course){
                     <div class="copy-course flex-row" (click)="copyCourse(course.id_course)">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,11 +33,18 @@
                     </div>
                 }
             </div>
-            <div class="container-modules flex-column">
-                @for (module of modules; track $index) {
+            @if(selectedTab == 'content-course'){
+                <div class="container-content flex-column">
+                    @for (module of modules; track $index) {
                         <app-course-module [moduleCourse]="module"></app-course-module>
-                }
-            </div>
+                    }
+                </div>
+            }@else if (selectedTab == 'content-pull-request') {
+                <div class="container-content flex-column">
+                    <app-pull-request></app-pull-request>
+                    <app-pull-request></app-pull-request>
+                </div>
+            }
             <div class="module-list-comments flex-column">
                 @if (course) {
                     <app-course-comments [(value)]="courseRating" [id_course]="course.id_course"></app-course-comments>
@@ -43,7 +55,10 @@
     </div>
     <div class="more-info-course flex-column">
         @if (course?.is_my_course) {
-            <a [routerLink]="'/course/edit/'+course?.id_course" class="button-access">Editar curso</a>
+            <a [routerLink]="'/course/edit/'+course?.id_course" class="edit flex-row">
+                <span class="material-icons">edit</span>
+                <p>Editar curso</p>
+            </a>
         }
         <div class="container-info rating flex-column">
             <div class="rating">

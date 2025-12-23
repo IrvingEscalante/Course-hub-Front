@@ -1,0 +1,45 @@
+.container-pull-request{
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 30px;
+    align-items: center;
+    justify-content: space-between;
+}
+.info-pull{
+    gap: 10px;
+}
+.info-user{
+    gap: 5px;
+}
+.info-user-and-date{
+    gap: 20px;
+}
+.name-pull{
+    font-weight: 600;
+}
+.description-pull{
+    font-size: 14px;
+}
+.checks{
+    gap: 12px;
+}
+
+.check{
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background-color: #08402D;
+    border: 1px solid #10B981;
+    cursor: pointer;
+}   
+
+.check.close{
+    background-color: #b42318;
+    border: 1px solid #E15454;
+}

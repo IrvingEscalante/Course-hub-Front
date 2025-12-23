@@ -14,6 +14,16 @@
     margin: 0;
     padding: 0;
 }
+.tabs-options{
+    gap: 30px;
+    font-size: 17px;
+}
+.option-tabs{
+    cursor: pointer;
+}
+.selected{
+    border-bottom: 5px solid #143876;
+}
 .image-course{
     max-width: 500px;
     border-radius: 10px;
@@ -146,7 +156,17 @@
 .module-list-comments{
     gap: 40px;
 }
-.container-modules{
+.edit{
+    background-color: var(--secondary-color);
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-weight: 600;
+    gap: 10px;
+}
+.container-content{
     gap: 15px;
     margin-block: 20px 50px;
 }

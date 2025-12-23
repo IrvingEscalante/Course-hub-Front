@@ -9,10 +9,11 @@ import { CourseModule } from "../../../shared/components/courseComponent/course-
 import { LoaderService } from '../../../core/services/loader';
 import { Avatar } from "../../../shared/components/avatar/avatar";
 import { ToastService } from '../../../core/services/toast.service';
+import { PullRequest } from '../../../shared/components/pull-request-components/pull-request/pull-request';
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments, Avatar, RouterModule],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
@@ -27,6 +28,7 @@ export class DetailCourse {
   loaderService = inject(LoaderService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
+  selectedTab:string = "content-course";
 
    ratings = [
     { stars: 5, percent: 50 },
@@ -62,7 +64,7 @@ export class DetailCourse {
   getModules(id_course:number){
     this.detailService.getModules(id_course).subscribe({
       next:(data)=>{
-        console.log(data);
+        console.log("modules:"+data);
         this.modules = data;
       },
       error:(err)=>{
@@ -91,5 +93,8 @@ export class DetailCourse {
         this.toastService.error(err.error.detail);
       }
     })
+  }
+  changeSelectedTab(selected:string){
+    this.selectedTab = selected;
   }
 }
