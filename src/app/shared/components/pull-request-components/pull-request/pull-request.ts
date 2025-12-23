@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Avatar } from "../../avatar/avatar";
+import { PullRequestBasicOut } from '../../../../core/models/pull_request.model';
 
 @Component({
   selector: 'app-pull-request',
@@ -8,5 +9,5 @@ import { Avatar } from "../../avatar/avatar";
   styleUrl: './pull-request.css'
 })
 export class PullRequest {
-
+  @Input() pull?:PullRequestBasicOut;
 }

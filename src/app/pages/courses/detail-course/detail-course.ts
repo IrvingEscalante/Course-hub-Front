@@ -10,6 +10,8 @@ import { LoaderService } from '../../../core/services/loader';
 import { Avatar } from "../../../shared/components/avatar/avatar";
 import { ToastService } from '../../../core/services/toast.service';
 import { PullRequest } from '../../../shared/components/pull-request-components/pull-request/pull-request';
+import { PullRequestBasicOut } from '../../../core/models/pull_request.model';
+import { PullRequestService } from '../../../core/services/pull_request/pull-request.service';
 
 @Component({
   selector: 'app-detail-course',
@@ -18,8 +20,9 @@ import { PullRequest } from '../../../shared/components/pull-request-components/
   styleUrl: './detail-course.css'
 })
 export class DetailCourse {
-  courseService = inject(CoursesService)
-  route = inject(ActivatedRoute)
+  courseService = inject(CoursesService);
+  pullsService = inject(PullRequestService);
+  route = inject(ActivatedRoute);
   router = inject(Router);
   toastService = inject(ToastService);
   course?:Course;
@@ -28,6 +31,7 @@ export class DetailCourse {
   loaderService = inject(LoaderService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
+  pulls:PullRequestBasicOut[]=[];
   selectedTab:string = "content-course";
 
    ratings = [
@@ -44,6 +48,7 @@ export class DetailCourse {
       this.loaderService.show();
       this.getCourseDetail(id);
       this.getModules(id);
+      this.getPulls(id);
     });
   }
 
@@ -96,5 +101,16 @@ export class DetailCourse {
   }
   changeSelectedTab(selected:string){
     this.selectedTab = selected;
+  }
+
+  getPulls(id_course:number){
+    this.pullsService.getPulls(id_course).subscribe({
+      next:(data)=>{
+        console.log(data);
+        this.pulls = data;
+      },error:(err)=>{
+        console.log(err)
+      }
+    })
   }
 }

@@ -41,8 +41,9 @@
                 </div>
             }@else if (selectedTab == 'content-pull-request') {
                 <div class="container-content flex-column">
-                    <app-pull-request></app-pull-request>
-                    <app-pull-request></app-pull-request>
+                    @for (pull of pulls; track $index) {
+                        <app-pull-request [pull]="pull"></app-pull-request>
+                    }
                 </div>
             }
             <div class="module-list-comments flex-column">

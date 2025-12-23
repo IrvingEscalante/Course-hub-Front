@@ -37,5 +37,8 @@ export const API_ROUTES = {
   rating_comments:{
     create:'/rating_comments/create',
     getAllComments:'/rating_comments/course/'
+  },
+  pull_request:{
+    get_pulls:'/pull-request/get_pull_request/'
   }
 }
