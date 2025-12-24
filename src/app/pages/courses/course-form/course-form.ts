@@ -24,7 +24,7 @@ export class CourseForm {
   toastService=inject(ToastService);
   router=inject(Router);
   apiurlforStatics = environment.apiUrlForStatics;
-  @Input() mode :'create' | 'edit' | 'copy' = 'create';
+  @Input() mode :'create' | 'edit' = 'create';
   @Input() course!: CourseFullResponse;
 
   title = 'Crear un nuevo curso';
@@ -35,11 +35,12 @@ export class CourseForm {
   coverPreview?: string | ArrayBuffer | null;
   publications: any[] = [];
   route = inject(ActivatedRoute);
+  id:number=0;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id'];
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       topic: ['', Validators.required],
@@ -47,9 +48,11 @@ export class CourseForm {
       modules: this.fb.array([])
     });
     this.getThemes();
-    if (id){
+    if (this.id){
+      this.mode = "edit";
+      this.title = "Editar curso";
       console.log("esta editando");
-      this.detailCourseService.getFulldataCourse(id).subscribe(res => {
+      this.detailCourseService.getFulldataCourse(this.id).subscribe(res => {
         this.course = res;
         console.log(res);
         this.buildFormFromCourse(this.course);
@@ -252,19 +255,29 @@ export class CourseForm {
     for (let pair of fd.entries()) {
       console.log(pair[0], pair[1]);
     }
-
-    this.courseService.createCourse(fd).subscribe({
-      next: (resp) => {
-        console.log("Curso creado:", resp);
-        this.loaderService.hide();
-        this.toastService.success("El curso ha sido creado correctamente");
-        this.router.navigate(['/course/detail/'+resp.course_id]);
-      },
-      error: (err) => {
-        console.log("Error al crear curso:", err);
-        alert("Error al crear el curso");
-      }
-    });
+    if (this.mode == 'create'){
+      this.courseService.createCourse(fd).subscribe({
+        next: (resp) => {
+          console.log("Curso creado:", resp);
+          this.loaderService.hide();
+          this.toastService.success("El curso ha sido creado correctamente");
+          this.router.navigate(['/course/detail/'+resp.course_id]);
+        },
+        error: (err) => {
+          console.log("Error al crear curso:", err);
+          alert("Error al crear el curso");
+        }
+      });
+    }else if(this.mode=='edit'){
+      this.courseService.editCourse(this.id,fd).subscribe({
+        next:(data)=>{
+          console.log("curso editado");
+          console.log(data);
+        },error:(err)=>{
+          console.log(err);
+        }
+      })
+    }
   }
 
 buildFormFromCourse(course: CourseFullResponse) {

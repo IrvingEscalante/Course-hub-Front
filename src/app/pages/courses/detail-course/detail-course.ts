@@ -12,15 +12,19 @@ import { ToastService } from '../../../core/services/toast.service';
 import { PullRequest } from '../../../shared/components/pull-request-components/pull-request/pull-request';
 import { PullRequestBasicOut } from '../../../core/models/pull_request.model';
 import { PullRequestService } from '../../../core/services/pull_request/pull-request.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CourseEditService } from '../../../core/services/courses/course-edit.service';
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
 export class DetailCourse {
   courseService = inject(CoursesService);
+  courseEdit = inject(CourseEditService);
   pullsService = inject(PullRequestService);
   route = inject(ActivatedRoute);
   router = inject(Router);
@@ -33,6 +37,10 @@ export class DetailCourse {
   courseRating:number=0;
   pulls:PullRequestBasicOut[]=[];
   selectedTab:string = "content-course";
+  isEditMode: boolean = false;
+  editingCourse: any = {};
+  selectedCoverFile: File | null = null;
+  previewImageUrl: string | null = null;
 
    ratings = [
     { stars: 5, percent: 50 },
@@ -110,6 +118,70 @@ export class DetailCourse {
         this.pulls = data;
       },error:(err)=>{
         console.log(err)
+      }
+    })
+  }
+
+  enterEditMode(){
+    console.log("hola")
+    if(!this.course) return;
+    this.isEditMode = true;
+    this.toastService.show("Has entrado al modo edicion del curso " + this.course.name_course);
+    this.editingCourse = {
+      name_course: this.course.name_course,
+      description_course: this.course.description_course,
+      image: this.course.image
+    };
+    this.previewImageUrl = this.course.image || null;
+  }
+
+  cancelEditMode(){
+    this.isEditMode = false;
+    this.editingCourse = {};
+    this.selectedCoverFile = null;
+    this.previewImageUrl = null;
+  }
+
+  onCoverSelected(event: Event){
+    const input = event.target as HTMLInputElement;
+    if(input.files && input.files[0]){
+      this.selectedCoverFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewImageUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL(this.selectedCoverFile);
+    }
+  }
+
+  saveCourseEdits(){
+    if(!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+    this.loaderService.show();
+    
+    this.courseEdit.updateCourseBasics(
+      this.course.id_course,
+      this.editingCourse.name_course,
+      this.editingCourse.description_course,
+      this.selectedCoverFile || undefined
+    ).subscribe({
+      next: (updatedCourse) => {
+        if(this.course) {
+          this.course = { ...this.course, ...updatedCourse };
+        }
+        this.isEditMode = false;
+        this.selectedCoverFile = null;
+        this.previewImageUrl = null;
+        this.loaderService.hide();
+        console.log(updatedCourse);
+        this.toastService.success('Curso actualizado exitosamente');
+      },
+      error: (err) => {
+        this.loaderService.hide();
+        console.log(err);
+        this.toastService.error(err.error?.detail || 'Error al actualizar el curso');
       }
     })
   }

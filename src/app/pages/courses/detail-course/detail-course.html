@@ -2,10 +2,59 @@
     <div class="content-course">
         @if (course) {
             <div class="info-course flex-column">
-                <h1 class="name-course">{{course.name_course}}</h1>
-                <p class="description-course">{{course.description_course}}</p>
-                
-                <img [src]="course.image" alt="" class="image-course">
+                <!-- Modo Normal -->
+                 @if (!isEditMode) {
+                    <h1 class="name-course">{{course.name_course}}</h1>
+                 }
+                <!-- Modo Edición -->
+                 @if (isEditMode) {
+                <input 
+                    type="text" 
+                    class="edit-input edit-title"
+                    [(ngModel)]="editingCourse.name_course"
+                    placeholder="Nombre del curso">
+                 }
+
+                <!-- Descripción en Modo Normal -->
+                 @if (!isEditMode) {
+                    <p class="description-course">{{course.description_course}}</p>
+                 }
+                <!-- Descripción en Modo Edición -->
+                 @if (isEditMode) {
+                <textarea 
+                    class="edit-input edit-description"
+                    [(ngModel)]="editingCourse.description_course"
+                    placeholder="Descripción del curso"
+                    rows="4"></textarea>
+                 }
+                <!-- Botón editar (solo si no está en modo edición y es el dueño) -->
+
+                <!-- Botones guardar/cancelar (solo en modo edición) -->
+
+                <!-- Imagen en Modo Normal -->
+                @if (!isEditMode) {
+                    <img [src]="course.image" alt="" class="image-course">
+                }
+
+                <!-- Imagen en Modo Edición -->
+                @if (isEditMode) {
+                    <div class="image-edit-container">
+                        <img 
+                            class="image-course" 
+                            [src]="previewImageUrl || course.image" 
+                            alt="Preview">
+                        
+                        <label for="cover-upload" class="btn-change-cover">
+                            <i class="bi bi-camera"></i> Cambiar portada
+                        </label>
+                        <input 
+                            type="file" 
+                            id="cover-upload"
+                            accept="image/*"
+                            (change)="onCoverSelected($event)"
+                            style="display: none;">
+                    </div>
+                }
                 
             </div>
         }
@@ -55,12 +104,22 @@
         </div>
     </div>
     <div class="more-info-course flex-column">
-        @if (course?.is_my_course) {
-            <a [routerLink]="'/course/edit/'+course?.id_course" class="edit flex-row">
+        @if (!isEditMode && course?.is_my_course) {
+            <div (click)="enterEditMode()" class="edit flex-row">
                 <span class="material-icons">edit</span>
                 <p>Editar curso</p>
-            </a>
+            </div>
         }
+         @if (isEditMode) {
+                    <div class="edit-actions flex-row">
+                        <button class="btn-save" (click)="saveCourseEdits()">
+                            <i class="bi bi-check-lg"></i> Guardar cambios
+                        </button>
+                        <button class="btn-cancel" (click)="cancelEditMode()">
+                            <i class="bi bi-x-lg"></i> Cancelar
+                        </button>
+                    </div>
+                }
         <div class="container-info rating flex-column">
             <div class="rating">
                 <div class="rating-detail flex-row">

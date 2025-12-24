@@ -34,4 +34,7 @@ export class CoursesService {
   copyCourse(id_course : number):Observable<CourseBase>{
     return this.http.post<CourseBase>(this.baseUrl+API_ROUTES.courses.copy_course+id_course,{});
   }
+  editCourse(id_course:number, formData:FormData):Observable<any>{
+    return this.http.post(this.baseUrl+API_ROUTES.courses.edit_course+id_course, formData);
+  }
 }
