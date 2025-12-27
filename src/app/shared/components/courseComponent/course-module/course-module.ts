@@ -3,16 +3,16 @@ import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditM
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
 import { ModuleCoursesService } from '../../../../core/services/courses/module-courses.service';
 import { CoursePublication } from "../course-publication/course-publication";
-import { SafeUrlPipe } from '../../../pipes/safeurlpipe-pipe';
 import { environment } from '../../../../../environments/environment';
 import { CourseModal, ModalData } from '../course-modal/course-modal';
 import { LoaderService } from '../../../../core/services/loader';
 import { Toast } from 'ngx-toastr';
 import { ToastService } from '../../../../core/services/toast.service';
+import { ModalConfirmation } from '../../modal-confirmation/modal-confirmation';
 
 @Component({
   selector: 'app-course-module',
-  imports: [CoursePublication, CourseModal],
+  imports: [CoursePublication, CourseModal, ModalConfirmation],
   templateUrl: './course-module.html',
   styleUrl: './course-module.css'
 })
@@ -21,6 +21,10 @@ export class CourseModule {
   modalActionType: 'add' | 'edit' = 'add';
   modalElementType: 'module' | 'publication' | 'content' = 'publication';
   isOpen:boolean = false;
+  isConfirmOpen: boolean = false;
+  confirmingDelete: boolean = false;
+  confirmTitle: string = '';
+  confirmDescription: string = '';
   toastService=inject(ToastService);
   loaderService=inject(LoaderService);
   detailService=inject(DetailCourses);
@@ -95,15 +99,31 @@ closePdf() {
     });
   }
   onDeleteModule(){
+    this.confirmTitle = 'Eliminar módulo';
+    this.confirmDescription = `¿Deseas eliminar el módulo "${this.moduleCourse.name_module}"? Esta acción no se puede deshacer.`;
+    this.isConfirmOpen = true;
+  }
+
+  onCancelDelete(){
+    if (!this.confirmingDelete) {
+      this.isConfirmOpen = false;
+    }
+  }
+
+  confirmDeleteModule(){
+    if (this.confirmingDelete) return;
+    this.confirmingDelete = true;
     this.loaderService.show();
     this.moduleService.deleteModule(this.moduleCourse.id_module).subscribe({
       next:(data)=>{
         this.toastService.success("El modulo "+data.name_module+" ha sido eliminado correctamente");
         this.getModules();
+        this.isConfirmOpen = false;
       },error:(err)=>{
         console.log(err);
         this.toastService.error("Ocurrió un error inesperado");
       },complete:()=>{
+        this.confirmingDelete = false;
         this.loaderService.hide();
       }
     })

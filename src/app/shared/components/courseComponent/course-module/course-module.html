@@ -67,3 +67,14 @@
   (onClose)="onModalClose()"
   (onSubmit)="onModalSubmit($event)">
 </app-course-modal>
+
+<app-modal-confirmation
+  [isOpen]="isConfirmOpen"
+  [title]="confirmTitle"
+  [description]="confirmDescription"
+  [confirmText]="'Eliminar'"
+  [cancelText]="'Cancelar'"
+  [loading]="confirmingDelete"
+  (confirm)="confirmDeleteModule()"
+  (cancel)="onCancelDelete()">
+</app-modal-confirmation>

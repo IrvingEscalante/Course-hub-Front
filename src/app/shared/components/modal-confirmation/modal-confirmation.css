@@ -1,0 +1,120 @@
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(5, 10, 20, 0.85);
+	backdrop-filter: blur(4px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	padding: 16px;
+	animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+.modal-container {
+	width: min(420px, 100%);
+	background: var(--secondary-color);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	padding: 20px;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+	color: var(--color-text);
+	animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+	from { transform: translateY(50px); opacity: 0; }
+	to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.modal-icon {
+	width: 34px;
+	height: 34px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(239, 68, 68, 0.15);
+	color: #f87171;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.modal-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.modal-description {
+	margin: 0 0 20px 0;
+	color: var(--muted-text);
+	line-height: 1.5;
+	font-size: 15px;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.btn {
+	padding: 10px 16px;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	cursor: pointer;
+	font-weight: 600;
+	font-family: var(--font-family);
+	transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+.btn:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+	transform: translateY(-1px);
+}
+
+.btn-secondary {
+	background: var(--color-input);
+	color: var(--color-text);
+	border-color: var(--border);
+}
+
+.btn-primary {
+	background: #ef4444;
+	color: #fff;
+	border-color: #ef4444;
+}
+
+.spinner {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	border: 2px solid rgba(255,255,255,0.4);
+	border-top-color: #fff;
+	margin-right: 8px;
+	animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}
