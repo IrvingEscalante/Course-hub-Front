@@ -1,24 +1,42 @@
+<div class="content-comment flex-row">
 <div class="user-comment flex-row">
-    <app-avatar [size]="50" [photo]="comment.user_rating.photo" [name]="comment.user_rating.name"></app-avatar>
-  <div class="user-info-comment flex-column">
-    <div class="user-publication-date flex-row">
-      <p class="user-name bold">{{ comment.user_rating.username }}</p>
-      <p class="publication-date">{{comment.date_created | timeAgo}}</p>
+    <a [routerLink]='"/"+comment.user_rating.username'>
+      <app-avatar [size]="50" [photo]="comment.user_rating.photo" [name]="comment.user_rating.name"></app-avatar>
+    </a>
+      <div class="user-info-comment flex-column">
+        <div class="user-publication-date flex-row">
+          <p class="user-name bold">{{ comment.user_rating.username }}</p>
+          <p class="publication-date">{{comment.date_created | timeAgo}}</p>
+        </div>
+
+        <div class="stars flex-row">
+            <div class="star-rating">
+                    @for (star of [1,2,3,4,5]; track $index) {
+                      <span
+                            class="star"
+                            [class.filled]="star <= comment.rating">
+                            ★
+                        </span>
+
+                    }
+                </div>
+        </div>
+
+        <p class="comment">{{ comment.comment_detail }}</p>
+      </div>
+</div>
+<div class="icons flex-row">
+  @if (comment.user_rating.username == userLogged.username) {
+    <div class="container-icon-open" title="Editar Comentario">
+      <span class="material-icons">
+        edit
+      </span>
     </div>
-
-    <div class="stars flex-row">
-         <div class="star-rating">
-                @for (star of [1,2,3,4,5]; track $index) {
-                   <span
-                        class="star"
-                        [class.filled]="star <= comment.rating">
-                        ★
-                    </span>
-
-                }
-            </div>
+    <div class="container-icon-open" title="Eliminar comentario">
+      <span class="material-icons">
+        delete
+      </span>
     </div>
-
-    <p class="comment">{{ comment.comment_detail }}</p>
-  </div>
+  }
+</div>
 </div>

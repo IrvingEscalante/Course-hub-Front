@@ -5,18 +5,23 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CourseUserComment } from "../course-user-comment/course-user-comment";
 import { RatingCommentsResponse } from '../../../../core/models/rating_comments';
 import { LoaderService } from '../../../../core/services/loader';
+import { ToastService } from '../../../../core/services/toast.service';
+import { RouterModule } from '@angular/router';
+import { UserOut } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-course-comments',
-  imports: [ReactiveFormsModule, CourseUserComment],
+  imports: [ReactiveFormsModule, CourseUserComment, RouterModule],
   templateUrl: './course-comments.html',
   styleUrl: './course-comments.css'
 })
 export class CourseComments {
   @Input() value: number = 0;       // Calificación inicial
+  @Input() userLogged!: UserOut;
   @Output() valueChange = new EventEmitter<number>();
   @Input() id_course:number=0;
   ratingCommentsService = inject(RatingCommentsService);
+  toastService = inject(ToastService);
   loaderService=inject(LoaderService);
   stars = [1, 2, 3, 4, 5];
   commentForm!: FormGroup;
@@ -57,10 +62,14 @@ export class CourseComments {
       next:(data)=>{
         console.log("Enviado correctamente");
         this.loaderService.hide();
+        this.value = 0;
         this.getAllComments(this.id_course);
+        this.toastService.success("Su calificación y comentario hacia el curso se enviaron correctamente");
       },
       error:(err)=>{
         console.log(err);
+        this.loaderService.hide();
+        this.toastService.error(err.error.detail);
       }
     });
   }

@@ -18,6 +18,9 @@ import { CourseEditService } from '../../../core/services/courses/course-edit.se
 import { CourseModal, ModalData } from "../../../shared/components/courseComponent/course-modal/course-modal";
 import Module from 'module';
 import { ModuleCoursesService } from '../../../core/services/courses/module-courses.service';
+import { UserOut } from '../../../core/models/user.model';
+import { UserService } from '../../../core/services/user/user.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-detail-course',
@@ -37,6 +40,7 @@ export class DetailCourse {
   detailService = inject(DetailCourses);
   moduleService = inject(ModuleCoursesService);
   loaderService = inject(LoaderService);
+  authService = inject(AuthService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
   pulls:PullRequestBasicOut[]=[];
@@ -46,6 +50,7 @@ export class DetailCourse {
   selectedCoverFile: File | null = null;
   previewImageUrl: string | null = null;
   isModalOpen: boolean = false;
+  user: UserOut | null = null;
 
   onModalClose() {
     this.isModalOpen = false;
@@ -101,6 +106,9 @@ export class DetailCourse {
       this.getCourseDetail(id);
       this.getModules(id);
       this.getPulls(id);
+    });
+    this.authService.currentUser$.subscribe(user => {
+      this.user = user;
     });
   }
 

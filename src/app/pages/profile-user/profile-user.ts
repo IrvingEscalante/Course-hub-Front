@@ -111,12 +111,10 @@ openFollowing() {
   getCoursesFavorites(username:string){
     this.favoritesService.getFavorites(username).subscribe({
       next:(data)=>{
-        console.log("favs", data);
         this.courses_favorites = data;
-        
       },
       error:(err)=>{
-        console.log(err)
+        this.toastService.error("Error al obtener favoritos");
       }
     })
   }
@@ -134,6 +132,7 @@ openFollowing() {
       },
       error:(err)=>{
         console.log(err)
+        this.toastService.error(err.error.detail);
       }
     })
   }

@@ -8,18 +8,14 @@
             <ul class="elements">
                 <li>
                     <a routerLink="/" [class]="{'active': router.url==='/'}" class="element-item item home">
-                        <svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.5 18.3333V9.99996H12.5V18.3333M2.5 7.49996L10 1.66663L17.5 7.49996V16.6666C17.5 17.1087 17.3244 17.5326 17.0118 17.8451C16.6993 18.1577 16.2754 18.3333 15.8333 18.3333H4.16667C3.72464 18.3333 3.30072 18.1577 2.98816 17.8451C2.67559 17.5326 2.5 17.1087 2.5 16.6666V7.49996Z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="item-text">Inicio</span>
+                        <span class="material-icons">home</span>
+                        <span class="item-text bold">Inicio</span>
                     </a>
                 </li>
                 <li>
                     <a routerLink="/course/create" [class]="{'active': router.url ==='/course/create'}" class="element-item item create">
-                        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10.75 2V19.5M2 10.75H19.5" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="item-text">Crear</span>
+                        <span class="material-icons">add</span>
+                        <span class="item-text bold">Crear</span>
                     </a>
                 </li>
                 @if (user) {
@@ -36,19 +32,14 @@
                 </li>
             }@else {
                 @if(!user){
-                    @if (router.url ==='/login') {
-                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <a routerLink="/register" class="item access">Registrarse</a>
+                        <li class="element-item item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <span class="material-icons">login</span>
+                            <a routerLink="/register" class="item access bold">Registrarse</a>
                         </li>
-                    }@else if (router.url ==='/register') {
-                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <a routerLink="/login" class="item access">Login</a>
+                        <li class="element-item item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <span class="material-icons">login</span>
+                            <a routerLink="/login" class="item access bold">Login</a>
                         </li>
-                    }@else{
-                        <li class="element-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <a routerLink="/login" class="item access">Login</a>
-                        </li>
-                    }
                 }
             }
             </ul>

@@ -10,7 +10,7 @@
     padding: 0;
 }
 .description-course{
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     padding: 0;
 }
@@ -223,14 +223,14 @@
     padding: 5px;
 }
 
-/* Estilos para modo edición */
+
 .edit-input {
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: 2px solid var(--border);
     border-radius: 8px;
     padding: 12px 16px;
-    color: #fff;
+    color: var(--color-text);
     font-family: inherit;
     transition: border-color 0.3s ease;
 }
@@ -336,7 +336,7 @@
     justify-content: center;
     gap: 8px;
     transition: all 0.3s ease;
-    width: 100%;
+    width: fit-content;
 }
 
 .btn-change-cover:hover {

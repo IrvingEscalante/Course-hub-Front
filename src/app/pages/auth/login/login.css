@@ -3,10 +3,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     background: var(--primary-color);
-    padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -87,6 +84,8 @@ main {
     padding: 12px;
     border-radius: 8px;
     border: none;
+    align-items: center;
+    justify-content: center;
     background-color: var(--primary-button);
     color: #fff;
     font-weight: 600;

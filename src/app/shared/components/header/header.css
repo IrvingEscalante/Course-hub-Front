@@ -13,7 +13,7 @@
     border-bottom: 1px solid var(--border);
 }
 .name{
-    font-size: 17px;
+    font-size: 15px;
 }
 .interactive-elements{
     display: flex;
@@ -62,7 +62,6 @@
 .item{
     display: flex;
     gap: 10px;
-    font-weight: bold;
     align-items: center;
     font-size: 15px;
 }
@@ -93,6 +92,7 @@
     }
     .item{
         padding-inline: 15px;
+        gap: 5px;
     }
     .logo{
         display: flex;

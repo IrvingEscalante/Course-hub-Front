@@ -13,6 +13,7 @@
 	animation: fadeIn 0.3s ease;
 }
 
+
 @keyframes fadeIn {
 	from { opacity: 0; }
 	to { opacity: 1; }
@@ -102,17 +103,6 @@
 	background: #ef4444;
 	color: #fff;
 	border-color: #ef4444;
-}
-
-.spinner {
-	display: inline-block;
-	width: 14px;
-	height: 14px;
-	border-radius: 50%;
-	border: 2px solid rgba(255,255,255,0.4);
-	border-top-color: #fff;
-	margin-right: 8px;
-	animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {

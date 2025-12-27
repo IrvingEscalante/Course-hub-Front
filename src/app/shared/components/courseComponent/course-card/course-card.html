@@ -11,7 +11,7 @@
         <img class="image-course" [src]="course?.image" alt="imagen" width="260px" loading="lazy">
     </div>
     <div class="course-info flex-column">
-        <a [routerLink]="'/course/detail/'+course?.id_course" class="name-course bold">{{course?.name_course}}</a>
+        <a [routerLink]="'/course/detail/'+course?.id_course" class="name-course bold" [title]="course?.name_course">{{course?.name_course}}</a>
         <div class="user-creator-info flex-row">
             <a [routerLink]="'/'+course?.user?.username"><app-avatar [size]="25" [name]="course?.user?.name || ''" [photo]="course?.user?.photo || ''"></app-avatar></a>
             <span class="name-creator">By {{course?.user?.username}}</span>

@@ -27,7 +27,8 @@
         ></textarea>
 
         <!-- Enviar -->
-        <button class="send-comment-button bold" type="submit" [disabled]="commentForm.invalid">
+        <button class="send-comment-button bold flex-row" type="submit" [disabled]="commentForm.invalid">
+            <span class="material-icons">send</span>
             Enviar comentario
         </button>
     </div>
@@ -38,7 +39,7 @@
             @if (comments.length>1) {
                 <div class="border"></div>
             }
-            <app-course-user-comment [comment]="comment"></app-course-user-comment>
+            <app-course-user-comment [comment]="comment" [userLogged]="userLogged"></app-course-user-comment>
         }
     </div>
 </div>

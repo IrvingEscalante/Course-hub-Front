@@ -69,7 +69,20 @@ button{
 }
 
 .bold{
-    font-weight: bold;
+    font-weight: 600;
+}
+
+.container-icon-open {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.container-icon-open:hover {
+  background-color: rgba(255,255,255,0.06);
 }
 
 .input-style{
@@ -153,6 +166,18 @@ main{
 .loader-small {
   --loader-size: 16px;
 }
+
+.spinner {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	border: 2px solid rgba(255,255,255,0.4);
+	border-top-color: #fff;
+	margin-right: 8px;
+	animation: spin 0.7s linear infinite;
+}
+
 
 @media(min-width:600px){
     .form-container{

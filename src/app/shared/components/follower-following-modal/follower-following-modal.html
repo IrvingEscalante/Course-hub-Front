@@ -1,4 +1,4 @@
-<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal-overlay" (click)="close()"></div>
 
 <div class="followers-modal">
     <div class="header">
@@ -18,19 +18,20 @@
         @for (u of users; track $index) {
             <div class="user-row">
                 <div class="left">
-                    <a [routerLink]='"/"+u.username'><app-avatar [size]="48" [name]="u.name" [photo]="u.photo"></app-avatar></a>
+                    <p (click)="goToUserProfile(u.username)"><app-avatar [size]="48" [name]="u.name" [photo]="u.photo"></app-avatar></p>
                     <div class="user-info">
                         <span class="name">{{ u.name }} {{ u.lastname }}</span>
                         <span class="username">@{{ u.username }}</span>
                     </div>
                 </div>
-
-                <button 
-                    class="follow-btn" 
-                    [class.unfollow]="u.is_following" 
-                    (click)="followUnfollow(u)">
-                    {{ u.is_following ? 'Siguiendo' : 'Seguir' }}
-                </button>
+                @if (u.username != user?.username) {
+                    <button 
+                        class="follow-btn" 
+                        [class.unfollow]="u.is_following" 
+                        (click)="followUnfollow(u)">
+                        {{ u.is_following ? 'Siguiendo' : 'Seguir' }}
+                    </button>
+                }
             </div>
         }
     }

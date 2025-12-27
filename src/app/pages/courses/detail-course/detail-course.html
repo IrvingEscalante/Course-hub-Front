@@ -45,7 +45,7 @@
                             alt="Preview">
                         
                         <label for="cover-upload" class="btn-change-cover">
-                            <i class="bi bi-camera"></i> Cambiar portada
+                            <span class="material-icons">edit</span> Cambiar portada
                         </label>
                         <input 
                             type="file" 
@@ -110,8 +110,8 @@
                 </div>
             }
             <div class="module-list-comments flex-column">
-                @if (course) {
-                    <app-course-comments [(value)]="courseRating" [id_course]="course.id_course"></app-course-comments>
+                @if (course && user) {
+                    <app-course-comments [(value)]="courseRating" [id_course]="course.id_course" [userLogged]="user"></app-course-comments>
                 }
             </div>
                 
@@ -166,7 +166,7 @@
             }
             <div class="info-content flex-column">
                 <ul class="list-content-course flex-column">
-                    <li class="flex-row"><span>Videos:25</span></li>
+                    <li class="flex-row"><span class="material-icons">edit</span><p>Videos:25</p></li>
                     <li class="flex-row"><span>Archivos PDF:25</span></li>
                     <li class="flex-row"><span>Archivos PPTX:25</span></li>
                     <li class="flex-row"><span>Notas:25</span></li>

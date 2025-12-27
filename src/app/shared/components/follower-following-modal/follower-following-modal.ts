@@ -2,7 +2,8 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { UserService } from '../../../core/services/user/user.service';
 import { Avatar } from "../avatar/avatar";
 import { UserOut, UserOutFollow} from '../../../core/models/user.model';
-import { RouterLink, RouterModule } from "@angular/router";
+import { Router, RouterLink, RouterModule } from "@angular/router";
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-follower-following-modal',
@@ -15,14 +16,21 @@ export class FollowerFollowingModal {
   @Input() users: UserOutFollow[] = [];
   @Input() loading = false;
   @Output() closed = new EventEmitter<void>();
+  user: UserOut | null = null;
+  userService = inject(UserService);
+  authService = inject(AuthService);
+  router = inject(Router);
+
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe(user => {
+      this.user = user;
+    });
+  }
   close() {
     this.closed.emit();
   }
-  ngOnInit(){
-    console.log(this.users);
-  }
-  userService = inject(UserService)
-    followUnfollow(user: UserOutFollow) {
+  
+  followUnfollow(user: UserOutFollow) {
     this.userService.followUnfollow(user.username).subscribe({
       next: (res) => {
         user.is_following = res.following;
@@ -31,6 +39,11 @@ export class FollowerFollowingModal {
         console.error(err);
       }
     });
+  }
+
+  goToUserProfile(username:string){
+    this.router.navigate(['/'+username]);
+    this.closed.emit();
   }
 
 }
