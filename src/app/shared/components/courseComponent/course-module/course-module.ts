@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule } from '../../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
 import { ModuleCoursesService } from '../../../../core/services/courses/module-courses.service';
@@ -30,6 +30,7 @@ export class CourseModule {
   publications: CoursePublishResponse[] = [];
   hasLoaded: boolean = false;
   pdfModalUrl?: string;
+  @Output() getmodules = new EventEmitter<number>();
   initialModalData?: ModalData;
 
   openPdf(url: string) {
@@ -73,7 +74,7 @@ closePdf() {
     this.isModalOpen = true;
   }
 
-  onEditPublication() {
+  onEditModule() {
     console.log('Acción: Editar módulo', this.moduleCourse.id_module);
     this.modalActionType = 'edit';
     this.modalElementType = 'module';
@@ -92,6 +93,20 @@ closePdf() {
         this.isModalOpen = true;
       }
     });
+  }
+  onDeleteModule(){
+    this.loaderService.show();
+    this.moduleService.deleteModule(this.moduleCourse.id_module).subscribe({
+      next:(data)=>{
+        this.toastService.success("El modulo "+data.name_module+" ha sido eliminado correctamente");
+        this.getModules();
+      },error:(err)=>{
+        console.log(err);
+        this.toastService.error("Ocurrió un error inesperado");
+      },complete:()=>{
+        this.loaderService.hide();
+      }
+    })
   }
   onModalClose() {
     this.isModalOpen = false;
@@ -140,9 +155,13 @@ closePdf() {
   }
 
   openAddContentModal() {
-    this.initialModalData = undefined; // Limpiar datos previos
+    this.initialModalData = undefined;
     this.modalActionType = 'add';
     this.modalElementType = 'content';
     this.isModalOpen = true;
+  }
+
+  getModules(){
+   this.getmodules.emit(this.moduleCourse.id_module);
   }
 }

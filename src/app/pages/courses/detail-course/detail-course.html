@@ -66,7 +66,7 @@
                         <h3 class="option-tabs" [class.selected]="selectedTab=='content-pull-request'" (click)="changeSelectedTab('content-pull-request')">Peticiones de cambios</h3>
                     }
                 </div>
-                @if (course){
+                @if (course && !course.is_my_course){
                     <div class="copy-course flex-row" (click)="copyCourse(course.id_course)">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_193_1042)">
@@ -84,19 +84,22 @@
             </div>
             @if(selectedTab == 'content-course'){
                 <div class="container-content flex-column">
-                    @for (module of modules; track $index) {
-                        <app-course-module [moduleCourse]="module" [isMyCourse]="course?.is_my_course"></app-course-module>
-                    }
-                    @if (course?.is_my_course) {
-                        <div class="add-module-tile flex-row" (click)="onAddModule()">
-                            <div class="add-module-left flex-row">
-                                <span class="material-icons">add</span>
-                                <div class="add-module-text flex-column">
-                                    <strong class="add-title">Agregar módulo</strong>
-                                    <span class="add-hint">Crea una nueva sección para tu curso</span>
+                    @if (course) {
+                            @for (module of modules; track $index) {
+                                <app-course-module [moduleCourse]="module" [isMyCourse]="course.is_my_course" (getmodules)="onModuleDeleted($event)"></app-course-module>
+                            }
+                        
+                        @if (course.is_my_course) {
+                            <div class="add-module-tile flex-row" (click)="onAddModule()">
+                                <div class="add-module-left flex-row">
+                                    <span class="material-icons">add</span>
+                                    <div class="add-module-text flex-column">
+                                        <strong class="add-title">Agregar módulo</strong>
+                                        <span class="add-hint">Crea una nueva sección para tu curso</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             }@else if (selectedTab == 'content-pull-request') {

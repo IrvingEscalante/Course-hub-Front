@@ -129,6 +129,15 @@ export class DetailCourse {
       }
     })
   }
+  onModuleDeleted(id_module:number){
+    // Optimistic update to avoid showing stale data when the backend needs a moment
+    this.modules = this.modules.filter(module => module.id_module !== id_module);
+
+    // Refetch after a short delay to stay in sync once the delete is committed server-side
+    if (this.course) {
+      setTimeout(() => this.getModules(this.course!.id_course), 300);
+    }
+  }
   getPublications(id_module:number){
     this.detailService.getPublications(id_module).subscribe({
       next:(data)=>{

@@ -29,7 +29,8 @@ export const API_ROUTES = {
     get_modules:'/modules/getAll/',
     get_module:'/modules/getById/',
     create_module:'/modules/create/',
-    edit_module:'/modules/edit/'
+    edit_module:'/modules/edit/',
+    delete_module: '/modules/delete/'
   },
   favorites:{
     add_delete_favorites: '/favorites/add_delete/',

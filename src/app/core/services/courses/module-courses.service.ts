@@ -23,4 +23,7 @@ export class ModuleCoursesService {
   editModule(id_module:number, moduleData:EditModule):Observable<ModuleCourseResponse>{
     return this.http.put<ModuleCourseResponse>(this.baseUrl+API_ROUTES.module_course.edit_module+id_module, moduleData);
   }
+  deleteModule(id_module:number):Observable<ModuleCourseResponse>{
+    return this.http.patch<ModuleCourseResponse>(this.baseUrl+API_ROUTES.module_course.delete_module+id_module, {});
+  }
 }
