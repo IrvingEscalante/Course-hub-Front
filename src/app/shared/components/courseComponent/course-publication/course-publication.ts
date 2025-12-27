@@ -4,6 +4,7 @@ import { CoursePublishResponse } from '../../../../core/models/detail_course.mod
 import { SafeUrlPipe } from '../../../pipes/safeurlpipe-pipe';
 import { environment } from '../../../../../environments/environment';
 import { YouTubePlayer } from "@angular/youtube-player";
+// Modal is controlled by parent (course-module)
 
 @Component({
   selector: 'app-course-publication',
@@ -14,13 +15,27 @@ import { YouTubePlayer } from "@angular/youtube-player";
 export class CoursePublication {
   videoId:string = 'nKPbfIU442g';
   apiUrlBack = environment.apiUrlForStatics;
+  // Modal state removed; controlled by parent
   @Input() publication!: CoursePublishResponse;
+  @Input() isMyCourse?: boolean;
   @Output() pdfClick = new EventEmitter<string>();
+  @Output() editPublication = new EventEmitter<CoursePublishResponse>();
+  @Output() deletePublication = new EventEmitter<CoursePublishResponse>();
+  @Output() addContent = new EventEmitter<CoursePublishResponse>();
 
   openPdf(url: string) {
     console.log(url);
     this.pdfClick.emit(url);
   }
+
+  onEditPublication() {
+    this.editPublication.emit(this.publication);
+  }
+
+  onDeletePublication() {
+    this.deletePublication.emit(this.publication);
+  }
+
   getFilename(path: string): string {
     return path.split('/').pop() || path;
   }
@@ -83,5 +98,9 @@ export class CoursePublication {
 
   }
 }
+  onAddContent() {
+    console.log('Acción: Agregar contenido a la publicacion', this.publication.id_course_publish);
+    this.addContent.emit(this.publication);
+  }
 
 }

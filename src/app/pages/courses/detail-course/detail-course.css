@@ -165,10 +165,62 @@
     border: 1px solid var(--border);
     font-weight: 600;
     gap: 10px;
+    cursor: pointer;
 }
 .container-content{
     gap: 15px;
     margin-block: 20px 50px;
+}
+
+/* Tile para agregar módulos */
+.add-module-tile {
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-color);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    height: 60px;
+    padding-inline: 20px;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.add-module-tile:hover {
+    background-color: rgba(255,255,255,0.06);
+    border-color: #3B82F6;
+}
+
+.add-module-left {
+    align-items: center;
+    gap: 12px;
+}
+
+.add-module-text {
+    gap: 2px;
+}
+
+.add-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.add-hint {
+    font-size: 13px;
+    color: var(--muted-text);
+}
+
+.add-module-tile .material-icons {
+    font-size: 24px;
+    color: #B2B6BB;
+}
+
+.add-module-right {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px;
 }
 
 /* Estilos para modo edición */

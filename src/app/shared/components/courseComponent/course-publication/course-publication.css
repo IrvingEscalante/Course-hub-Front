@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
-  max-width: 900px;
   margin: auto;
 }
 
@@ -13,6 +12,17 @@
 .publication-header {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.header-top {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header-text {
+  flex: 1;
   gap: 12px;
 }
 
@@ -28,6 +38,11 @@
   color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.header-actions {
+  align-items: center;
+  gap: 8px;
 }
 
 /* Contenido general */
@@ -163,4 +178,43 @@
 .pdf-meta {
   font-size: 13px;
   color: #616161;
+}
+
+/* Estilos para iconos de acción */
+.action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.action-icon .material-icons {
+  font-size: 20px;
+  color: #B2B6BB;
+  transition: color 0.2s ease;
+}
+
+.action-icon:hover {
+  background-color: rgba(255,255,255,0.08);
+  border-color: #3B82F6;
+}
+
+.action-icon:hover .material-icons {
+  color: #3B82F6;
+}
+
+.action-icon.delete:hover {
+  border-color: #ef4444;
+  background-color: rgba(239,68,68,0.08);
+}
+
+.action-icon.delete:hover .material-icons {
+  color: #ef4444;
 }

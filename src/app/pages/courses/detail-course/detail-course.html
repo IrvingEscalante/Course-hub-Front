@@ -85,7 +85,18 @@
             @if(selectedTab == 'content-course'){
                 <div class="container-content flex-column">
                     @for (module of modules; track $index) {
-                        <app-course-module [moduleCourse]="module"></app-course-module>
+                        <app-course-module [moduleCourse]="module" [isMyCourse]="course?.is_my_course"></app-course-module>
+                    }
+                    @if (course?.is_my_course) {
+                        <div class="add-module-tile flex-row" (click)="onAddModule()">
+                            <div class="add-module-left flex-row">
+                                <span class="material-icons">add</span>
+                                <div class="add-module-text flex-column">
+                                    <strong class="add-title">Agregar módulo</strong>
+                                    <span class="add-hint">Crea una nueva sección para tu curso</span>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
             }@else if (selectedTab == 'content-pull-request') {
@@ -187,3 +198,12 @@
     </div>
 
 </div>
+
+
+<app-course-modal
+  [isOpen]="isModalOpen"
+  [actionType]="'add'"
+  [elementType]="'module'"
+  (onClose)="onModalClose()"
+  (onSubmit)="onModalSubmit($event)">
+</app-course-modal>

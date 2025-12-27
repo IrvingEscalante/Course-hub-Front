@@ -1,3 +1,5 @@
+import { create } from "domain";
+
 export const API_ROUTES = {
   auth: {
     login: '/auth/login',
@@ -21,8 +23,13 @@ export const API_ROUTES = {
   },
   detail_course:{
     get_full_data_course: '/detail_course/course/raw/',
-    get_modules: '/detail_course/modules/',
     get_publications:'/detail_course/publications/'
+  },
+  module_course:{
+    get_modules:'/modules/getAll/',
+    get_module:'/modules/getById/',
+    create_module:'/modules/create/',
+    edit_module:'/modules/edit/'
   },
   favorites:{
     add_delete_favorites: '/favorites/add_delete/',

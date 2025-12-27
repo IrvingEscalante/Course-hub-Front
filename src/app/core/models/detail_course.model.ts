@@ -68,3 +68,19 @@ export interface CourseFullResponse {
   status_course: boolean | null;
   modules: ModuleResponse[];
 }
+
+export interface CreateModuleRequest {
+  id_course: number;
+  name_module: string;
+  description_module: string;
+  status_module: boolean;
+  order_index: number;
+}
+
+export interface EditModule{
+  id_module:number;
+  name_module: string | null;
+  description_module: string | null;
+  status_module: boolean | null;
+  order_index: number | null;
+}

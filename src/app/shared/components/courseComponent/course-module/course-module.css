@@ -9,12 +9,16 @@
   transition: background 0.25s ease, border-radius 0.25s ease;
 }
 
-.container-module:hover {
-  background-color: rgba(255,255,255,0.03);
+.icons{
+  align-items: center;
+  gap: 12px;
 }
 
 .container-module.active {
   border-radius: 12px 12px 0 0;
+}
+.material-icons{
+  font-size: 25px;
 }
 
 .icon-title {
@@ -43,8 +47,8 @@
   display: flex;
   align-items: center;
   border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 3px;
+  border-radius: 8px;
+  padding: 5px;
   transition: transform 0.25s ease, background 0.25s ease;
 }
 
@@ -66,6 +70,36 @@
   padding: 5px 0;
   overflow: hidden;
   animation: slideDown 0.28s ease-out forwards;
+}
+
+.empty-publications {
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 6px 8px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background-color: rgba(255,255,255,0.03);
+}
+
+.empty-icon .material-icons {
+  font-size: 28px;
+  color: #B2B6BB;
+}
+
+.empty-text {
+  gap: 2px;
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.empty-subtitle {
+  font-size: 13px;
+  color: var(--muted-text);
 }
 
 @keyframes slideDown {

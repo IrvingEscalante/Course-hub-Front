@@ -1,8 +1,25 @@
 <div class="publication-container">
 
   <div class="publication-header">
-    <h3 class="publication-title">{{ publication.name_publication }}</h3>
-    <p class="publication-description">{{ publication.description }}</p>
+    <div class="header-top flex-row">
+      <div class="header-text flex-column">
+        <h3 class="publication-title">{{ publication.name_publication }}</h3>
+        <p class="publication-description">{{ publication.description }}</p>
+      </div>
+      @if (isMyCourse) {
+        <div class="header-actions flex-row">
+          <div class="action-icon" title="Agregar contenido" (click)="onAddContent()">
+            <span class="material-icons">add</span>
+          </div>
+          <div class="action-icon" (click)="onEditPublication()" title="Editar">
+            <span class="material-icons">edit</span>
+          </div>
+          <div class="action-icon delete" (click)="onDeletePublication()" title="Eliminar">
+            <span class="material-icons">delete</span>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="publication-content">

@@ -15,10 +15,13 @@ import { PullRequestService } from '../../../core/services/pull_request/pull-req
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseEditService } from '../../../core/services/courses/course-edit.service';
+import { CourseModal, ModalData } from "../../../shared/components/courseComponent/course-modal/course-modal";
+import Module from 'module';
+import { ModuleCoursesService } from '../../../core/services/courses/module-courses.service';
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule, CourseModal],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
@@ -32,6 +35,7 @@ export class DetailCourse {
   course?:Course;
   courseCopy?:CourseBase;
   detailService = inject(DetailCourses);
+  moduleService = inject(ModuleCoursesService);
   loaderService = inject(LoaderService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
@@ -41,6 +45,46 @@ export class DetailCourse {
   editingCourse: any = {};
   selectedCoverFile: File | null = null;
   previewImageUrl: string | null = null;
+  isModalOpen: boolean = false;
+
+  onModalClose() {
+    this.isModalOpen = false;
+  }
+  onModalSubmit(data: ModalData) {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+
+    this.loaderService.show();
+
+    const moduleData = {
+      id_course: this.course.id_course,
+      name_module: data.title,
+      description_module: data.description,
+      status_module: true,
+      order_index: this.modules.length + 1
+    };
+
+    this.moduleService.createModule(this.course.id_course, moduleData).subscribe({
+      next: (newModule) => {
+        this.isModalOpen = false;
+        this.loaderService.hide();
+        this.toastService.success('Módulo creado exitosamente');
+        this.getModules(this.course!.id_course);
+        console.log('Nuevo módulo:', newModule);
+      },
+      error: (err) => {
+        this.loaderService.hide();
+        console.log('Error al crear módulo:', err);
+        this.toastService.error(err.error?.detail || 'Error al crear el módulo');
+      }
+    });
+  }
+  onAddModule() {
+    console.log('Acción: Agregar publicación al módulo', this.course?.id_course);
+    this.isModalOpen = true;
+  }
 
    ratings = [
     { stars: 5, percent: 50 },
@@ -75,7 +119,7 @@ export class DetailCourse {
   }
 
   getModules(id_course:number){
-    this.detailService.getModules(id_course).subscribe({
+    this.moduleService.getModules(id_course).subscribe({
       next:(data)=>{
         console.log("modules:"+data);
         this.modules = data;
@@ -184,5 +228,13 @@ export class DetailCourse {
         this.toastService.error(err.error?.detail || 'Error al actualizar el curso');
       }
     })
+  }
+
+  createModule(){
+    if(!this.course?.is_my_course){
+      this.toastService.show('Solo el creador puede agregar módulos');
+      return;
+    }
+    this.toastService.show('Acción: Agregar módulo');
   }
 }
