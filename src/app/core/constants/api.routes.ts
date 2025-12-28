@@ -30,7 +30,8 @@ export const API_ROUTES = {
     get_module:'/modules/getById/',
     create_module:'/modules/create/',
     edit_module:'/modules/edit/',
-    delete_module: '/modules/delete/'
+    delete_module: '/modules/delete/',
+    reorder_modules: '/modules/reorder/'
   },
   favorites:{
     add_delete_favorites: '/favorites/add_delete/',

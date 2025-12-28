@@ -25,7 +25,7 @@
             }
         </div>
 
-        @if (isOwner()) {
+        @if (userLogged && isOwner()) {
             <div class="action-buttons flex-row">
                 <a routerLink="/edit-profile" class="edit-profile">Editar perfil</a>
                 <a routerLink="/compartir" class="edit-profile">Compartir perfil</a>

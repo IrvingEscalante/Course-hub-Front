@@ -45,7 +45,7 @@
                             alt="Preview">
                         
                         <label for="cover-upload" class="btn-change-cover">
-                            <span class="material-icons">edit</span> Cambiar portada
+                            <span class="material-icons">image</span> Cambiar portada
                         </label>
                         <input 
                             type="file" 
@@ -85,9 +85,20 @@
             @if(selectedTab == 'content-course'){
                 <div class="container-content flex-column">
                     @if (course) {
-                            @for (module of modules; track $index) {
-                                <app-course-module [moduleCourse]="module" [isMyCourse]="course.is_my_course" (getmodules)="onModuleDeleted($event)"></app-course-module>
-                            }
+                                            <div 
+                                                cdkDropList 
+                                                [cdkDropListDisabled]="!isEditMode" 
+                                                (cdkDropListDropped)="onDropModule($event)"
+                                                class="module-drop-list flex-column">
+                                                @for (module of modules; track $index) {
+                                                        <div cdkDrag class="module-drag-item">
+                                                            <app-course-module [moduleCourse]="module" [isMyCourse]="course.is_my_course" (getmodules)="onModuleDeleted($event)"></app-course-module>
+                                                            @if (isEditMode) {
+                                                                <span class="material-icons drag-handle" cdkDragHandle>drag_indicator</span>
+                                                            }
+                                                        </div>
+                                                }
+                                            </div>
                         
                         @if (course.is_my_course) {
                             <div class="add-module-tile flex-row" (click)="onAddModule()">
@@ -110,7 +121,7 @@
                 </div>
             }
             <div class="module-list-comments flex-column">
-                @if (course && user) {
+                @if (course) {
                     <app-course-comments [(value)]="courseRating" [id_course]="course.id_course" [userLogged]="user"></app-course-comments>
                 }
             </div>
@@ -166,7 +177,7 @@
             }
             <div class="info-content flex-column">
                 <ul class="list-content-course flex-column">
-                    <li class="flex-row"><span class="material-icons">edit</span><p>Videos:25</p></li>
+                    <li class="flex-row"><span class="material-icons"></span><p>Videos:25</p></li>
                     <li class="flex-row"><span>Archivos PDF:25</span></li>
                     <li class="flex-row"><span>Archivos PPTX:25</span></li>
                     <li class="flex-row"><span>Notas:25</span></li>

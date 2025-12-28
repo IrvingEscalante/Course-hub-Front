@@ -16,15 +16,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseEditService } from '../../../core/services/courses/course-edit.service';
 import { CourseModal, ModalData } from "../../../shared/components/courseComponent/course-modal/course-modal";
-import Module from 'module';
 import { ModuleCoursesService } from '../../../core/services/courses/module-courses.service';
 import { UserOut } from '../../../core/models/user.model';
-import { UserService } from '../../../core/services/user/user.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule, CourseModal],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule, CourseModal, DragDropModule],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
@@ -51,6 +50,7 @@ export class DetailCourse {
   previewImageUrl: string | null = null;
   isModalOpen: boolean = false;
   user: UserOut | null = null;
+  isSavingOrder = false;
 
   onModalClose() {
     this.isModalOpen = false;
@@ -130,7 +130,7 @@ export class DetailCourse {
     this.moduleService.getModules(id_course).subscribe({
       next:(data)=>{
         console.log("modules:"+data);
-        this.modules = data;
+        this.modules = [...data].sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
       },
       error:(err)=>{
         console.log(err);
@@ -253,5 +253,43 @@ export class DetailCourse {
       return;
     }
     this.toastService.show('Acción: Agregar módulo');
+  }
+
+  onDropModule(event: CdkDragDrop<ModuleCourseResponse[]>) {
+    if (!this.isEditMode) return;
+    moveItemInArray(this.modules, event.previousIndex, event.currentIndex);
+    this.reindexModules();
+    this.persistModuleOrder();
+  }
+
+  private reindexModules() {
+    this.modules = this.modules.map((module, index) => ({
+      ...module,
+      order_index: index + 1
+    }));
+  }
+
+  private persistModuleOrder() {
+    if (!this.course) return;
+    this.isSavingOrder = true;
+    this.loaderService.show();
+
+    const updates = this.modules.map(m =>
+      ({ id_module: m.id_module, order_index: m.order_index })
+    );
+
+    this.moduleService.reorderModules(this.course.id_course, { modules: updates }).subscribe({
+      next: () => {
+        this.loaderService.hide();
+        this.isSavingOrder = false;
+        this.toastService.success('Orden de módulos actualizado');
+      },
+      error: (err) => {
+        this.loaderService.hide();
+        this.isSavingOrder = false;
+        console.log(err);
+        this.toastService.error(err.error?.detail || 'No se pudo actualizar el orden de los módulos');
+      }
+    });
   }
 }

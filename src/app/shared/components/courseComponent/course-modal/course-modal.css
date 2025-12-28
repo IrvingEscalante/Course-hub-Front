@@ -172,6 +172,133 @@
   display: inline-block;
 }
 
+.content-type-selector {
+  margin-bottom: 24px;
+}
+
+.content-label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.content-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.content-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 12px;
+  background-color: var(--color-input);
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.content-btn:hover {
+  border-color: var(--primary-button);
+  background-color: var(--color-container);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.content-btn.active {
+  background-color: var(--primary-button);
+  border-color: var(--primary-button);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.content-btn .material-icons {
+  font-size: 24px;
+}
+
+.btn-text {
+  text-align: center;
+  word-break: break-word;
+}
+
+.content-input {
+  animation: slideDown 0.3s ease;
+  padding: 16px;
+  background-color: var(--color-container);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+}
+
+.content-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin: 12px 0;
+}
+
+.content-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.content-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: var(--color-container);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.chip-type {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.chip-name {
+  color: var(--color-text-input);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-wrapper,
+.file-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-wrapper input[type="file"],
+.file-wrapper input[type="file"] {
+  accent-color: var(--primary-button);
+}
+
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -193,6 +320,16 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-family);
+}
+
+.btn-secondary {
+  background-color: var(--color-container);
+  color: var(--color-text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-input);
 }
 
 .btn-cancel {

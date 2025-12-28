@@ -215,12 +215,49 @@
     color: #B2B6BB;
 }
 
+.module-drop-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.module-drag-item {
+    display: flex;
+    align-items: center;
+    cursor: default;
+}
+
+.module-drag-item app-course-module {
+    flex: 1;
+}
+
+.cdk-drag-preview {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border-radius: 12px;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
 .add-module-right {
     display: flex;
     align-items: center;
     border: 1px solid var(--border);
     border-radius: 100px;
     padding: 5px;
+}
+
+.drag-handle {
+    cursor: grab;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
 }
 
 

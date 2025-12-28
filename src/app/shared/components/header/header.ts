@@ -23,7 +23,14 @@ export class Header {
   userService = inject(UserService);
   constructor(private authService: AuthService, public router:Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
+    // Kick off a one-time load to resolve auth state before rendering
+    this.authService.loadCurrentUser().subscribe({
+      next: () => this.userLoaded = true,
+      error: () => this.userLoaded = true
+    });
+
+    // Keep user in sync with subsequent auth changes
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
     });

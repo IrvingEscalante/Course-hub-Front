@@ -4,11 +4,22 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 
 export type ActionType = 'add' | 'edit';
 export type ElementType = 'module' | 'publication' | 'content';
+export type ContentType = 'image' | 'video' | 'note' | 'file' | null;
+
+export interface ContentPayload {
+  type: Exclude<ContentType, null>;
+  file?: File;
+  videoUrl?: string;
+  note?: string;
+  fileName?: string;
+}
 
 export interface ModalData {
   title: string;
   description: string;
   file?: File;
+  contentType?: ContentType;
+  contents?: ContentPayload[];
 }
 
 @Component({
@@ -28,6 +39,8 @@ export class CourseModal implements OnInit {
 
   form!: FormGroup;
   selectedFileName: string = '';
+  selectedContentType: ContentType = null;
+  contents: ContentPayload[] = [];
 
   constructor(private fb: FormBuilder) {}
 
@@ -42,6 +55,7 @@ export class CourseModal implements OnInit {
         description: this.initialData.description
       });
       this.selectedFileName = '';
+      this.contents = [];
     } else if (this.form) {
       this.resetForm();
     }
@@ -51,7 +65,9 @@ export class CourseModal implements OnInit {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1)]],
       description: ['', [Validators.required, Validators.minLength(1)]],
-      file: [null]
+      file: [null],
+      videoUrl: [''],
+      note: ['']
     });
   }
 
@@ -66,6 +82,14 @@ export class CourseModal implements OnInit {
     return this.elementType === 'publication' || this.elementType === 'content';
   }
 
+  selectContentType(type: ContentType) {
+    this.selectedContentType = this.selectedContentType === type ? null : type;
+  }
+
+  isContentTypeSelected(type: ContentType): boolean {
+    return this.selectedContentType === type;
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -75,13 +99,51 @@ export class CourseModal implements OnInit {
     }
   }
 
+  addContentFromSelection() {
+    if (!this.selectedContentType) return;
+
+    const file = this.form.get('file')?.value as File | null;
+    const videoUrl = this.form.get('videoUrl')?.value as string;
+    const note = this.form.get('note')?.value as string;
+
+    let content: ContentPayload | null = null;
+
+    if (this.selectedContentType === 'image' || this.selectedContentType === 'file') {
+      if (!file) return;
+      content = {
+        type: this.selectedContentType,
+        file,
+        fileName: file.name
+      };
+    } else if (this.selectedContentType === 'video') {
+      if (!videoUrl) return;
+      content = {
+        type: 'video',
+        videoUrl
+      };
+    } else if (this.selectedContentType === 'note') {
+      if (!note) return;
+      content = {
+        type: 'note',
+        note
+      };
+    }
+
+    if (content) {
+      this.contents = [...this.contents, content];
+      this.clearContentInputs();
+    }
+  }
+
   handleSubmit() {
     if (this.form.valid && this.isFormValid()) {
       const formValue = this.form.value;
       const modalData: ModalData = {
         title: formValue.title,
         description: formValue.description,
-        file: formValue.file
+        file: formValue.file,
+        contentType: this.selectedContentType,
+        contents: this.contents
       };
       this.onSubmit.emit(modalData);
       this.resetForm();
@@ -95,12 +157,26 @@ export class CourseModal implements OnInit {
 
   isFormValid(): boolean {
     if (!this.form.valid) return false;
-    if (this.shouldShowFileInput() && this.actionType === 'add' && !this.form.get('file')?.value) return false;
+
+    const hasContents = this.contents.length > 0;
+
+    if (this.elementType === 'publication' || this.elementType === 'content') {
+      if (!hasContents) return false;
+    }
+
     return true;
   }
 
   resetForm() {
     this.form.reset();
     this.selectedFileName = '';
+    this.selectedContentType = null;
+    this.contents = [];
+  }
+
+  clearContentInputs() {
+    this.form.patchValue({ file: null, videoUrl: '', note: '' });
+    this.selectedFileName = '';
+    this.selectedContentType = null;
   }
 }

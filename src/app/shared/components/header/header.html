@@ -4,34 +4,33 @@
         <div class="name">CourseHub</div>
     </div>
     <div class="interactive-elements">
-        
-            <ul class="elements">
-                <li>
-                    <a routerLink="/" [class]="{'active': router.url==='/'}" class="element-item item home">
-                        <span class="material-icons">home</span>
-                        <span class="item-text bold">Inicio</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/course/create" [class]="{'active': router.url ==='/course/create'}" class="element-item item create">
-                        <span class="material-icons">add</span>
-                        <span class="item-text bold">Crear</span>
-                    </a>
-                </li>
-                @if (user) {
-                <li class="element-item-photo">
-                    <button class="button-show-modal-profile flex-row" (click)="toggleMenu()">
-                        <app-avatar [size]="40" [name]="user.name" [photo]="user.photo"></app-avatar>
-                        <svg w idth="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 7.5L10 12.5L15 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                @if(showMenu){  
-                    <app-user-menu (close)="closeMenu()" [user]="user"></app-user-menu>
-                }
-                </li>
-            }@else {
-                @if(!user){
+            @if (userLoaded) {
+                <ul class="elements">
+                    <li>
+                        <a routerLink="/" [class]="{'active': router.url=='/'}" class="element-item item home">
+                            <span class="material-icons">home</span>
+                            <span class="item-text bold">Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/course/create" [class]="{'active': router.url ==='/course/create'}" class="element-item item create">
+                            <span class="material-icons">add</span>
+                            <span class="item-text bold">Crear</span>
+                        </a>
+                    </li>
+                    @if (user) {
+                    <li class="element-item-photo">
+                        <button class="button-show-modal-profile flex-row" (click)="toggleMenu()">
+                            <app-avatar [size]="40" [name]="user.name" [photo]="user.photo"></app-avatar>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 7.5L10 12.5L15 7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    @if(showMenu){  
+                        <app-user-menu (close)="closeMenu()" [user]="user"></app-user-menu>
+                    }
+                    </li>
+                }@else {
                         <li class="element-item item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <span class="material-icons">login</span>
                             <a routerLink="/register" class="item access bold">Registrarse</a>
@@ -41,8 +40,8 @@
                             <a routerLink="/login" class="item access bold">Login</a>
                         </li>
                 }
+                </ul>
             }
-            </ul>
     </div>
 
 

@@ -32,19 +32,150 @@
           ></textarea>
         </div>
 
-        @if (shouldShowFileInput()) {
+        <!-- Content Type Selection for Publications -->
+        @if (elementType === 'publication') {
+          <div class="content-type-selector">
+            <label class="content-label">Tipo de contenido *</label>
+            <div class="content-buttons">
+              <button 
+                type="button" 
+                class="content-btn" 
+                [class.active]="isContentTypeSelected('image')"
+                (click)="selectContentType('image')"
+                title="Insertar imagen">
+                <span class="material-icons">image</span>
+                <span class="btn-text">Imagen</span>
+              </button>
+              <button 
+                type="button" 
+                class="content-btn" 
+                [class.active]="isContentTypeSelected('video')"
+                (click)="selectContentType('video')"
+                title="Insertar video">
+                <span class="material-icons">videocam</span>
+                <span class="btn-text">Video</span>
+              </button>
+              <button 
+                type="button" 
+                class="content-btn" 
+                [class.active]="isContentTypeSelected('note')"
+                (click)="selectContentType('note')"
+                title="Agregar nota">
+                <span class="material-icons">note</span>
+                <span class="btn-text">Nota</span>
+              </button>
+              <button 
+                type="button" 
+                class="content-btn" 
+                [class.active]="isContentTypeSelected('file')"
+                (click)="selectContentType('file')"
+                title="Insertar archivo">
+                <span class="material-icons">attach_file</span>
+                <span class="btn-text">Archivo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Image Input -->
+          @if (selectedContentType === 'image') {
+            <div class="form-group content-input">
+              <label for="image-file">Selecciona una imagen *</label>
+              <div class="file-input-wrapper image-wrapper">
+                <input 
+                  type="file" 
+                  id="image-file" 
+                  (change)="onFileSelected($event)"
+                  accept="image/*"
+                  required
+                />
+                @if (selectedFileName) {
+                  <span class="file-name">✓ {{ selectedFileName }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Video Link Input -->
+          @if (selectedContentType === 'video') {
+            <div class="form-group content-input">
+              <label for="video-url">URL del video de YouTube o Vimeo *</label>
+              <input 
+                type="url" 
+                id="video-url" 
+                formControlName="videoUrl"
+                placeholder="https://www.youtube.com/watch?v=..."
+                required
+              />
+            </div>
+          }
+
+          <!-- Note Input -->
+          @if (selectedContentType === 'note') {
+            <div class="form-group content-input">
+              <label for="note-content">Contenido de la nota *</label>
+              <textarea 
+                id="note-content" 
+                formControlName="note"
+                rows="5"
+                placeholder="Escribe el contenido de la nota aquí..."
+                required
+              ></textarea>
+            </div>
+          }
+
+          <!-- File Upload -->
+          @if (selectedContentType === 'file') {
+            <div class="form-group content-input">
+              <label for="file-upload">Selecciona un archivo (PDF o PPTX) *</label>
+              <div class="file-input-wrapper file-wrapper">
+                <input 
+                  type="file" 
+                  id="file-upload" 
+                  (change)="onFileSelected($event)"
+                  accept=".pdf,.pptx,.doc,.docx"
+                  required
+                />
+                @if (selectedFileName) {
+                  <span class="file-name">✓ {{ selectedFileName }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="content-actions">
+            <button type="button" class="btn btn-secondary" (click)="addContentFromSelection()" [disabled]="!selectedContentType">
+              Agregar contenido
+            </button>
+          </div>
+
+          @if (contents.length) {
+            <div class="content-list">
+              @for (item of contents; track $index) {
+                <div class="content-chip">
+                  <span class="chip-type">{{ item.type }}</span>
+                  @if (item.fileName) { <span class="chip-name">{{ item.fileName }}</span> }
+                  @if (item.videoUrl) { <span class="chip-name">Video</span> }
+                  @if (item.note) { <span class="chip-name">Nota</span> }
+                </div>
+              }
+            </div>
+          }
+        }
+
+        <!-- Content Input for Content Type -->
+        @if (elementType === 'content') {
         <div class="form-group">
-          <label for="file">Archivo {{ actionType === 'add' ? '*' : '(opcional)' }}</label>
+            <label for="content-file">Archivo de contenido *</label>
           <div class="file-input-wrapper">
             <input 
               type="file" 
-              id="file" 
+                id="content-file"
               (change)="onFileSelected($event)"
-              [required]="actionType === 'add'"
-              accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+                accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+                required
             />
             @if (selectedFileName) {
-            <span class="file-name">{{ selectedFileName }}</span>
+                <span class="file-name">✓ {{ selectedFileName }}</span>
             }
           </div>
         </div>

@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateModuleRequest, EditModule, ModuleCourseResponse } from '../../models/detail_course.model';
+import { ModuleReorderRequest } from '../../models/module_reorder.model';
 import { API_ROUTES } from '../../constants/api.routes';
 
 @Injectable({
@@ -25,5 +26,9 @@ export class ModuleCoursesService {
   }
   deleteModule(id_module:number):Observable<ModuleCourseResponse>{
     return this.http.patch<ModuleCourseResponse>(this.baseUrl+API_ROUTES.module_course.delete_module+id_module, {});
+  }
+
+  reorderModules(id_course:number, payload: ModuleReorderRequest):Observable<ModuleCourseResponse[]>{
+    return this.http.put<ModuleCourseResponse[]>(`${this.baseUrl}${API_ROUTES.module_course.reorder_modules}${id_course}`, payload);
   }
 }

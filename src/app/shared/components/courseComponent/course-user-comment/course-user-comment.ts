@@ -14,6 +14,8 @@ import { UserOut } from '../../../../core/models/user.model';
 export class CourseUserComment {
 
   @Input() comment!:RatingCommentsResponse;
-  @Input() userLogged!:UserOut;
+  @Input() userLogged:UserOut | null = null;
+
+  
 
 }

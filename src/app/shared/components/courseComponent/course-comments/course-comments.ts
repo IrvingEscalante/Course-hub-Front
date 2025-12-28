@@ -17,7 +17,7 @@ import { UserOut } from '../../../../core/models/user.model';
 })
 export class CourseComments {
   @Input() value: number = 0;       // Calificación inicial
-  @Input() userLogged!: UserOut;
+  @Input() userLogged: UserOut | null = null;
   @Output() valueChange = new EventEmitter<number>();
   @Input() id_course:number=0;
   ratingCommentsService = inject(RatingCommentsService);
