@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-recover-password',
@@ -11,6 +13,8 @@ import { Router } from '@angular/router';
 export class RecoverPassword {
 form: FormGroup;
   loading = false;
+  authService=inject(AuthService);
+  toastService=inject(ToastService);
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +41,13 @@ form: FormGroup;
 
     console.log('Enviar recuperación a:', email);
 
-    // 👉 aquí llamas a tu servicio
-    // this.authService.recoverPassword(email).subscribe(...)
+    this.authService.recover_password(email).subscribe({
+      next:(resp)=>{
+        this.toastService.success(resp.message);
+      },error:(error)=>{
+        this.toastService.error(error.error.message || 'Error al enviar el correo de recuperación');
+      }
+    });
 
     setTimeout(() => {
       this.loading = false;

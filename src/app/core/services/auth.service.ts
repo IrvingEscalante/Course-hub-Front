@@ -49,6 +49,10 @@ export class AuthService {
     return this.http.post<MessageResponse>(this.baseUrl+API_ROUTES.auth.recover_password, {email});
   }
 
+  change_password(data:{token:string, new_password:string}):Observable<MessageResponse>{
+    return this.http.post<MessageResponse>(this.baseUrl+API_ROUTES.auth.change_password, data);
+  }
+
   verify_email(verify:VerifyEmailPayload):Observable<MessageResponse>{
     return this.http.post<MessageResponse>(`${this.baseUrl}${API_ROUTES.auth.verify_email}`, verify);
   }

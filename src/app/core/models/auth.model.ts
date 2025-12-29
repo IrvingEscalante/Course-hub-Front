@@ -39,3 +39,8 @@ export interface RegisterResponse {
   user:UserOut;
   token_verification:string;
 }
+
+export interface RecoverPasswordRequest{
+  token:string;
+  new_password:string;
+}

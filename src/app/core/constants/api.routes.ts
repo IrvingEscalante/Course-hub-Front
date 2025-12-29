@@ -6,7 +6,8 @@ export const API_ROUTES = {
     register: '/auth/register',
     verify_email:'/auth/verify-email',
     resend_code: '/auth/resend-code',
-    recover_password:'/users/recover-password'
+    recover_password:'/auth/recover-password',
+    change_password:'/auth/change-password'
   },
   users: {
     my_data: '/users/profile',
