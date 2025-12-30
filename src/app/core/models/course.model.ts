@@ -6,7 +6,7 @@ export interface Course {
   description_course: string;
   image: string;
   is_forked: boolean;
-  is_my_course: boolean,
+  is_my_course?: boolean,
   date_created: Date;
   date_updated: Date | null;
   id_user: number;
