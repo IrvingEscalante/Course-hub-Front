@@ -37,6 +37,7 @@ export const API_ROUTES = {
   publications:{
     get_by_id: '/publications/getById/',
     create: '/publications/create/',
+    edit: '/publications/edit/',
     delete_content: '/publications/content/',
     delete_publication: '/publications/delete/'
   },

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule } from '../../../../core/models/detail_course.model';
+import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule, ContentCoursePublishResponse } from '../../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
 import { ModuleCoursesService } from '../../../../core/services/courses/module-courses.service';
-import { PublicationsService } from '../../../../core/services/courses/publications.service';
+import { PublicationsService, PublicationResponse } from '../../../../core/services/courses/publications.service';
 import { CoursePublication } from "../course-publication/course-publication";
 import { environment } from '../../../../../environments/environment';
-import { CourseModal, ModalData } from '../course-modal/course-modal';
+import { CourseModal, ModalData, ContentPayload } from '../course-modal/course-modal';
 import { LoaderService } from '../../../../core/services/loader';
 import { Toast } from 'ngx-toastr';
 import { ToastService } from '../../../../core/services/toast.service';
@@ -38,6 +38,7 @@ export class CourseModule {
   pdfModalUrl?: string;
   @Output() getmodules = new EventEmitter<number>();
   initialModalData?: ModalData;
+  currentEditingPublicationId?: number;
 
   openPdf(url: string) {
     const fullUrl = environment.apiUrlForStatics+url
@@ -75,9 +76,84 @@ closePdf() {
   onAddPublication() {
     console.log('Acción: Agregar publicación al módulo', this.moduleCourse.id_module);
     this.initialModalData = undefined; // Limpiar datos previos
+    this.currentEditingPublicationId = undefined;
     this.modalActionType = 'add';
     this.modalElementType = 'publication';
     this.isModalOpen = true;
+  }
+
+  onEditPublication(publication: CoursePublishResponse) {
+    console.log('Acción: Editar publicación', publication.id_course_publish);
+    this.loaderService.show();
+    this.currentEditingPublicationId = publication.id_course_publish;
+    
+    // Obtener los datos completos de la publicación
+    this.publicationsService.getPublicationById(publication.id_course_publish).subscribe({
+      next: (fullPublication: PublicationResponse) => {
+        // Convertir los contenidos existentes al formato ContentPayload
+        const existingContents: ContentPayload[] = (fullPublication.content || []).map(content => {
+          const contentPayload: ContentPayload = {
+            type: this.mapContentType(content.type_content),
+            isExisting: true,
+            existingId: content.id_content_course_publish,
+            existingUrl: content.content
+          };
+          
+          // Mapear según el tipo
+          if (content.type_content === 'image') {
+            contentPayload.imagePreview = content.content;
+            contentPayload.fileName = this.getFilenameFromUrl(content.content);
+          } else if (content.type_content === 'video-embed') {
+            contentPayload.videoUrl = content.content;
+          } else if (content.type_content === 'note') {
+            contentPayload.note = content.content;
+          } else if (content.type_content === 'file' || content.type_content === 'pdf' || content.type_content === 'pptx' || content.type_content === 'docx') {
+            contentPayload.fileName = this.getFilenameFromUrl(content.content);
+          }
+          
+          return contentPayload;
+        });
+
+        this.initialModalData = {
+          title: fullPublication.name_publication,
+          description: fullPublication.description || '',
+          contents: existingContents
+        };
+        
+        this.modalActionType = 'edit';
+        this.modalElementType = 'publication';
+        this.isModalOpen = true;
+        this.loaderService.hide();
+      },
+      error: (err) => {
+        console.error('Error al obtener publicación:', err);
+        this.toastService.error('Error al cargar los datos de la publicación');
+        this.loaderService.hide();
+      }
+    });
+  }
+
+  private mapContentType(type: string): 'image' | 'video' | 'note' | 'file' {
+    switch (type) {
+      case 'image': return 'image';
+      case 'video': return 'video';
+      case 'note': return 'note';
+      case 'file':
+      case 'pdf':
+      case 'pptx':
+      case 'docx':
+        return 'file';
+      default: return 'note';
+    }
+  }
+
+  private getFilenameFromUrl(url: string): string {
+    const fullName = url.split('/').pop() || url;
+    const parts = fullName.split('_');
+    if (parts.length > 1 && !isNaN(Number(parts[0]))) {
+      return parts.slice(1).join('_');
+    }
+    return fullName;
   }
 
   onEditModule() {
@@ -201,6 +277,46 @@ closePdf() {
           console.log('Error al crear publicación:', err);
           this.loaderService.hide();
           this.toastService.error(err.error?.detail || 'Error al crear la publicación');
+        }
+      });
+      return;
+    }
+
+    // Editar publicación
+    if (this.modalElementType === 'publication' && this.modalActionType === 'edit') {
+      if (!this.currentEditingPublicationId) {
+        this.loaderService.hide();
+        this.toastService.error('Error: No se encontró la publicación a editar');
+        return;
+      }
+
+      if (!data.contents || data.contents.length === 0) {
+        this.loaderService.hide();
+        this.toastService.error('Debes tener al menos un contenido en la publicación');
+        return;
+      }
+
+      this.publicationsService.editPublication(
+        this.currentEditingPublicationId,
+        data.title,
+        data.description,
+        data.contents,
+        data.deletedContentIds || []
+      ).subscribe({
+        next: (updatedPublication) => {
+          console.log('Publicación actualizada exitosamente:', updatedPublication);
+          this.loaderService.hide();
+          this.toastService.success('Publicación actualizada exitosamente');
+          this.isModalOpen = false;
+          this.currentEditingPublicationId = undefined;
+          
+          // Actualizar lista de publicaciones
+          this.getPublications(this.moduleCourse.id_module);
+        },
+        error: (err) => {
+          console.log('Error al actualizar publicación:', err);
+          this.loaderService.hide();
+          this.toastService.error(err.error?.detail || 'Error al actualizar la publicación');
         }
       });
       return;

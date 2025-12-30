@@ -267,6 +267,11 @@
   width: fit-content;
 }
 
+.content-chip.existing {
+  border-color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
 .chip-type {
   font-weight: 700;
   text-transform: uppercase;
@@ -275,6 +280,17 @@
 
 .chip-name {
   color: var(--color-text-input);
+}
+
+.chip-existing {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  background-color: #22c55e;
+  color: white;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 @keyframes slideDown {

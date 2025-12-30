@@ -13,6 +13,10 @@ export interface ContentPayload {
   note?: string;
   fileName?: string;
   imagePreview?: string;
+  // Para contenidos existentes (edición)
+  isExisting?: boolean;
+  existingId?: number;
+  existingUrl?: string;
 }
 
 export interface ModalData {
@@ -21,6 +25,7 @@ export interface ModalData {
   file?: File;
   contentType?: ContentType;
   contents?: ContentPayload[];
+  deletedContentIds?: number[];
 }
 
 @Component({
@@ -43,6 +48,7 @@ export class CourseModal implements OnInit {
   selectedContentType: ContentType = null;
   contents: ContentPayload[] = [];
   currentImagePreview: string | null = null;
+  deletedContentIds: number[] = [];
 
   constructor(private fb: FormBuilder) {}
 
@@ -57,7 +63,15 @@ export class CourseModal implements OnInit {
         description: this.initialData.description
       });
       this.selectedFileName = '';
-      this.contents = [];
+      // Cargar contenidos existentes si los hay (modo edición)
+      if (this.initialData.contents && this.initialData.contents.length > 0) {
+        this.contents = [...this.initialData.contents];
+      } else {
+        this.contents = [];
+      }
+      this.currentImagePreview = null;
+      this.selectedContentType = null;
+      this.deletedContentIds = [];
     } else if (this.form) {
       this.resetForm();
     }
@@ -157,7 +171,8 @@ export class CourseModal implements OnInit {
         description: formValue.description,
         file: formValue.file,
         contentType: this.selectedContentType,
-        contents: this.contents
+        contents: this.contents,
+        deletedContentIds: this.deletedContentIds
       };
       this.onSubmit.emit(modalData);
       this.resetForm();
@@ -187,6 +202,7 @@ export class CourseModal implements OnInit {
     this.selectedContentType = null;
     this.contents = [];
     this.currentImagePreview = null;
+    this.deletedContentIds = [];
   }
 
   clearContentInputs() {
@@ -197,6 +213,11 @@ export class CourseModal implements OnInit {
   }
 
   removeContent(index: number) {
+    const contentToRemove = this.contents[index];
+    // Si es contenido existente, rastrear su ID para eliminarlo en el backend
+    if (contentToRemove.isExisting && contentToRemove.existingId) {
+      this.deletedContentIds.push(contentToRemove.existingId);
+    }
     this.contents = this.contents.filter((_, i) => i !== index);
   }
 }

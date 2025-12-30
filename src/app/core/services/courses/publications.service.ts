@@ -29,6 +29,7 @@ export interface ContentMetadata {
   file_index?: number;
   url?: string;
   text?: string;
+  existing_id?: number;
 }
 
 @Injectable({
@@ -109,5 +110,71 @@ export class PublicationsService {
   }
   deletePublication(id_publication: number): Observable<PublicationResponse>{
     return this.http.patch<PublicationResponse>(this.baseUrl+API_ROUTES.publications.delete_publication+id_publication, {});
+  }
+
+  /**
+   * Editar una publicación existente con sus contenidos
+   * @param id_publication ID de la publicación a editar
+   * @param title Nuevo título
+   * @param description Nueva descripción
+   * @param contents Array de contenidos (existentes y nuevos)
+   * @param deletedContentIds IDs de contenidos eliminados
+   */
+  editPublication(
+    id_publication: number,
+    title: string,
+    description: string,
+    contents: ContentPayload[],
+    deletedContentIds: number[] = []
+  ): Observable<PublicationResponse> {
+    const formData = new FormData();
+    
+    // Agregar datos básicos
+    formData.append('name_publication', title);
+    formData.append('description', description);
+    
+    // Construir metadatos y agregar archivos
+    const contentsMetadata: ContentMetadata[] = [];
+    let fileIndex = 0;
+    
+    for (const content of contents) {
+      // Si es contenido existente, solo incluir el ID
+      if (content.isExisting && content.existingId) {
+        contentsMetadata.push({
+          type: content.type,
+          existing_id: content.existingId
+        });
+      } else {
+        // Es contenido nuevo
+        if (content.type === 'image' || content.type === 'file') {
+          if (content.file) {
+            formData.append('files', content.file);
+            contentsMetadata.push({
+              type: content.type,
+              file_index: fileIndex
+            });
+            fileIndex++;
+          }
+        } else if (content.type === 'video') {
+          contentsMetadata.push({
+            type: 'video',
+            url: content.videoUrl
+          });
+        } else if (content.type === 'note') {
+          contentsMetadata.push({
+            type: 'note',
+            text: content.note
+          });
+        }
+      }
+    }
+    
+    formData.append('contents_metadata', JSON.stringify(contentsMetadata));
+    formData.append('deleted_content_ids', JSON.stringify(deletedContentIds));
+    
+    return this.http.patch<PublicationResponse>(
+      `${this.baseUrl}${API_ROUTES.publications.edit}${id_publication}`,
+      formData
+    );
   }
 }

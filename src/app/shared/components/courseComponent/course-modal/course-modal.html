@@ -157,23 +157,29 @@
             <div class="content-list">
               @for (item of contents; track $index) {
                 <div class="content-item">
-                  @if (item.type === 'image' && item.imagePreview) {
+                  @if (item.type === 'image' && (item.imagePreview || item.existingUrl)) {
                     <div class="content-preview-card">
-                      <img [src]="item.imagePreview" alt="Vista previa" class="preview-thumbnail" />
+                      <img [src]="item.imagePreview || item.existingUrl" alt="Vista previa" class="preview-thumbnail" />
                       <div class="preview-info">
                         <span class="chip-type">{{ item.type }}</span>
-                        <span class="chip-name">{{ item.fileName }}</span>
+                        <span class="chip-name">{{ item.fileName || 'Imagen' }}</span>
+                        @if (item.isExisting) {
+                          <span class="chip-existing">Existente</span>
+                        }
                       </div>
                       <button type="button" class="remove-btn" (click)="removeContent($index)" title="Eliminar">
                         <span class="material-icons">close</span>
                       </button>
                     </div>
                   } @else {
-                    <div class="content-chip">
+                    <div class="content-chip" [class.existing]="item.isExisting">
                       <span class="chip-type">{{ item.type }}</span>
                       @if (item.fileName) { <span class="chip-name">{{ item.fileName }}</span> }
                       @if (item.videoUrl) { <span class="chip-name">Video</span> }
                       @if (item.note) { <span class="chip-name">Nota</span> }
+                      @if (item.isExisting) {
+                        <span class="chip-existing">Existente</span>
+                      }
                       <button type="button" class="remove-btn-chip" (click)="removeContent($index)" title="Eliminar">
                         <span class="material-icons">close</span>
                       </button>
