@@ -249,9 +249,9 @@
 
 .content-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .content-chip {
@@ -264,6 +264,7 @@
   border-radius: 999px;
   font-size: 12px;
   color: var(--color-text);
+  width: fit-content;
 }
 
 .chip-type {
@@ -297,6 +298,106 @@
 .image-wrapper input[type="file"],
 .file-wrapper input[type="file"] {
   accent-color: var(--primary-button);
+}
+
+/* Image Preview */
+.image-preview {
+  margin-top: 12px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background-color: var(--color-input);
+}
+
+.image-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Content List Items */
+.content-item {
+  width: 100%;
+}
+
+.content-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background-color: var(--color-container);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+.preview-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.preview-info .chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Remove Buttons */
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--color-text-input);
+}
+
+.remove-btn:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.remove-btn .material-icons {
+  font-size: 20px;
+}
+
+.remove-btn-chip {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  margin-left: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--color-text-input);
+}
+
+.remove-btn-chip:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.remove-btn-chip .material-icons {
+  font-size: 16px;
 }
 
 .modal-footer {

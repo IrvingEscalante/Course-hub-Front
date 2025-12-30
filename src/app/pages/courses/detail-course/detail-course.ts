@@ -115,13 +115,11 @@ export class DetailCourse {
   getCourseDetail(id_course:number){
     this.courseService.getDetailCourse(id_course).subscribe({
       next:(data)=>{
-        console.log(data)
         this.course=data;
         this.loaderService.hide();
-
       },
       error:(err)=>{
-        console.log(err)
+        this.toastService.error(err.error.detail);
       }
     })
   }
@@ -129,7 +127,6 @@ export class DetailCourse {
   getModules(id_course:number){
     this.moduleService.getModules(id_course).subscribe({
       next:(data)=>{
-        console.log("modules:"+data);
         this.modules = [...data].sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
       },
       error:(err)=>{
@@ -145,16 +142,6 @@ export class DetailCourse {
     if (this.course) {
       setTimeout(() => this.getModules(this.course!.id_course), 300);
     }
-  }
-  getPublications(id_module:number){
-    this.detailService.getPublications(id_module).subscribe({
-      next:(data)=>{
-        console.log(data);
-      },
-      error:(err)=>{
-        console.log(err);
-      }
-    })
   }
 
   copyCourse(id_course:number){
@@ -178,7 +165,7 @@ export class DetailCourse {
         console.log(data);
         this.pulls = data;
       },error:(err)=>{
-        console.log(err)
+        this.toastService.error(err.error.detail);
       }
     })
   }

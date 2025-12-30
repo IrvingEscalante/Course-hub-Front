@@ -91,6 +91,11 @@
                 @if (selectedFileName) {
                   <span class="file-name">✓ {{ selectedFileName }}</span>
                 }
+                @if (currentImagePreview) {
+                  <div class="image-preview">
+                    <img [src]="currentImagePreview" alt="Vista previa" />
+                  </div>
+                }
               </div>
             </div>
           }
@@ -151,11 +156,29 @@
           @if (contents.length) {
             <div class="content-list">
               @for (item of contents; track $index) {
-                <div class="content-chip">
-                  <span class="chip-type">{{ item.type }}</span>
-                  @if (item.fileName) { <span class="chip-name">{{ item.fileName }}</span> }
-                  @if (item.videoUrl) { <span class="chip-name">Video</span> }
-                  @if (item.note) { <span class="chip-name">Nota</span> }
+                <div class="content-item">
+                  @if (item.type === 'image' && item.imagePreview) {
+                    <div class="content-preview-card">
+                      <img [src]="item.imagePreview" alt="Vista previa" class="preview-thumbnail" />
+                      <div class="preview-info">
+                        <span class="chip-type">{{ item.type }}</span>
+                        <span class="chip-name">{{ item.fileName }}</span>
+                      </div>
+                      <button type="button" class="remove-btn" (click)="removeContent($index)" title="Eliminar">
+                        <span class="material-icons">close</span>
+                      </button>
+                    </div>
+                  } @else {
+                    <div class="content-chip">
+                      <span class="chip-type">{{ item.type }}</span>
+                      @if (item.fileName) { <span class="chip-name">{{ item.fileName }}</span> }
+                      @if (item.videoUrl) { <span class="chip-name">Video</span> }
+                      @if (item.note) { <span class="chip-name">Nota</span> }
+                      <button type="button" class="remove-btn-chip" (click)="removeContent($index)" title="Eliminar">
+                        <span class="material-icons">close</span>
+                      </button>
+                    </div>
+                  }
                 </div>
               }
             </div>

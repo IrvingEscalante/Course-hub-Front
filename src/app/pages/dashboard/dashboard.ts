@@ -4,6 +4,7 @@ import { CoursesService } from '../../core/services/courses/courses.service';
 import { Course } from '../../core/models/course.model';
 import { FormsModule } from '@angular/forms';
 import { LoaderService } from '../../core/services/loader';
+import { ToastService } from '../../core/services/toast.service';
 @Component({
   selector: 'app-dashboard',
   imports: [CourseList, FormsModule],
@@ -17,6 +18,7 @@ export class Dashboard implements OnInit {
   selectedFilter = 'Todos';
   courses: Course[] = [];
   loaderService=inject(LoaderService)
+  toastService = inject(ToastService);
   
   selectFilter(filter: string) {
     this.selectedFilter = filter;
@@ -38,7 +40,7 @@ export class Dashboard implements OnInit {
         this.loaderService.hide();
       },
       error:(error)=>{
-        console.log(error);
+        this.toastService.error(error.error.detail);
       },
       complete:()=>{
         this.loading = false;

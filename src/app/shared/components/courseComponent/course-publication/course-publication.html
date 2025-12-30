@@ -3,18 +3,18 @@
   <div class="publication-header">
     <div class="header-top flex-row">
       <div class="header-text flex-column">
-        <h3 class="publication-title">{{ publication.name_publication }}</h3>
+        <div class="publication-title-container flex-row">
+          <div class="material-icons">article</div>
+          <h3 class="publication-title">{{ publication.name_publication }}</h3>
+        </div>
         <p class="publication-description">{{ publication.description }}</p>
       </div>
       @if (isMyCourse) {
         <div class="header-actions flex-row">
-          <div class="action-icon" title="Agregar contenido" (click)="onAddContent()">
-            <span class="material-icons">add</span>
-          </div>
-          <div class="action-icon" (click)="onEditPublication()" title="Editar">
+          <div class="action-icon" (click)="onEditPublication()" title="Editar publicación">
             <span class="material-icons">edit</span>
           </div>
-          <div class="action-icon delete" (click)="onDeletePublication()" title="Eliminar">
+          <div class="action-icon delete" (click)="onDeletePublication()" title="Eliminar publicación">
             <span class="material-icons">delete</span>
           </div>
         </div>
@@ -25,67 +25,71 @@
   <div class="publication-content">
 
     <!-- GRID para PDFs -->
-    <div class="pdf-grid">
-      @for (content of publication.content; track $index) {
-        @if (content.type_content === 'pdf' || content.type_content === 'pptx') {
-
-          <div class="pdf-card" (click)="openPdf(content.content)">
-
-        <!-- Mitad superior: PREVIEW -->
-        <div class="pdf-preview-wrapper">
-          <object 
-            [data]="apiUrlBack + content.content | safeUrl" 
-            class="pdf-preview">
-          </object>
-        </div>
-
-        <!-- Mitad inferior: Información -->
-        <div class="pdf-card-body">
-          <p class="pdf-title">{{ getFilename(content.content) }}</p>
-
-          <div class="pdf-meta">
-            <span>PDF</span>
-          </div>
-        </div>
-
-      </div>
-
-
+    @if (hasPdfContent()) {
+      <div class="pdf-grid">
+        @for (content of publication.content; track $index) {
+          @if (content.type_content === 'file' || content.type_content === 'pdf' || content.type_content === 'pptx' || content.type_content === 'docx') {
+            <div class="pdf-card" (click)="openPdf(content.content)">
+              <div class="pdf-preview-wrapper">
+                <object 
+                  [data]="apiUrlBack + content.content | safeUrl" 
+                  class="pdf-preview">
+                </object>
+              </div>
+              <div class="pdf-card-body">
+                <p class="pdf-title">{{ getFilename(content.content) }}</p>
+                <div class="pdf-meta">
+                  <span>{{ getFileExtension(content.content) }}</span>
+                </div>
+              </div>
+            </div>
+          }
         }
-      }
-    </div>
-    <!-- FIN GRID PDFs -->
+      </div>
+    }
 
-    <!-- CONTENIDO QUE NO ES PDF -->
+    <!-- CONTENIDO MULTIMEDIA -->
     @for (content of publication.content; track $index) {
-      @if (content.type_content !== 'pdf') {
+      @if (content.type_content !== 'file' && content.type_content !== 'pdf' && content.type_content !== 'pptx' && content.type_content !== 'docx') {
 
         @switch (content.type_content) {
 
           @case ('image') {
             <div class="content-card">
-              <img [src]="content.content" alt="Imagen" class="content-image" />
+              <img [src]="content.content" alt="Imagen del contenido" class="content-image" loading="lazy" />
             </div>
           }
 
           @case ('video') {
-            <div class="content-card">
+            <div class="content-card video-card">
               <video [src]="content.content" controls class="content-video"></video>
             </div>
           }
 
           @case ('video-embed') {
-            <div class="content-card">
-            <youtube-player
-              [videoId]="extractYouTubeId(content.content) || ''"
-              [playerVars]="{ autoplay: 0 }">
-            </youtube-player>
+            <div class="content-card youtube-card">
+              <youtube-player
+                [videoId]="extractYouTubeId(content.content) || ''"
+                [playerVars]="{ autoplay: 0 }">
+              </youtube-player>
+            </div>
+          }
+
+          @case ('note') {
+            <div class="content-card text-card">
+              <p>{{ content.content }}</p>
+            </div>
+          }
+
+          @case ('text') {
+            <div class="content-card text-card">
+              <p>{{ content.content }}</p>
             </div>
           }
 
           @default {
-            <div class="content-card">
-              <p>{{content.content}}</p>
+            <div class="content-card text-card">
+              <p>{{ content.content }}</p>
             </div>
           }
 
@@ -96,3 +100,14 @@
 
   </div>
 </div>
+
+<app-modal-confirmation
+  [isOpen]="isConfirmOpen"
+  [title]="'Eliminar publicación'"
+  [description]="'¿Estás seguro de que deseas eliminar la publicación ' + publication.name_publication + '? Esta acción no se puede deshacer'"
+  [confirmText]="'Eliminar'"
+  [cancelText]="'Cancelar'"
+  [loading]="confirmingDelete"
+  (confirm)="confirmDeletePublication()"
+  (cancel)="onCancelDelete()">
+</app-modal-confirmation>

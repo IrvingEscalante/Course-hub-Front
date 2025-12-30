@@ -67,7 +67,6 @@ export class CourseComments {
         this.toastService.success("Su calificación y comentario hacia el curso se enviaron correctamente");
       },
       error:(err)=>{
-        console.log(err);
         this.loaderService.hide();
         this.toastService.error(err.error.detail);
       }
@@ -77,11 +76,9 @@ export class CourseComments {
   getAllComments(id_course:number){
     this.ratingCommentsService.getAllComments(id_course).subscribe({
       next:(data)=>{
-        console.log(data);
         this.comments = data;
       },
       error:(err)=>{
-        console.log(err);
       }
     });
 

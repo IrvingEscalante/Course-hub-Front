@@ -12,6 +12,7 @@ export interface ContentPayload {
   videoUrl?: string;
   note?: string;
   fileName?: string;
+  imagePreview?: string;
 }
 
 export interface ModalData {
@@ -41,6 +42,7 @@ export class CourseModal implements OnInit {
   selectedFileName: string = '';
   selectedContentType: ContentType = null;
   contents: ContentPayload[] = [];
+  currentImagePreview: string | null = null;
 
   constructor(private fb: FormBuilder) {}
 
@@ -96,6 +98,17 @@ export class CourseModal implements OnInit {
       const file = input.files[0];
       this.form.patchValue({ file: file });
       this.selectedFileName = file.name;
+
+      // Generar previsualización si es imagen
+      if (this.selectedContentType === 'image' && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.currentImagePreview = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.currentImagePreview = null;
+      }
     }
   }
 
@@ -113,7 +126,8 @@ export class CourseModal implements OnInit {
       content = {
         type: this.selectedContentType,
         file,
-        fileName: file.name
+        fileName: file.name,
+        imagePreview: this.selectedContentType === 'image' ? this.currentImagePreview || undefined : undefined
       };
     } else if (this.selectedContentType === 'video') {
       if (!videoUrl) return;
@@ -172,11 +186,17 @@ export class CourseModal implements OnInit {
     this.selectedFileName = '';
     this.selectedContentType = null;
     this.contents = [];
+    this.currentImagePreview = null;
   }
 
   clearContentInputs() {
     this.form.patchValue({ file: null, videoUrl: '', note: '' });
     this.selectedFileName = '';
     this.selectedContentType = null;
+    this.currentImagePreview = null;
+  }
+
+  removeContent(index: number) {
+    this.contents = this.contents.filter((_, i) => i !== index);
   }
 }

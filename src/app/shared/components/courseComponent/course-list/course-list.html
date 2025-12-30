@@ -1,8 +1,5 @@
-@if (courseList) {
+@if (courseList.length > 0) {
 <div class="carousel-container">
-        @if (hasOverflow) {
-        <button class="carousel-btn left" (click)="scrollLeft()">‹</button>
-        }
         <h1 class="courses-desc">{{title}}</h1>
         <div class="carousel-track" #carouselTrack>
             @for (course of courseList; track $index) {
@@ -11,8 +8,39 @@
                 </div>
             }
         </div>
-        @if (hasOverflow) {
-            <button class="carousel-btn right" (click)="scrollRight()">›</button>
+        
+        @if (totalPages > 1) {
+        <div class="carousel-dots">
+            @for (dot of dots; track $index) {
+                <button 
+                    class="dot" 
+                    [class.active]="$index === currentIndex"
+                    (click)="goToSlide($index)"
+                    [attr.aria-label]="'Ir a página ' + ($index + 1)">
+                </button>
+            }
+        </div>
         }
+</div>
+} @else {
+
+<div class="carousel-container">
+  <div class="empty-state" aria-live="polite">
+    @if (isFavorites) {
+      <div class="empty-icon" aria-hidden="true">
+        <!-- Heart icon -->
+        <span class="material-icons">favorite</span>
+      </div>
+      <h2 class="empty-title">Aún no tienes cursos favoritos</h2>
+      <p class="empty-desc">Marca cursos como favoritos para encontrarlos rápidamente y seguir aprendiendo.</p>
+    } @else {
+      <div class="empty-icon" aria-hidden="true">
+        <!-- Book icon -->
+        <span class="material-icons">book</span>
+      </div>
+      <h2 class="empty-title">No hay {{title}} disponibles</h2>
+      <p class="empty-desc">Vuelve más tarde o explora otras categorías para descubrir nuevos cursos.</p>
+    }
+  </div>
 </div>
 }

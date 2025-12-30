@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule } from '../../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
 import { ModuleCoursesService } from '../../../../core/services/courses/module-courses.service';
+import { PublicationsService } from '../../../../core/services/courses/publications.service';
 import { CoursePublication } from "../course-publication/course-publication";
 import { environment } from '../../../../../environments/environment';
 import { CourseModal, ModalData } from '../course-modal/course-modal';
@@ -29,6 +30,7 @@ export class CourseModule {
   loaderService=inject(LoaderService);
   detailService=inject(DetailCourses);
   moduleService=inject(ModuleCoursesService);
+  publicationsService=inject(PublicationsService);
   @Input() moduleCourse!:ModuleCourseResponse;
   @Input() isMyCourse?: boolean;
   publications: CoursePublishResponse[] = [];
@@ -137,6 +139,7 @@ closePdf() {
     console.log('Datos del formulario:', data);
     console.log('Tipo de elemento:', this.modalElementType, 'Acción:', this.modalActionType);
 
+    // Editar módulo
     if (this.modalElementType === 'module' && this.modalActionType === 'edit') {
       const payload: EditModule = {
         id_module: this.moduleCourse.id_module,
@@ -148,7 +151,6 @@ closePdf() {
 
       this.moduleService.editModule(this.moduleCourse.id_module, payload).subscribe({
         next: (updated) => {
-          // Actualizar estado local
           this.moduleCourse = { ...this.moduleCourse, ...updated };
           console.log('Módulo actualizado exitosamente:', updated);
           this.loaderService.hide();
@@ -165,10 +167,49 @@ closePdf() {
       return;
     }
 
-    if (this.modalElementType === 'publication') {
-      console.log('ID del módulo (para publicación):', this.moduleCourse.id_module);
-    } else if (this.modalElementType === 'content') {
+    // Crear publicación
+    if (this.modalElementType === 'publication' && this.modalActionType === 'add') {
+      if (!data.contents || data.contents.length === 0) {
+        this.loaderService.hide();
+        this.toastService.error('Debes agregar al menos un contenido a la publicación');
+        return;
+      }
+
+      this.publicationsService.createPublication(
+        this.moduleCourse.id_module,
+        data.title,
+        data.description,
+        data.contents
+      ).subscribe({
+        next: (newPublication) => {
+          console.log('Publicación creada exitosamente:', newPublication);
+          this.loaderService.hide();
+          this.toastService.success('Publicación creada exitosamente');
+          this.isModalOpen = false;
+          
+          // Actualizar lista de publicaciones
+          if (this.hasLoaded) {
+            this.getPublications(this.moduleCourse.id_module);
+          }
+          // Si el módulo está cerrado, abrirlo para mostrar la nueva publicación
+          if (!this.isOpen) {
+            this.isOpen = true;
+            this.getPublications(this.moduleCourse.id_module);
+          }
+        },
+        error: (err) => {
+          console.log('Error al crear publicación:', err);
+          this.loaderService.hide();
+          this.toastService.error(err.error?.detail || 'Error al crear la publicación');
+        }
+      });
+      return;
+    }
+
+    // Agregar contenido (para implementar después)
+    if (this.modalElementType === 'content') {
       console.log('Agregando contenido a publicación');
+      this.loaderService.hide();
     }
 
     this.isModalOpen = false;

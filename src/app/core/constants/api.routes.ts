@@ -34,6 +34,12 @@ export const API_ROUTES = {
     delete_module: '/modules/delete/',
     reorder_modules: '/modules/reorder/'
   },
+  publications:{
+    get_by_id: '/publications/getById/',
+    create: '/publications/create/',
+    delete_content: '/publications/content/',
+    delete_publication: '/publications/delete/'
+  },
   favorites:{
     add_delete_favorites: '/favorites/add_delete/',
     get_favorites: '/favorites/'

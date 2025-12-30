@@ -1,54 +1,180 @@
 .courses-desc{
     font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
+
 .carousel-container {
     position: relative;
     width: 100%;
     margin-top: 20px;
     padding-inline: 70px;
+    padding-bottom: 50px;
 }
 
 .carousel-track {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding-bottom: 10px;
-
+    scroll-snap-type: x mandatory;
     scrollbar-width: none; /* firefox */
 }
+
 .carousel-track::-webkit-scrollbar {
     display: none; /* chrome */
 }
 
 .carousel-item {
-    min-width: 280px;   /* mismo tamaño que tu card */
+    min-width: 280px;
     flex: 0 0 auto;
+    scroll-snap-align: start;
 }
 
 .carousel-btn {
     position: absolute;
-    top: 50%;
-    width: 50px;
-    height: 50px;
-    border-radius: 100px;
+    top: calc(50% - 20px);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     border: none;
-    background: rgb(68, 21, 237);
-    color: white;
-    font-size: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    color: rgb(68, 21, 237);
     cursor: pointer;
     display: flex;
+    align-items: center;
     justify-content: center;
-    backdrop-filter: blur(3px);
-    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
     z-index: 20;
 }
 
+.carousel-btn:hover:not(:disabled) {
+    background: rgb(17, 6, 56);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(68, 21, 237, 0.3);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-btn svg {
+    width: 24px;
+    height: 24px;
+}
 
 .carousel-btn.left {
-    left: 30px;
+    left: 10px;
 }
 
 .carousel-btn.right {
-    right: 30px;
+    right: 10px;
+}
+
+/* Indicadores de puntos */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid rgb(68, 21, 237);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.dot:hover {
+    background: rgba(68, 21, 237, 0.5);
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background: rgb(68, 21, 237);
+    width: 28px;
+    border-radius: 5px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .carousel-container {
+        padding-inline: 50px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .carousel-btn.left {
+        left: 5px;
+    }
+    
+    .carousel-btn.right {
+        right: 5px;
+    }
+}
+
+/* Empty state */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 24px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.empty-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(68, 21, 237, 0.15);
+    color: rgb(68, 21, 237);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.empty-icon .material-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.empty-title {
+    margin-top: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.empty-desc {
+    margin-top: 8px;
+    max-width: 560px;
+    color: rgba(255, 255, 255, 0.8);
 }

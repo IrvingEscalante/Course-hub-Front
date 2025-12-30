@@ -1,24 +1,33 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { YoutubePlayer } from "../course-content-publication/youtube-player/youtube-player";
 import { CoursePublishResponse } from '../../../../core/models/detail_course.model';
 import { SafeUrlPipe } from '../../../pipes/safeurlpipe-pipe';
 import { environment } from '../../../../../environments/environment';
 import { YouTubePlayer } from "@angular/youtube-player";
-// Modal is controlled by parent (course-module)
+import { PublicationsService } from '../../../../core/services/courses/publications.service';
+import { ToastService } from '../../../../core/services/toast.service';
+import { ModalConfirmation } from '../../modal-confirmation/modal-confirmation';
 
 @Component({
   selector: 'app-course-publication',
-  imports: [SafeUrlPipe, YouTubePlayer],
+  imports: [SafeUrlPipe, YouTubePlayer, ModalConfirmation],
   templateUrl: './course-publication.html',
   styleUrl: './course-publication.css'
 })
 export class CoursePublication {
   videoId:string = 'nKPbfIU442g';
   apiUrlBack = environment.apiUrlForStatics;
+  publicationService = inject(PublicationsService);
+  toastService = inject(ToastService);
+  
+  // Modal de confirmación
+  isConfirmOpen: boolean = false;
+  confirmingDelete: boolean = false;
   // Modal state removed; controlled by parent
   @Input() publication!: CoursePublishResponse;
   @Input() isMyCourse?: boolean;
   @Output() pdfClick = new EventEmitter<string>();
+  @Output() getpublications = new EventEmitter<void>();
   @Output() editPublication = new EventEmitter<CoursePublishResponse>();
   @Output() deletePublication = new EventEmitter<CoursePublishResponse>();
   @Output() addContent = new EventEmitter<CoursePublishResponse>();
@@ -33,12 +42,59 @@ export class CoursePublication {
   }
 
   onDeletePublication() {
-    this.deletePublication.emit(this.publication);
+    this.isConfirmOpen = true;
+  }
+
+  onCancelDelete() {
+    if (!this.confirmingDelete) {
+      this.isConfirmOpen = false;
+    }
+  }
+
+  confirmDeletePublication() {
+    if (this.confirmingDelete) return;
+    this.confirmingDelete = true;
+    
+    this.publicationService.deletePublication(this.publication.id_course_publish).subscribe({
+      next: (resp) => {
+        this.toastService.success("Se ha eliminado la publicación '" + resp.name_publication + "' correctamente");
+        this.isConfirmOpen = false;
+        this.getPublications();
+      },
+      error: (err) => {
+        this.toastService.error(err.error?.detail || 'Error al eliminar la publicación');
+      },
+      complete: () => {
+        this.confirmingDelete = false;
+      }
+    });
   }
 
   getFilename(path: string): string {
-    return path.split('/').pop() || path;
+    const fullName = path.split('/').pop() || path;
+    // Remover el prefijo de ID si existe (ej: "123_archivo.pdf" -> "archivo.pdf")
+    const parts = fullName.split('_');
+    if (parts.length > 1 && !isNaN(Number(parts[0]))) {
+      return parts.slice(1).join('_');
+    }
+    return fullName;
   }
+
+  getFileExtension(path: string): string {
+    const ext = path.split('.').pop()?.toUpperCase() || 'FILE';
+    return ext;
+  }
+
+  hasPdfContent(): boolean {
+    if (!this.publication?.content) return false;
+    return this.publication.content.some(c => 
+      c.type_content === 'file' || 
+      c.type_content === 'pdf' || 
+      c.type_content === 'pptx' || 
+      c.type_content === 'docx'
+    );
+  }
+
   extractYouTubeId(url: string): string | null {
 
   if (!url || typeof url !== 'string') return null;
@@ -101,6 +157,10 @@ export class CoursePublication {
   onAddContent() {
     console.log('Acción: Agregar contenido a la publicacion', this.publication.id_course_publish);
     this.addContent.emit(this.publication);
+  }
+
+  getPublications(){
+    this.getpublications.emit();
   }
 
 }

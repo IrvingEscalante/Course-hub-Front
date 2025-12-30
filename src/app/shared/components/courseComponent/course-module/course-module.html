@@ -43,7 +43,8 @@
         [publication]="publication"
         [isMyCourse]="isMyCourse"
         (pdfClick)="openPdf($event)"
-        (addContent)="openAddContentModal()">
+        (addContent)="openAddContentModal()"
+        (getpublications)="this.getPublications(moduleCourse.id_module)">
       </app-course-publication>
     }@empty {
     <div class="empty-publications flex-row">
