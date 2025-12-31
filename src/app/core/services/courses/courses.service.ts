@@ -37,4 +37,7 @@ export class CoursesService {
   editCourse(id_course:number, formData:FormData):Observable<any>{
     return this.http.post(this.baseUrl+API_ROUTES.courses.edit_course+id_course, formData);
   }
+  saveVersion(id_course: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/course/courses/${id_course}/commit`, {});
+  }
 }

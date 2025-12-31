@@ -119,8 +119,7 @@ export class DetailCourse {
         this.loaderService.hide();
       },
       error:(err)=>{
-        this.toastService.error(err.error.detail);
-      }
+        this.loaderService.hide();}
     })
   }
 
@@ -165,7 +164,6 @@ export class DetailCourse {
         console.log(data);
         this.pulls = data;
       },error:(err)=>{
-        this.toastService.error(err.error.detail);
       }
     })
   }
@@ -247,6 +245,34 @@ export class DetailCourse {
     moveItemInArray(this.modules, event.previousIndex, event.currentIndex);
     this.reindexModules();
     this.persistModuleOrder();
+  }
+
+  saveVersion() {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+    this.loaderService.show();
+    this.courseService.saveVersion(this.course.id_course).subscribe({
+      next: (response: any) => {
+        this.loaderService.hide();
+        this.toastService.success(`Versión ${response.version_number} guardada exitosamente`);
+        console.log('Versión guardada:', response);
+      },
+      error: (err: any) => {
+        this.loaderService.hide();
+        console.log(err);
+        this.toastService.error(err.error?.detail || 'Error al guardar la versión');
+      }
+    });
+  }
+
+  openPullRequest() {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+    this.router.navigate(['/pull-request/create', this.course.id_course]);
   }
 
   private reindexModules() {

@@ -130,10 +130,22 @@
     </div>
     <div class="more-info-course flex-column">
         @if (!isEditMode && course?.is_my_course) {
-            <div (click)="enterEditMode()" class="edit flex-row">
-                <span class="material-icons">edit</span>
-                <p>Editar curso</p>
+            <div class="actions-grid flex-column">
+                <div (click)="enterEditMode()" class="edit flex-row">
+                    <span class="material-icons">edit</span>
+                    <p>Editar curso</p>
+                </div>
+                <button (click)="saveVersion()" class="btn-action btn-save-version flex-row">
+                    <span class="material-icons">save</span>
+                    <p>Guardar versión</p>
+                </button>
             </div>
+        }
+        @if (!isEditMode && course?.is_my_course && course?.is_forked) {
+            <button (click)="openPullRequest()" class="btn-action btn-pull-request flex-row">
+                <span class="material-icons">call_split</span>
+                <p>Hacer Pull Request</p>
+            </button>
         }
          @if (isEditMode) {
                     <div class="edit-actions flex-row">
