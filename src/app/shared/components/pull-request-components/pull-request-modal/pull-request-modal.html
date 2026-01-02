@@ -1,0 +1,53 @@
+@if (isOpen) {
+<div class="modal-overlay" (click)="handleClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">Crear Pull Request</h2>
+      <button class="close-button" (click)="handleClose()" type="button">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="pr-info">
+        <p class="info-text">Proponer cambios a <a [routerLink]="'/course/detail/' + courseOriginal?.id_course" target="_blank"><strong>{{ courseOriginal?.name_course }}</strong></a></p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <div class="form-group">
+          <label for="title">Título del PR (opcional)</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title"
+            placeholder="Ej: Actualizar contenido módulo 1"
+            maxlength="100"
+          />
+          <span class="char-count">{{ form.get('title')?.value?.length || 0 }}/100</span>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción (opcional)</label>
+          <textarea 
+            id="description" 
+            formControlName="description"
+            rows="4"
+            placeholder="Describe los cambios que realizaste y por qué..."
+            maxlength="500"
+          ></textarea>
+          <span class="char-count">{{ form.get('description')?.value?.length || 0 }}/500</span>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" (click)="handleClose()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-submit" [disabled]="!isFormValid()">
+            Crear Pull Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+}

@@ -1,0 +1,201 @@
+<div class="pr-detail-container flex-column">
+  <!-- LOADER -->
+  @if (isLoading) {
+    <div class="loader-center">
+      <div class="loader"></div>
+    </div>
+  }
+
+  <!-- ERROR STATE -->
+  @if (error && !isLoading) {
+    <div class="error-card flex-column">
+      <span class="material-icons error-icon">error_outline</span>
+      <h2>Error</h2>
+      <p>{{ error }}</p>
+      <button (click)="goBack()" class="btn-secondary">
+        <span class="material-icons">arrow_back</span>
+        Volver al curso
+      </button>
+    </div>
+  }
+
+  <!-- CONTENT -->
+  @if (pr && !isLoading && !error) {
+    <!-- HEADER SECTION -->
+    <div class="pr-header-section">
+      <div class="header-back">
+        <button (click)="goBack()" class="btn-back">
+          <span class="material-icons">arrow_back</span>
+        </button>
+      </div>
+
+      <div class="header-content flex-column">
+        <div class="header-title-row flex-row">
+          <div class="title-section flex-column">
+            <h1 class="pr-title">{{ pr.title }}</h1>
+            <p class="pr-id">Pull Request #{{ prId }}</p>
+          </div>
+          <div class="status-badge" [ngClass]="'status-' + pr.status_pull">
+            <span class="material-icons">{{ pr.status_pull === 'open' ? 'schedule' : (pr.status_pull === 'closed' ? 'check_circle' : 'cancel') }}</span>
+            <span>{{ pr.status_pull | uppercase }}</span>
+          </div>
+        </div>
+
+        <div class="header-meta flex-row">
+          <div class="meta-item flex-row">
+            <app-avatar [name]="pr.user.name" [photo]="pr.user.photo" [size]="32"></app-avatar>
+            <div class="user-info flex-column">
+              <strong>{{ pr.user.name }}</strong>
+              <small>@{{ pr.user.username }}</small>
+            </div>
+          </div>
+          <div class="meta-separator"></div>
+          <div class="meta-item">
+            <span class="material-icons">calendar_today</span>
+            <p>{{ pr.date_created | date: 'medium' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="info-cards-grid">
+      <div class="info-card">
+        <div class="card-icon">
+          <span class="material-icons">code</span>
+        </div>
+        <div class="card-content flex-column">
+          <p class="card-label">Cambios totales</p>
+          <strong class="card-value">{{ changes.length }}</strong>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon added">
+          <span class="material-icons">add_circle</span>
+        </div>
+        <div class="card-content flex-column">
+          <p class="card-label">Agregados</p>
+          <strong class="card-value">{{ groupedChanges.added.length }}</strong>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon updated">
+          <span class="material-icons">edit</span>
+        </div>
+        <div class="card-content flex-column">
+          <p class="card-label">Actualizados</p>
+          <strong class="card-value">{{ groupedChanges.updated.length }}</strong>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-icon deleted">
+          <span class="material-icons">remove_circle</span>
+        </div>
+        <div class="card-content flex-column">
+          <p class="card-label">Eliminados</p>
+          <strong class="card-value">{{ groupedChanges.deleted.length }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION SECTION -->
+    @if (pr.description_pull_request) {
+      <div class="pr-section">
+        <div class="section-header">
+          <span class="material-icons">description</span>
+          <h2>Descripción</h2>
+        </div>
+        <p class="description-text">{{ pr.description_pull_request }}</p>
+      </div>
+    }
+
+    <!-- CHANGES SECTION -->
+    <div class="pr-section changes-section">
+      <div class="section-header">
+        <span class="material-icons">difference</span>
+        <h2>Cambios propuestos</h2>
+        <span class="changes-count">{{ changes.length }}</span>
+      </div>
+
+      @if (changes.length === 0) {
+        <div class="empty-state">
+          <span class="material-icons">done_all</span>
+          <p>No hay cambios</p>
+        </div>
+      }
+
+      <!-- ADDED SECTION -->
+      @if (groupedChanges.added.length > 0) {
+        <div class="changes-group">
+          <div class="group-header">
+            <span class="material-icons">add_circle</span>
+            <h3>Agregados ({{ groupedChanges.added.length }})</h3>
+          </div>
+          <div class="group-content">
+            @for (change of groupedChanges.added; track change.id_change) {
+              <app-pull-request-change-item [change]="change"></app-pull-request-change-item>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- UPDATED SECTION -->
+      @if (groupedChanges.updated.length > 0) {
+        <div class="changes-group">
+          <div class="group-header">
+            <span class="material-icons">edit</span>
+            <h3>Actualizados ({{ groupedChanges.updated.length }})</h3>
+          </div>
+          <div class="group-content">
+            @for (change of groupedChanges.updated; track change.id_change) {
+              <app-pull-request-change-item [change]="change"></app-pull-request-change-item>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- DELETED SECTION -->
+      @if (groupedChanges.deleted.length > 0) {
+        <div class="changes-group">
+          <div class="group-header">
+            <span class="material-icons">remove_circle</span>
+            <h3>Eliminados ({{ groupedChanges.deleted.length }})</h3>
+          </div>
+          <div class="group-content">
+            @for (change of groupedChanges.deleted; track change.id_change) {
+              <app-pull-request-change-item [change]="change"></app-pull-request-change-item>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    @if (pr.status_pull === 'open') {
+      <div class="action-buttons flex-row">
+        <button (click)="rejectPR()" [disabled]="isProcessing" class="btn-reject">
+          <span class="material-icons">close</span>
+          <span>Rechazar</span>
+        </button>
+        <button (click)="acceptPR()" [disabled]="isProcessing" class="btn-accept">
+          <span class="material-icons">{{ isProcessing ? 'hourglass_empty' : 'check_circle' }}</span>
+          <span>{{ isProcessing ? 'Procesando...' : 'Aceptar PR' }}</span>
+        </button>
+      </div>
+    }
+
+    <!-- RESOLVED BADGE -->
+    @if (pr.status_pull !== 'open') {
+      <div class="resolved-badge" [ngClass]="'resolved-' + pr.status_pull">
+        <span class="material-icons">{{ pr.status_pull === 'closed' ? 'check_circle' : 'cancel' }}</span>
+        <span>{{ pr.status_pull === 'closed' ? 'Aceptado' : 'Rechazado' }}</span>
+        @if (pr.date_resolved) {
+          <small>{{ pr.date_resolved | date: 'medium' }}</small>
+        }
+      </div>
+    }
+  }
+</div>

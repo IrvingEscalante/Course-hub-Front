@@ -1,0 +1,65 @@
+<div class="change-card" [ngClass]="'action-' + change.action">
+  <div class="change-header flex-row">
+    <div class="action-badge" [ngClass]="'badge-' + change.action">
+      <span class="material-icons icon-action">{{ getIcon() }}</span>
+      <span class="action-text">{{ getActionLabel() }}</span>
+    </div>
+
+    <div class="entity-info flex-row">
+      <span class="material-icons icon-entity">{{ getEntityIcon() }}</span>
+      <span class="entity-name">{{ getEntityLabel() }}</span>
+      @if (change.field) {
+        <span class="field-name">{{ change.field }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="change-content flex-column">
+    @if (hasOldData() || change.old_value) {
+      <div class="change-section old-section">
+        <div class="section-header">
+          <span class="material-icons">arrow_back</span>
+          <strong>Anterior</strong>
+        </div>
+        <div class="section-body">
+          @if (change.old_data) {
+            <pre class="json-display">{{ change.old_data | json }}</pre>
+          } @else if (change.old_value) {
+            <p class="value-text">{{ getDisplayValue(change.old_value) }}</p>
+          } @else {
+            <p class="empty-text">(sin datos anteriores)</p>
+          }
+        </div>
+      </div>
+    }
+
+    @if (hasNewData() || change.new_value) {
+      <div class="change-section new-section">
+        <div class="section-header">
+          <span class="material-icons">arrow_forward</span>
+          <strong>Nuevo</strong>
+        </div>
+        <div class="section-body">
+          @if (change.new_data) {
+            <pre class="json-display">{{ change.new_data | json }}</pre>
+          } @else if (change.new_value) {
+            <p class="value-text">{{ getDisplayValue(change.new_value) }}</p>
+          } @else {
+            <p class="empty-text">(sin datos nuevos)</p>
+          }
+        </div>
+      </div>
+    }
+
+    @if (change.reason) {
+      <div class="reason-info">
+        <span class="material-icons">info</span>
+        <p>{{ change.reason }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="change-footer">
+    <p class="date-text">{{ change.date_created | date: 'short' }}</p>
+  </div>
+</div>

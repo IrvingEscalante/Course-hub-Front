@@ -2,6 +2,7 @@ import { UserOut } from "./user.model";
 
 export interface Course {
   id_course: number;
+  id_course_parent:number;
   name_course: string;
   description_course: string;
   image: string;

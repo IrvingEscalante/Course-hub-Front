@@ -446,3 +446,117 @@
     border: none;
 }
 }
+
+.no-pulls-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 30px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.04) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 16px;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.no-pulls-message::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.no-pulls-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: inline-block;
+    animation: fadeInScale 0.8s ease-out;
+}
+
+.no-pulls-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+.no-pulls-subtitle {
+    font-size: 15px;
+    color: var(--muted-text);
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.pr-sub-tabs {
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+
+.pr-tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted-text);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-family);
+}
+
+.pr-tab-btn:hover {
+    color: var(--color-text);
+}
+
+.pr-tab-btn.active {
+    color: #3B82F6;
+    border-bottom-color: #3B82F6;
+}
+
+.badge {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #3B82F6;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pr-tab-btn.active .badge {
+    background-color: rgba(59, 130, 246, 0.3);
+}

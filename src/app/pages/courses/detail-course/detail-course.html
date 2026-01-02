@@ -61,9 +61,9 @@
         <div class="content-course-content">
             <div class="subtitle-copycourse flex-row">
                 <div class="tabs-options flex-row">
-                    <h3 class="option-tabs" [class.selected]="selectedTab=='content-course'" (click)="changeSelectedTab('content-course')">Contenido del curso</h3>
+                    <h3 class="option-tabs bold" [class.selected]="selectedTab=='content-course'" (click)="changeSelectedTab('content-course')">Contenido del curso</h3>
                     @if (course?.is_my_course) {
-                        <h3 class="option-tabs" [class.selected]="selectedTab=='content-pull-request'" (click)="changeSelectedTab('content-pull-request')">Peticiones de cambios</h3>
+                        <h3 class="option-tabs bold" [class.selected]="selectedTab=='content-pull-request'" (click)="changeSelectedTab('content-pull-request')">Peticiones de cambios</h3>
                     }
                 </div>
                 @if (course && !course.is_my_course){
@@ -115,8 +115,53 @@
                 </div>
             }@else if (selectedTab == 'content-pull-request') {
                 <div class="container-content flex-column">
-                    @for (pull of pulls; track $index) {
-                        <app-pull-request [pull]="pull"></app-pull-request>
+                    <div class="pr-sub-tabs flex-row">
+                        <button 
+                            class="pr-tab-btn" 
+                            [class.active]="prSubTab === 'received'"
+                            (click)="prSubTab = 'received'">
+                            Recibidos
+                            <span class="badge">{{ pulls.length }}</span>
+                        </button>
+                        @if (course?.is_forked) {
+                            <button 
+                                class="pr-tab-btn" 
+                                [class.active]="prSubTab === 'sent'"
+                                (click)="prSubTab = 'sent'">
+                                Enviados
+                                <span class="badge">{{ myPulls.length }}</span>
+                            </button>
+                        }
+                    </div>
+
+                    <!-- PRs RECIBIDOS -->
+                    @if (prSubTab === 'received') {
+                        @if (pulls.length === 0) {
+                            <div class="no-pulls-message">
+                                <div class="no-pulls-icon">📋</div>
+                                <p class="no-pulls-text">Aún no hay pull requests</p>
+                                <p class="no-pulls-subtitle">Los cambios propuestos aparecerán aquí</p>
+                            </div>
+                        } @else {
+                            @for (pull of pulls; track $index) {
+                                <app-pull-request [pull]="pull"></app-pull-request>
+                            }
+                        }
+                    }
+
+                    <!-- PRs ENVIADOS -->
+                    @if (prSubTab === 'sent' && course?.is_forked) {
+                        @if (myPulls.length === 0) {
+                            <div class="no-pulls-message">
+                                <div class="no-pulls-icon">🚀</div>
+                                <p class="no-pulls-text">Aún no has enviado pull requests</p>
+                                <p class="no-pulls-subtitle">Los PRs que hagas aparecerán aquí</p>
+                            </div>
+                        } @else {
+                            @for (pull of myPulls; track $index) {
+                                <app-pull-request [pull]="pull" [isReceivedPR]="false"></app-pull-request>
+                            }
+                        }
                     }
                 </div>
             }
@@ -177,7 +222,7 @@
 
                     </div>
                 </div>
-                <p class="based-ratings">Basado en 125 reseñas</p>
+                <p class="based-ratings">Basado en 2 reseñas</p>
             @for (rating of ratings; track $index) {
                 <div class="rating-bar">
                     <div class="rating-label">{{ rating.stars }}</div>
@@ -189,7 +234,7 @@
             }
             <div class="info-content flex-column">
                 <ul class="list-content-course flex-column">
-                    <li class="flex-row list-item"><span class="material-icons">video_camera_back</span><p>Videos:25</p></li>
+                    <li class="flex-row list-item"><span class="material-icons">video_camera_back</span><p>Videos:{{2}}</p></li>
                     <li class="flex-row list-item"><span class="material-icons">picture_as_pdf</span><p>Archivos PDF:25</p></li>
                     <li class="flex-row"><span>Archivos PPTX:25</span></li>
                     <li class="flex-row list-item"><span class="material-icons">note</span><p>Notas:25</p></li>
@@ -233,3 +278,11 @@
   (onClose)="onModalClose()"
   (onSubmit)="onModalSubmit($event)">
 </app-course-modal>
+
+<app-pull-request-modal
+  [isOpen]="isPRModalOpen"
+  [targetCourseId]="course?.id_course_parent || 0"
+  [courseOriginal]="originalCourse"
+  (onClose)="onPRModalClose()"
+  (onSubmit)="onPRModalSubmit($event)">
+</app-pull-request-modal>

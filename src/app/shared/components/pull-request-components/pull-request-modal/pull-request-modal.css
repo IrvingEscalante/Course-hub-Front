@@ -1,0 +1,233 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 10, 20, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: var(--secondary-color);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  color: var(--color-text);
+}
+
+.close-button:hover {
+  background-color: var(--color-container);
+}
+
+.close-button .material-icons {
+  font-size: 24px;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.pr-info {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  border-left: 4px solid #3B82F6;
+}
+
+.info-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.info-text strong {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-input);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  font-size: 14px;
+  transition: all 0.2s;
+  font-family: var(--font-family);
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group textarea::placeholder {
+  color: var(--color-text-input);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  outline: none;
+  border: 2px solid #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.char-count {
+  font-size: 12px;
+  color: var(--muted-text);
+  text-align: right;
+  margin-top: -4px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family);
+}
+
+.btn-cancel {
+  background-color: var(--color-container);
+  color: var(--color-text);
+  border: 1px solid var(--border);
+}
+
+.btn-cancel:hover {
+  background-color: var(--color-input);
+}
+
+.btn-submit {
+  background-color: #3B82F6;
+  color: white;
+  border: none;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .modal-content {
+    width: 95%;
+    max-width: 100%;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-title {
+    font-size: 20px;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

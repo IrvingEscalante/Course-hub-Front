@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseEditService } from '../../../core/services/courses/course-edit.service';
 import { CourseModal, ModalData } from "../../../shared/components/courseComponent/course-modal/course-modal";
+import { PullRequestModal, PullRequestModalData } from "../../../shared/components/pull-request-components/pull-request-modal/pull-request-modal";
 import { ModuleCoursesService } from '../../../core/services/courses/module-courses.service';
 import { UserOut } from '../../../core/models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -23,7 +24,7 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
 
 @Component({
   selector: 'app-detail-course',
-  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule, CourseModal, DragDropModule],
+  imports: [CourseModule, CourseComments, Avatar, RouterModule, PullRequest, CommonModule, FormsModule, CourseModal, PullRequestModal, DragDropModule],
   templateUrl: './detail-course.html',
   styleUrl: './detail-course.css'
 })
@@ -35,6 +36,7 @@ export class DetailCourse {
   router = inject(Router);
   toastService = inject(ToastService);
   course?:Course;
+  originalCourse?:Course;
   courseCopy?:CourseBase;
   detailService = inject(DetailCourses);
   moduleService = inject(ModuleCoursesService);
@@ -42,19 +44,23 @@ export class DetailCourse {
   authService = inject(AuthService);
   modules:ModuleCourseResponse[] = []
   courseRating:number=0;
-  pulls:PullRequestBasicOut[]=[];
+  pulls:PullRequestBasicOut[]=[];  // PRs que recibo
+  myPulls:PullRequestBasicOut[]=[];  // PRs que envío
   selectedTab:string = "content-course";
+  prSubTab: 'received' | 'sent' = 'received';
   isEditMode: boolean = false;
   editingCourse: any = {};
   selectedCoverFile: File | null = null;
   previewImageUrl: string | null = null;
   isModalOpen: boolean = false;
+  isPRModalOpen: boolean = false;
   user: UserOut | null = null;
   isSavingOrder = false;
 
   onModalClose() {
     this.isModalOpen = false;
   }
+
   onModalSubmit(data: ModalData) {
     if (!this.course) {
       this.toastService.error('Curso no cargado');
@@ -106,6 +112,7 @@ export class DetailCourse {
       this.getCourseDetail(id);
       this.getModules(id);
       this.getPulls(id);
+      this.loadMyPullRequests(id);
     });
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
@@ -116,10 +123,23 @@ export class DetailCourse {
     this.courseService.getDetailCourse(id_course).subscribe({
       next:(data)=>{
         this.course=data;
+        this.getCourseOriginalDetail(this.course.id_course_parent);
         this.loaderService.hide();
       },
       error:(err)=>{
         this.loaderService.hide();}
+    })
+  }
+
+  getCourseOriginalDetail(id_course:number){
+    this.courseService.getDetailCourse(id_course).subscribe({
+      next:(data)=>{
+        this.originalCourse=data;
+        console.log("Curso original:", this.originalCourse);
+      },
+      error:(err)=>{
+        
+      }
     })
   }
 
@@ -164,6 +184,17 @@ export class DetailCourse {
         console.log(data);
         this.pulls = data;
       },error:(err)=>{
+      }
+    })
+  }
+
+  loadMyPullRequests(id_course:number){
+    this.pullsService.getMyPullRequests(id_course).subscribe({
+      next:(data)=>{
+        console.log('Mis PRs:', data);
+        this.myPulls = data;
+      },error:(err)=>{
+        console.log('Error cargando mis PRs:', err);
       }
     })
   }
@@ -272,7 +303,43 @@ export class DetailCourse {
       this.toastService.error('Curso no cargado');
       return;
     }
-    this.router.navigate(['/pull-request/create', this.course.id_course]);
+    this.isPRModalOpen = true;
+  }
+
+  onPRModalClose() {
+    this.isPRModalOpen = false;
+  }
+
+  onPRModalSubmit(data: PullRequestModalData) {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+
+    this.loaderService.show();
+
+    // El backend obtiene automáticamente las últimas versiones
+    const prPayload = {
+      id_course_source: this.course.id_course,
+      id_course_target: this.course.id_course_parent || this.course.id_course,
+      title: data.title || undefined,
+      description: data.description || undefined
+    };
+
+    this.pullsService.createPullRequest(prPayload).subscribe({
+      next: (response) => {
+        this.loaderService.hide();
+        this.isPRModalOpen = false;
+        this.toastService.success('Pull Request creado exitosamente');
+        this.loadMyPullRequests(response.id_course_source);
+        console.log('PR creado:', response);
+      },
+      error: (err) => {
+        this.loaderService.hide();
+        this.toastService.error(err.error?.detail || 'Error al crear el Pull Request');
+        console.log('Error:', err);
+      }
+    });
   }
 
   private reindexModules() {
