@@ -63,6 +63,7 @@ export class CourseComments {
         console.log("Enviado correctamente");
         this.loaderService.hide();
         this.value = 0;
+        this.commentForm.reset({rating: 0, comment: ''});
         this.getAllComments(this.id_course);
         this.toastService.success("Su calificación y comentario hacia el curso se enviaron correctamente");
       },

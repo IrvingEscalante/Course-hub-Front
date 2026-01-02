@@ -222,6 +222,10 @@
     gap: 15px;
     margin-block: 20px 50px;
 }
+.list-item{
+    align-items: center;
+    gap: 10px;
+}
 
 /* Tile para agregar módulos */
 .add-module-tile {

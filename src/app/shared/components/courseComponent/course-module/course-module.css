@@ -3,7 +3,7 @@
   background-color: var(--secondary-color);
   justify-content: space-between;
   border-radius: 12px;
-  height: 60px;
+  min-height: 60px;
   padding-inline: 20px;
   cursor: pointer;
   transition: background 0.25s ease, border-radius 0.25s ease;
