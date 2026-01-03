@@ -1,16 +1,15 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { YoutubePlayer } from "../course-content-publication/youtube-player/youtube-player";
 import { CoursePublishResponse } from '../../../../core/models/detail_course.model';
-import { SafeUrlPipe } from '../../../pipes/safeurlpipe-pipe';
 import { environment } from '../../../../../environments/environment';
-import { YouTubePlayer } from "@angular/youtube-player";
 import { PublicationsService } from '../../../../core/services/courses/publications.service';
 import { ToastService } from '../../../../core/services/toast.service';
 import { ModalConfirmation } from '../../modal-confirmation/modal-confirmation';
+import { PublicationContentComponent } from './publication-content/publication-content.component';
 
 @Component({
   selector: 'app-course-publication',
-  imports: [SafeUrlPipe, YouTubePlayer, ModalConfirmation],
+  imports: [ModalConfirmation, PublicationContentComponent],
   templateUrl: './course-publication.html',
   styleUrl: './course-publication.css'
 })
@@ -70,90 +69,10 @@ export class CoursePublication {
     });
   }
 
-  getFilename(path: string): string {
-    const fullName = path.split('/').pop() || path;
-    // Remover el prefijo de ID si existe (ej: "123_archivo.pdf" -> "archivo.pdf")
-    const parts = fullName.split('_');
-    if (parts.length > 1 && !isNaN(Number(parts[0]))) {
-      return parts.slice(1).join('_');
-    }
-    return fullName;
+  onPdfClick(url: string) {
+    console.log(url);
+    this.pdfClick.emit(url);
   }
-
-  getFileExtension(path: string): string {
-    const ext = path.split('.').pop()?.toUpperCase() || 'FILE';
-    return ext;
-  }
-
-  hasPdfContent(): boolean {
-    if (!this.publication?.content) return false;
-    return this.publication.content.some(c => 
-      c.type_content === 'file' || 
-      c.type_content === 'pdf' || 
-      c.type_content === 'pptx' || 
-      c.type_content === 'docx'
-    );
-  }
-
-  extractYouTubeId(url: string): string | null {
-
-  if (!url || typeof url !== 'string') return null;
-
-  try {
-    const parsedUrl = new URL(url);
-
-    // 1. youtu.be/<id>
-    if (parsedUrl.hostname.includes('youtu.be')) {
-      const id = parsedUrl.pathname.replace('/', '');
-      console.log(id);
-      return id || null;
-    }
-
-    // 2. youtube.com/watch?v=<id>
-    const vParam = parsedUrl.searchParams.get('v');
-    if (vParam) return vParam;
-
-    // 3. youtube.com/embed/<id>
-    if (parsedUrl.pathname.includes('/embed/')) {
-      const id = parsedUrl.pathname.split('/embed/')[1];
-      return id || null;
-    }
-
-    // 4. Último intento: extraer ID mediante regex general
-    const regex =
-      /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
-    if (match) return match[1];
-
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-
-  ngOnInit() {
-  if (this.publication?.content) {
-
-    const priority: Record<string, number> = {
-      pdf: 1,
-      pptx: 1,
-      video: 2,
-      youtube: 2,
-      note: 3,
-      image: 3,
-      text: 3,
-      other: 3
-    };
-
-    this.publication.content = [...this.publication.content].sort((a, b) => {
-      const pa = priority[a.type_content] ?? 99;
-      const pb = priority[b.type_content] ?? 99;
-      return pa - pb;
-    });
-
-  }
-}
   onAddContent() {
     console.log('Acción: Agregar contenido a la publicacion', this.publication.id_course_publish);
     this.addContent.emit(this.publication);
@@ -162,5 +81,4 @@ export class CoursePublication {
   getPublications(){
     this.getpublications.emit();
   }
-
 }

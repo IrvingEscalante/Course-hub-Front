@@ -1,0 +1,77 @@
+<div class="publication-content">
+
+  <!-- GRID para PDFs -->
+  @if (hasPdfContent()) {
+    <div class="pdf-grid">
+      @for (content of content; track $index) {
+        @if (content.type_content === 'file' || content.type_content === 'pdf' || content.type_content === 'pptx' || content.type_content === 'docx') {
+          <div class="pdf-card" (click)="openPdf(content.content)">
+            <div class="pdf-preview-wrapper">
+              <object 
+                [data]="apiUrlBack + content.content | safeUrl" 
+                class="pdf-preview">
+              </object>
+            </div>
+            <div class="pdf-card-body">
+              <p class="pdf-title">{{ getFilename(content.content) }}</p>
+              <div class="pdf-meta">
+                <span>{{ getFileExtension(content.content) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+
+  <!-- CONTENIDO MULTIMEDIA -->
+  @for (content of content; track $index) {
+    @if (content.type_content !== 'file' && content.type_content !== 'pdf' && content.type_content !== 'pptx' && content.type_content !== 'docx') {
+
+      @switch (content.type_content) {
+
+        @case ('image') {
+          <div class="content-card">
+            <img [src]="content.content" alt="Imagen del contenido" class="content-image" loading="lazy" />
+          </div>
+        }
+
+        @case ('video') {
+          <div class="content-card video-card">
+            <video [src]="content.content" controls class="content-video"></video>
+          </div>
+        }
+
+        @case ('video-embed') {
+          <div class="content-card youtube-card">
+            <youtube-player
+              [videoId]="extractYouTubeId(content.content) || ''"
+              [playerVars]="{ autoplay: 0 }">
+            </youtube-player>
+          </div>
+        }
+
+        @case ('note') {
+          <div class="content-card text-card">
+            <p>{{ content.content }}</p>
+          </div>
+        }
+
+        @case ('text') {
+          <div class="content-card text-card">
+            <p>{{ content.content }}</p>
+          </div>
+        }
+
+        @default {
+          <div class="content-card text-card">
+            <p>{{ content.content }}</p>
+          </div>
+        }
+
+      }
+
+    }
+  }
+
+</div>
