@@ -52,6 +52,7 @@ export class DetailCourse {
   editingCourse: any = {};
   selectedCoverFile: File | null = null;
   previewImageUrl: string | null = null;
+  isLoading: boolean = true;
   isModalOpen: boolean = false;
   isPRModalOpen: boolean = false;
   user: UserOut | null = null;
@@ -120,11 +121,13 @@ export class DetailCourse {
   }
 
   getCourseDetail(id_course:number){
+    this.isLoading = true;
     this.courseService.getDetailCourse(id_course).subscribe({
       next:(data)=>{
         this.course=data;
         this.getCourseOriginalDetail(this.course.id_course_parent);
         this.loaderService.hide();
+        this.isLoading = false;
       },
       error:(err)=>{
         this.loaderService.hide();}

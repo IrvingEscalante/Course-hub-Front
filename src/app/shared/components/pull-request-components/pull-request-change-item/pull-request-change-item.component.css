@@ -121,6 +121,133 @@
   margin-bottom: 12px;
 }
 
+/* ==================== PARENT MODULE BADGE ==================== */
+.parent-module-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #3B82F6;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.parent-module-badge .material-icons {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.module-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* ==================== PARENT PUBLICATION BADGE ==================== */
+.parent-publication-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #A855F7;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.parent-publication-badge .material-icons {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.publication-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* ==================== COMPONENT COMPARISON ==================== */
+.component-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+.comparison-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.version-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.version-label .material-icons {
+  font-size: 16px;
+}
+
+.comparison-section.old-version .version-label {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.comparison-section.new-version .version-label {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* ==================== COMPONENT PREVIEW ==================== */
+.component-preview {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 12px;
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.component-preview.action-add {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: #22C55E;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.15);
+}
+
+.component-preview.action-update {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: #3B82F6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+}
+
+.component-preview.action-delete {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #EF4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+  opacity: 0.85;
+}
+
 .change-section {
   border-radius: 8px;
   overflow: hidden;
@@ -252,6 +379,10 @@
     width: 100%;
   }
 
+  .component-comparison {
+    grid-template-columns: 1fr;
+  }
+
   .section-body {
     max-height: 150px;
     font-size: 11px;
@@ -260,4 +391,161 @@
   .json-display {
     font-size: 11px;
   }
+
+  .component-preview ::ng-deep .pdf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .component-preview ::ng-deep .content-card {
+    max-height: 300px;
+  }
+
+  .component-preview ::ng-deep .content-image {
+    max-height: 250px;
+  }
+}
+
+/* ==================== CONTENT STYLES ==================== */
+.empty-content {
+  margin: 16px 0;
+  padding: 16px;
+  text-align: center;
+  color: var(--muted-text);
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== IMAGE PREVIEW ==================== */
+.image-preview {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  max-height: 400px;
+}
+
+.image-preview.action-add {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: #22C55E;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.15);
+}
+
+.image-preview.action-update {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: #3B82F6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+}
+
+.image-preview.action-delete {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #EF4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+  opacity: 0.85;
+}
+
+.course-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* Publication content wrapper inside component preview */
+.component-preview ::ng-deep .publication-content {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+}
+
+.component-preview ::ng-deep .content-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 400px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.component-preview ::ng-deep .content-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 350px;
+}
+
+.component-preview ::ng-deep .content-video {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.component-preview ::ng-deep .text-card {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  line-height: 1.6;
+}
+
+.component-preview ::ng-deep .text-card p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.component-preview ::ng-deep .pdf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.component-preview ::ng-deep .pdf-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.component-preview ::ng-deep .pdf-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.component-preview ::ng-deep .pdf-card-body {
+  padding: 8px;
+  text-align: center;
+}
+
+.component-preview ::ng-deep .pdf-title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.component-preview ::ng-deep .pdf-meta {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted-text);
+}
+
+.component-preview ::ng-deep youtube-player {
+  display: block;
+  width: 100%;
 }

@@ -15,40 +15,211 @@
   </div>
 
   <div class="change-content flex-column">
-    @if (hasOldData() || change.old_value) {
-      <div class="change-section old-section">
-        <div class="section-header">
-          <span class="material-icons">arrow_back</span>
-          <strong>Anterior</strong>
-        </div>
-        <div class="section-body">
-          @if (change.old_data) {
-            <pre class="json-display">{{ change.old_data | json }}</pre>
-          } @else if (change.old_value) {
-            <p class="value-text">{{ getDisplayValue(change.old_value) }}</p>
-          } @else {
-            <p class="empty-text">(sin datos anteriores)</p>
-          }
-        </div>
+    <!-- MÓDULO RENDERIZADO - CON ANTES Y DESPUÉS -->
+    @if (isModule()) {
+      <div class="component-comparison">
+        <!-- ANTERIOR (DELETE O UPDATE) -->
+        @if ((change.action === 'DELETE' || change.action === 'UPDATE') && change.old_data) {
+          <div class="comparison-section old-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_back</span>
+              <strong>ANTERIOR</strong>
+            </div>
+            <div class="component-preview action-delete">
+              <app-course-module 
+                [moduleCourse]="change.old_data"
+                [isMyCourse]="false">
+              </app-course-module>
+            </div>
+          </div>
+        }
+
+        <!-- NUEVO (ADD O UPDATE) -->
+        @if ((change.action === 'ADD' || change.action === 'UPDATE') && change.new_data) {
+          <div class="comparison-section new-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_forward</span>
+              <strong>NUEVO</strong>
+            </div>
+            <div class="component-preview" [ngClass]="getActionClass()">
+              <app-course-module 
+                [moduleCourse]="change.new_data"
+                [isMyCourse]="false">
+              </app-course-module>
+            </div>
+          </div>
+        }
       </div>
     }
 
-    @if (hasNewData() || change.new_value) {
-      <div class="change-section new-section">
-        <div class="section-header">
-          <span class="material-icons">arrow_forward</span>
-          <strong>Nuevo</strong>
+    <!-- PUBLICACIÓN RENDERIZADA - CON ANTES Y DESPUÉS -->
+    @if (isPublication()) {
+      <!-- INFORMACIÓN DEL MÓDULO PADRE -->
+      @if (getParentModuleInfo().name) {
+        <div class="parent-module-badge">
+          <span class="material-icons">library_books</span>
+          <span class="module-name">{{ getParentModuleInfo().name }}</span>
         </div>
-        <div class="section-body">
-          @if (change.new_data) {
-            <pre class="json-display">{{ change.new_data | json }}</pre>
-          } @else if (change.new_value) {
-            <p class="value-text">{{ getDisplayValue(change.new_value) }}</p>
-          } @else {
-            <p class="empty-text">(sin datos nuevos)</p>
-          }
-        </div>
+      }
+
+      <div class="component-comparison">
+        <!-- ANTERIOR (DELETE O UPDATE) -->
+        @if ((change.action === 'DELETE' || change.action === 'UPDATE') && change.old_data) {
+          <div class="comparison-section old-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_back</span>
+              <strong>ANTERIOR</strong>
+            </div>
+            <div class="component-preview action-delete">
+              <app-course-publication 
+                [publication]="change.old_data"
+                [isMyCourse]="false">
+              </app-course-publication>
+            </div>
+          </div>
+        }
+
+        <!-- NUEVO (ADD O UPDATE) -->
+        @if ((change.action === 'ADD' || change.action === 'UPDATE') && change.new_data) {
+          <div class="comparison-section new-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_forward</span>
+              <strong>NUEVO</strong>
+            </div>
+            <div class="component-preview" [ngClass]="getActionClass()">
+              <app-course-publication 
+                [publication]="change.new_data"
+                [isMyCourse]="false">
+              </app-course-publication>
+            </div>
+          </div>
+        }
       </div>
+    }
+
+    <!-- IMAGEN DE CURSO RENDERIZADA - CON ANTES Y DESPUÉS -->
+    @if (change.entity_type === 'course' && change.field === 'image') {
+      <div class="component-comparison">
+        <!-- ANTERIOR (DELETE O UPDATE) -->
+        @if ((change.action === 'DELETE' || change.action === 'UPDATE') && change.old_value) {
+          <div class="comparison-section old-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_back</span>
+              <strong>ANTERIOR</strong>
+            </div>
+            <div class="image-preview action-delete">
+              <img 
+                [src]="change.old_value" 
+                alt="Imagen anterior del curso"
+                class="course-image"
+                onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+            </div>
+          </div>
+        }
+
+        <!-- NUEVO (ADD O UPDATE) -->
+        @if ((change.action === 'ADD' || change.action === 'UPDATE') && change.new_value) {
+          <div class="comparison-section new-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_forward</span>
+              <strong>NUEVO</strong>
+            </div>
+            <div class="image-preview" [ngClass]="getActionClass()">
+              <img 
+                [src]="change.new_value" 
+                alt="Imagen nueva del curso"
+                class="course-image"
+                onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- CONTENIDO RENDERIZADO - CON ANTES Y DESPUÉS -->
+    @if (isContent()) {
+      <div class="component-comparison">
+        <!-- ANTERIOR (DELETE O UPDATE) -->
+        @if ((change.action === 'DELETE' || change.action === 'UPDATE') && change.old_data) {
+          <div class="comparison-section old-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_back</span>
+              <strong>ANTERIOR</strong>
+            </div>
+            <div class="component-preview action-delete">
+              @if (getContent(change.old_data)) {
+                <app-publication-content
+                  [content]="getContent(change.old_data)"
+                  [apiUrlBack]="apiUrlBack"
+                  (pdfClick)="onPdfClick($event)">
+                </app-publication-content>
+              } @else {
+                <p class="empty-content">Sin contenido</p>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- NUEVO (ADD O UPDATE) -->
+        @if ((change.action === 'ADD' || change.action === 'UPDATE') && change.new_data) {
+          <div class="comparison-section new-version">
+            <div class="version-label">
+              <span class="material-icons">arrow_forward</span>
+              <strong>NUEVO</strong>
+            </div>
+            <div class="component-preview" [ngClass]="getActionClass()">
+              @if (getContent(change.new_data)) {
+                <app-publication-content
+                  [content]="getContent(change.new_data)"
+                  [apiUrlBack]="apiUrlBack"
+                  (pdfClick)="onPdfClick($event)">
+                </app-publication-content>
+              } @else {
+                <p class="empty-content">Sin contenido</p>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- FALLBACK: JSON PARA OTROS TIPOS -->
+    @if (!isModule() && !isPublication() && !isContent() && !(change.entity_type === 'course' && change.field === 'image')) {
+      @if (hasOldData() || change.old_value) {
+        <div class="change-section old-section">
+          <div class="section-header">
+            <span class="material-icons">arrow_back</span>
+            <strong>Anterior</strong>
+          </div>
+          <div class="section-body">
+            @if (change.old_data) {
+              <pre class="json-display">{{ change.old_data | json }}</pre>
+            } @else if (change.old_value) {
+              <p class="value-text">{{ getDisplayValue(change.old_value) }}</p>
+            } @else {
+              <p class="empty-text">(sin datos anteriores)</p>
+            }
+          </div>
+        </div>
+      }
+
+      @if (hasNewData() || change.new_value) {
+        <div class="change-section new-section">
+          <div class="section-header">
+            <span class="material-icons">arrow_forward</span>
+            <strong>Nuevo</strong>
+          </div>
+          <div class="section-body">
+            @if (change.new_data) {
+              <pre class="json-display">{{ change.new_data | json }}</pre>
+            } @else if (change.new_value) {
+              <p class="value-text">{{ getDisplayValue(change.new_value) }}</p>
+            } @else {
+              <p class="empty-text">(sin datos nuevos)</p>
+            }
+          </div>
+        </div>
+      }
     }
 
     @if (change.reason) {
