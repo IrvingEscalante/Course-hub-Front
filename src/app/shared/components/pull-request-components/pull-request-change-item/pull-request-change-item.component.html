@@ -55,7 +55,15 @@
     <!-- PUBLICACIÓN RENDERIZADA - CON ANTES Y DESPUÉS -->
     @if (isPublication()) {
       <!-- INFORMACIÓN DEL MÓDULO PADRE -->
-      @if (getParentModuleInfo().name) {
+      @if (getParentInfo()) {
+        <div class="parent-info-badge">
+          <span class="material-icons">{{ getParentIcon() }}</span>
+          <span class="parent-context">
+            <strong>{{ getParentInfo()?.parentType }}:</strong>
+            <span>{{ getParentInfo()?.parentName }}</span>
+          </span>
+        </div>
+      } @else if (getParentModuleInfo().name) {
         <div class="parent-module-badge">
           <span class="material-icons">library_books</span>
           <span class="module-name">{{ getParentModuleInfo().name }}</span>
@@ -138,6 +146,17 @@
 
     <!-- CONTENIDO RENDERIZADO - CON ANTES Y DESPUÉS -->
     @if (isContent()) {
+      <!-- INFORMACIÓN DE LA PUBLICACIÓN PADRE -->
+      @if (getParentInfo()) {
+        <div class="parent-info-badge">
+          <span class="material-icons">{{ getParentIcon() }}</span>
+          <span class="parent-context">
+            <strong>{{ getParentInfo()?.parentType }}:</strong>
+            <span>{{ getParentInfo()?.parentName }}</span>
+          </span>
+        </div>
+      }
+
       <div class="component-comparison">
         <!-- ANTERIOR (DELETE O UPDATE) -->
         @if ((change.action === 'DELETE' || change.action === 'UPDATE') && change.old_data) {

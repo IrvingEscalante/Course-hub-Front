@@ -4,22 +4,7 @@ import { CourseModule } from '../../courseComponent/course-module/course-module'
 import { CoursePublication } from '../../courseComponent/course-publication/course-publication';
 import { PublicationContentComponent } from '../../courseComponent/course-publication/publication-content/publication-content.component';
 import { environment } from '../../../../../environments/environment';
-
-interface Change {
-  id_change: number;
-  id_pull_request: number;
-  entity_type: string;
-  entity_id: number | null;
-  entity_uuid: string | null;
-  action: 'ADD' | 'UPDATE' | 'DELETE';
-  reason: string | null;
-  old_data: any;
-  new_data: any;
-  field: string | null;
-  old_value: string | null;
-  new_value: string | null;
-  date_created: string;
-}
+import { PullRequestChange } from '../../../../core/models/pull_request.model';
 
 @Component({
   selector: 'app-pull-request-change-item',
@@ -29,7 +14,7 @@ interface Change {
   styleUrl: './pull-request-change-item.component.css'
 })
 export class PullRequestChangeItemComponent {
-  @Input() change!: Change;
+  @Input() change!: PullRequestChange;
   apiUrlBack = environment.apiUrlForStatics;
 
   getIcon(): string {
@@ -145,23 +130,6 @@ export class PullRequestChangeItemComponent {
     };
   }
 
-  // Obtener información de la publicación padre para contenido
-  getParentPublicationInfo(): { name: string | null; uuid: string | null } {
-    if (!this.isContent()) {
-      return { name: null, uuid: null };
-    }
-
-    const data = this.change.new_data || this.change.old_data;
-    if (!data) {
-      return { name: null, uuid: null };
-    }
-
-    return {
-      name: data.name_publication || null,
-      uuid: data.uuid_publish || null
-    };
-  }
-
 
   // Obtener contenido para renderizar
   getContent(data: any): any[] | null {
@@ -190,6 +158,26 @@ export class PullRequestChangeItemComponent {
   // Manejar click en PDF
   onPdfClick(url: string): void {
     window.open(this.apiUrlBack + url, '_blank');
+  }
+
+  // Obtener información del elemento padre
+  getParentInfo(): { parentType: string; parentName: string } | null {
+    if (!this.change.parent_info) {
+      return null;
+    }
+    
+    return {
+      parentType: this.change.parent_info.parent_type === 'module' ? 'Módulo' : 'Publicación',
+      parentName: this.change.parent_info.parent_name
+    };
+  }
+
+  // Obtener icono del padre
+  getParentIcon(): string {
+    if (!this.change.parent_info) {
+      return '';
+    }
+    return this.change.parent_info.parent_type === 'module' ? 'library_books' : 'article';
   }
 }
 

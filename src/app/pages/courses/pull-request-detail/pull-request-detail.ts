@@ -1,26 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PullRequestBasicOut } from '../../../core/models/pull_request.model';
+import { PullRequestBasicOut, PullRequestChange } from '../../../core/models/pull_request.model';
 import { PullRequestChangeItemComponent } from '../../../shared/components/pull-request-components/pull-request-change-item/pull-request-change-item.component';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { PullRequestService } from '../../../core/services/pull_request/pull-request.service';
 
-interface PullRequestChange {
-  id_change: number;
-  id_pull_request: number;
-  entity_type: string;
-  entity_id: number | null;
-  entity_uuid: string | null;
-  action: 'ADD' | 'UPDATE' | 'DELETE';
-  reason: string | null;
-  old_data: any;
-  new_data: any;
-  field: string | null;
-  old_value: string | null;
-  new_value: string | null;
-  date_created: string;
-}
 
 interface GroupedChanges {
   added: PullRequestChange[];

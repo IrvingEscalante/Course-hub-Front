@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PullRequestBasicOut } from '../../models/pull_request.model';
+import { PullRequestBasicOut, PullRequestChange, PullRequestChangesResponse } from '../../models/pull_request.model';
 import { API_ROUTES } from '../../constants/api.routes';
 
 @Injectable({
@@ -37,8 +37,8 @@ export class PullRequestService {
     );
   }
 
-  getPRChanges(id: number): Observable<any> {
-    return this.http.get<any>(
+  getPRChanges(id: number): Observable<PullRequestChangesResponse> {
+    return this.http.get<PullRequestChangesResponse>(
       `${this.baseUrl}/pull-request/${id}/changes`
     );
   }

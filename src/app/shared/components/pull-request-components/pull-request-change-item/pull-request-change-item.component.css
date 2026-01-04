@@ -149,32 +149,44 @@
   max-width: 300px;
 }
 
-/* ==================== PARENT PUBLICATION BADGE ==================== */
-.parent-publication-badge {
+/* ==================== PARENT INFO BADGE ==================== */
+.parent-info-badge {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 6px;
   font-size: 13px;
-  color: #A855F7;
+  color: #3B82F6;
   margin-bottom: 12px;
   width: fit-content;
 }
 
-.parent-publication-badge .material-icons {
+.parent-info-badge .material-icons {
   font-size: 16px;
   flex-shrink: 0;
 }
 
-.publication-name {
-  font-weight: 600;
+.parent-context {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 300px;
+  max-width: 400px;
+}
+
+.parent-context strong {
+  font-weight: 600;
+  color: #3B82F6;
+}
+
+.parent-context span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==================== COMPONENT COMPARISON ==================== */
