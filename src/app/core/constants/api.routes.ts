@@ -55,7 +55,9 @@ export const API_ROUTES = {
   },
   rating_comments:{
     create:'/rating_comments/create',
-    getAllComments:'/rating_comments/course/'
+    getAllComments:'/rating_comments/course/',
+    deleteRating:'/rating_comments/delete_rating_by_id/',
+    updateRating:'/rating_comments/update/'
   },
   pull_request:{
     get_pulls:'/pull-request/get_pull_request/',

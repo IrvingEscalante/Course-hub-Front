@@ -27,12 +27,12 @@
 </div>
 <div class="icons flex-row">
   @if (userLogged && comment.user_rating.username == userLogged.username) {
-    <div class="container-icon-open" title="Editar Comentario">
+    <div class="container-icon-open" title="Editar Comentario" (click)="editComment()">
       <span class="material-icons">
         edit
       </span>
     </div>
-    <div class="container-icon-open" title="Eliminar comentario">
+    <div class="container-icon-open" title="Eliminar comentario" (click)="deleteComment()">
       <span class="material-icons">
         delete
       </span>

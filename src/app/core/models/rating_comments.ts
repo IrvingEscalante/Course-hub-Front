@@ -62,3 +62,8 @@ export interface RatingCourseItem {
   rating: number;
   date_created: string;
 }
+
+export interface RatingCommentsCourseUpdate {
+  comment_detail?: string;
+  rating?: number;
+}

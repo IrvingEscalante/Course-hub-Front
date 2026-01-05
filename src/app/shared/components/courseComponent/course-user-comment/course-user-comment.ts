@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RatingCommentsResponse } from '../../../../core/models/rating_comments';
 import { Avatar } from "../../avatar/avatar";
 import { TimeAgoPipe } from '../../../pipes/time-ago-pipe';
@@ -15,7 +15,15 @@ export class CourseUserComment {
 
   @Input() comment!:RatingCommentsResponse;
   @Input() userLogged:UserOut | null = null;
+  @Output() onDeleteComment: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onEditComment: EventEmitter<RatingCommentsResponse> = new EventEmitter<RatingCommentsResponse>();
 
-  
+  deleteComment(){
+    this.onDeleteComment.emit(this.comment.id_ratings_comments);
+  }
+
+  editComment(){
+    this.onEditComment.emit(this.comment);
+  }
 
 }

@@ -1,5 +1,5 @@
 <div class="comments-container flex-column">
-    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" #commentFormSection>
 
     <h2 class="title-comments">Comentarios y calificaciones</h2>
 
@@ -26,11 +26,20 @@
             placeholder="Escribe un comentario aquí"
         ></textarea>
 
-        <!-- Enviar -->
-        <button class="send-comment-button bold flex-row" type="submit" [disabled]="commentForm.invalid">
-            <span class="material-icons">send</span>
-            Enviar comentario
-        </button>
+        <!-- Enviar o Editar -->
+        <div class="button-group flex-row">
+            <button class="send-comment-button bold flex-row" type="submit" [disabled]="commentForm.invalid || loadingSendEdit">
+                <span class="material-icons">{{ editingCommentId !== null ? 'edit' : 'send' }}</span>
+                @if(loadingSendEdit){<span class="spinner"></span>}
+                {{ editingCommentId !== null ? 'Editar comentario' : 'Enviar comentario' }}
+            </button>
+            @if (editingCommentId !== null) {
+                <button class="cancel-button bold flex-row" type="button" (click)="cancelEditComment()">
+                    <span class="material-icons">close</span>
+                    Cancelar
+                </button>
+            }
+        </div>
     </div>
 
 </form>
@@ -46,7 +55,7 @@
                 @if (comments.length>1) {
                     <div class="border"></div>
                 }
-                <app-course-user-comment [comment]="comment" [userLogged]="userLogged"></app-course-user-comment>
+                <app-course-user-comment [comment]="comment" [userLogged]="userLogged" (onDeleteComment)="deleteComment($event)" (onEditComment)="editComment($event)"></app-course-user-comment>
             }
         }
     </div>

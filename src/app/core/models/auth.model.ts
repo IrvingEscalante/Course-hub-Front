@@ -34,6 +34,7 @@ export interface MessageResponse {
   success:boolean;
   message:string;
 }
+
 // Respuesta completa del backend al registrar
 export interface RegisterResponse {
   user:UserOut;

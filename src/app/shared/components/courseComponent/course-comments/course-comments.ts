@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewChild, ElementRef } from '@angular/core';
 import { CourseListComments } from "../course-list-comments/course-list-comments";
 import { RatingCommentsService } from '../../../../core/services/courses/rating-comments.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,12 +20,15 @@ export class CourseComments {
   @Input() userLogged: UserOut | null = null;
   @Output() valueChange = new EventEmitter<number>();
   @Input() id_course:number=0;
+  @ViewChild('commentFormSection') commentFormSection!: ElementRef;
   ratingCommentsService = inject(RatingCommentsService);
   toastService = inject(ToastService);
   loaderService=inject(LoaderService);
   stars = [1, 2, 3, 4, 5];
   commentForm!: FormGroup;
   comments:RatingCommentsResponse[] = [];
+  editingCommentId: number | null = null;
+  loadingSendEdit:boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -51,27 +54,56 @@ export class CourseComments {
       return;
     }
 
-    const payload = {
-      rating: this.commentForm.value.rating,
-      comment_detail: this.commentForm.value.comment,
-      id_course: this.id_course, // ajusta si lo recibes como @Input()
-    };
+    if (this.editingCommentId !== null) {
+      this.loadingSendEdit = true;
+      // Modo edición
+      const updatePayload = {
+        rating: this.commentForm.value.rating,
+        comment_detail: this.commentForm.value.comment,
+      };
 
-    console.log("ENVIANDO:", payload);
-    this.ratingCommentsService.createRating(payload).subscribe({
-      next:(data)=>{
-        console.log("Enviado correctamente");
-        this.loaderService.hide();
-        this.value = 0;
-        this.commentForm.reset({rating: 0, comment: ''});
-        this.getAllComments(this.id_course);
-        this.toastService.success("Su calificación y comentario hacia el curso se enviaron correctamente");
-      },
-      error:(err)=>{
-        this.loaderService.hide();
-        this.toastService.error(err.error.detail);
-      }
-    });
+      this.ratingCommentsService.updateRating(this.editingCommentId, updatePayload).subscribe({
+        next:(data)=>{
+          console.log("Comentario actualizado correctamente");
+          this.loaderService.hide();
+          this.loadingSendEdit = false;
+          this.cancelEditComment();
+          this.getAllComments(this.id_course);
+          this.toastService.success("Comentario actualizado correctamente");
+        },
+        error:(err)=>{
+          this.loaderService.hide();
+          this.loadingSendEdit = false;
+          this.toastService.error(err.error.detail);
+        }
+      });
+    } else {
+      // Modo crear
+      this.loadingSendEdit = true;
+      const payload = {
+        rating: this.commentForm.value.rating,
+        comment_detail: this.commentForm.value.comment,
+        id_course: this.id_course, // ajusta si lo recibes como @Input()
+      };
+
+      console.log("ENVIANDO:", payload);
+      this.ratingCommentsService.createRating(payload).subscribe({
+        next:(data)=>{
+          console.log("Enviado correctamente");
+          this.loaderService.hide();
+          this.loadingSendEdit = false;
+          this.value = 0;
+          this.commentForm.reset({rating: 0, comment: ''});
+          this.getAllComments(this.id_course);
+          this.toastService.success("Su calificación y comentario hacia el curso se enviaron correctamente");
+        },
+        error:(err)=>{
+          this.loaderService.hide();
+          this.loadingSendEdit = false;
+          this.toastService.error(err.error.detail);
+        }
+      });
+    }
   }
 
   getAllComments(id_course:number){
@@ -82,6 +114,39 @@ export class CourseComments {
       error:(err)=>{
       }
     });
+  }
 
+  deleteComment(id_rating:number){
+    this.loaderService.show();
+    this.ratingCommentsService.deleteRating(id_rating).subscribe({
+      next:(data)=>{
+        this.loaderService.hide();
+        this.getAllComments(this.id_course);
+        this.toastService.success(data.message);
+      },
+      error:(err)=>{
+        this.loaderService.hide();
+        this.toastService.error(err.error.detail);
+      }
+    });
+  }
+
+  editComment(comment: RatingCommentsResponse){
+    this.editingCommentId = comment.id_ratings_comments;
+    this.commentForm.patchValue({
+      rating: comment.rating,
+      comment: comment.comment_detail
+    });
+    this.value = comment.rating;
+    // Scroll al contenedor del formulario
+    if (this.commentFormSection) {
+      this.commentFormSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  cancelEditComment(){
+    this.editingCommentId = null;
+    this.value = 0;
+    this.commentForm.reset({rating: 0, comment: ''});
   }
 }
