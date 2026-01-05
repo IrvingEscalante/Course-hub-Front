@@ -198,8 +198,8 @@
         }
          @if (isEditMode) {
                     <div class="edit-actions flex-row">
-                        <button class="btn-save" (click)="saveCourseEdits()">
-                            <i class="bi bi-check-lg"></i> Guardar cambios
+                        <button class="btn-save" (click)="saveCourseEdits()" [disabled]="editLoading">
+                            @if(editLoading){<span class="spinner"></span>Guardando...}@else{Guardar cambios}
                         </button>
                         <button class="btn-cancel" (click)="cancelEditMode()">
                             <i class="bi bi-x-lg"></i> Cancelar

@@ -57,6 +57,7 @@ export class DetailCourse {
   isPRModalOpen: boolean = false;
   user: UserOut | null = null;
   isSavingOrder = false;
+  editLoading:boolean = false;
 
   onModalClose() {
     this.isModalOpen = false;
@@ -239,6 +240,7 @@ export class DetailCourse {
       this.toastService.error('Curso no cargado');
       return;
     }
+    this.editLoading = true;
     this.loaderService.show();
     
     this.courseEdit.updateCourseBasics(
@@ -255,12 +257,13 @@ export class DetailCourse {
         this.selectedCoverFile = null;
         this.previewImageUrl = null;
         this.loaderService.hide();
+        this.editLoading = false;
         console.log(updatedCourse);
         this.toastService.success('Curso actualizado exitosamente');
       },
       error: (err) => {
         this.loaderService.hide();
-        console.log(err);
+        this.editLoading = false;
         this.toastService.error(err.error?.detail || 'Error al actualizar el curso');
       }
     })

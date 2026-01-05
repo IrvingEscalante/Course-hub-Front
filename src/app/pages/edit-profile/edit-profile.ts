@@ -5,8 +5,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Avatar } from "../../shared/components/avatar/avatar";
 import { UserService } from '../../core/services/user/user.service';
 import { ToastService } from '../../core/services/toast.service';
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { LoaderService } from '../../core/services/loader';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,27 +19,27 @@ export class EditProfile {
   authService = inject(AuthService);
   userService = inject(UserService);
   router = inject(Router);
+  location = inject(Location);
   loaderService = inject(LoaderService);
   toastService = inject(ToastService);
   profileForm!: FormGroup;
   user:UserOut | null = null;
   previewImage: string | null = null;
   selectedFile: File | null = null;
+  isrendering:boolean = false;
+  loadingedit:boolean = false;
   constructor(private fb: FormBuilder) {}
+  validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_!@#$%^&*\-])[A-Za-z\d_!@#$%^&*\-]{8,}$/
 
   ngOnInit(): void {
 
     this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      lastname: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      lastname: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
-      biography: [''],
-      passwords: this.fb.group({
-        currentPassword: [''],
-        newPassword: [''],
-        confirmPassword: ['']
-      })
+      username: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
+      biography: ['', Validators.maxLength(500)],
+      passwords: this.fb.group({currentPassword: [''],newPassword: ['', [Validators.pattern(this.validatePassword)]],confirmPassword: ['']}, { validators: this.passwordMatchValidator })
     });
 
     this.getProfile();
@@ -48,6 +49,7 @@ export class EditProfile {
     this.authService.getProfile().subscribe({
       next:(user)=>{
         this.user = user;
+        this.isrendering = true;
         this.profileForm.patchValue({
           name: user.name,
           lastname: user.lastname,
@@ -91,6 +93,7 @@ onFileSelected(event: Event) {
   onSubmit(): void {
     if (this.profileForm.invalid) return;
     this.loaderService.show();
+    this.loadingedit = true;
     const formValue = this.profileForm.value;
 
     const payload: any = {
@@ -119,13 +122,20 @@ onFileSelected(event: Event) {
     this.userService.editProfile(formData).subscribe({
       next:(data)=>{
         this.loaderService.hide();
+        this.loadingedit = false;
         this.toastService.success("Se ha editado su perfil correctamente");
         this.router.navigate(['/'+data.username]);
       },error:(err)=>{
-        this.toastService.error(err.detail);
+        this.toastService.error(err.error.detail);
+        this.loaderService.hide();
+        this.loadingedit = false;
         console.log(err);
       }
     })
     console.log('Payload listo para backend:', payload);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

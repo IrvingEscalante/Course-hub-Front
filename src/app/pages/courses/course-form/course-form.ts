@@ -23,10 +23,6 @@ export class CourseForm {
   loaderService=inject(LoaderService);
   toastService=inject(ToastService);
   router=inject(Router);
-  apiurlforStatics = environment.apiUrlForStatics;
-  @Input() mode :'create' | 'edit' = 'create';
-  @Input() course!: CourseFullResponse;
-
   title = 'Crear un nuevo curso';
   topics = ['Desarrollo', 'Diseño', 'Data', 'Marketing'];
   courseForm!: FormGroup;
@@ -36,25 +32,19 @@ export class CourseForm {
   publications: any[] = [];
   route = inject(ActivatedRoute);
   id:number=0;
+  loading:boolean=false;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.courseForm = this.fb.group({
-      title: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(3)]],
       topic: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      image: ['', Validators.required]
     });
     this.getThemes();
-    if (this.id){
-      this.mode = "edit";
-      this.title = "Editar curso";
-      this.detailCourseService.getFulldataCourse(this.id).subscribe(res => {
-        this.course = res;
-        this.buildFormFromCourse(this.course);
-      });
-    }
   }
 
   getThemes(){
@@ -82,19 +72,45 @@ export class CourseForm {
     const reader = new FileReader();
     reader.onload = () => this.coverPreview = reader.result;
     reader.readAsDataURL(file);
+    
+    // Marcar campo de imagen como válido
+    this.courseForm.get('image')?.setValue('selected');
+  }
+
+  removeCover(event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    this.coverFile = undefined;
+    this.coverPreview = null;
+    // Marcar campo de imagen como inválido
+    this.courseForm.get('image')?.setValue('');
+  }
+
+  changeCover(event?: Event) {
+    event?.preventDefault();
+    event?.stopPropagation();
+    const input = document.querySelector('.image-input') as HTMLInputElement;
+    input?.click();
   }
 
   // onFileSelected eliminado: ya no se usa getResources ni recursos
 
   // ---------- Submit ----------
   onSubmit() {
-    this.loaderService.show();
     if (this.courseForm.invalid) {
       this.loaderService.hide();
       this.courseForm.markAllAsTouched();
       this.toastService.error("Error no estan completos los datos del formulario");
       return;
     }
+    
+    if (!this.coverFile) {
+      this.toastService.error("Debes seleccionar una imagen para el curso");
+      return;
+    }
+    
+    this.loaderService.show();
+    this.loading = true;
 
     const fd = new FormData();
     if (this.coverFile) {
@@ -108,30 +124,18 @@ export class CourseForm {
     };
     fd.append('payload', JSON.stringify(payload));
 
-    if (this.mode == 'create'){
-      this.courseService.createCourse(fd).subscribe({
+    this.courseService.createCourse(fd).subscribe({
         next: (resp) => {
           this.loaderService.hide();
           this.toastService.success("El curso ha sido creado correctamente");
           this.router.navigate(['/course/detail/'+resp.course_id]);
-        },
-        error: (err) => {
+          this.loading = false;
+        },error: (err) => {
           this.loaderService.hide();
           this.toastService.error("Error al crear el curso");
+          this.loading = false;
         }
-      });
-    }else if(this.mode=='edit'){
-      this.courseService.editCourse(this.id,fd).subscribe({
-        next:(data)=>{
-          this.loaderService.hide();
-          this.toastService.success("El curso ha sido editado correctamente");
-          this.router.navigate(['/course/detail/'+this.id]);
-        },error:(err)=>{
-          this.loaderService.hide();
-          this.toastService.error("Error al editar el curso");
-        }
-      })
-    }
+    });
   }
 
 buildFormFromCourse(course: CourseFullResponse) {

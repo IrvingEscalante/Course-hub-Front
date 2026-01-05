@@ -35,10 +35,11 @@ export class ProfileUser {
   loaderService=inject(LoaderService);
   toastService=inject(ToastService);
   auth=inject(AuthService);
-  isLoading:boolean = true;
+  loading:boolean = true;
   userLogged!:string | null;
   username!:string | null;
   isModalLoading = false;
+  isFollowingLoading: boolean = false;  
 
   selectTab(tab: 'created' | 'favorites') {
     this.getCoursesFavorites(this.user.username);
@@ -120,18 +121,19 @@ openFollowing() {
   }
 
   followUnfollow(){
+    this.isFollowingLoading = true;
     this.userService.followUnfollow(this.user.username).subscribe({
       next:(res)=>{
-        console.log(res)
         this.isFollowing = res.following
         if (res.following){
           this.toastService.success("Se ha empezado a seguir al usuario "+res.username);
         }else{
           this.toastService.success("Se ha dejado de seguir al usuario "+res.username);
         }
+        this.isFollowingLoading = false;
       },
       error:(err)=>{
-        console.log(err)
+        this.isFollowingLoading = false;
         this.toastService.error(err.error.detail);
       }
     })
@@ -146,14 +148,14 @@ openFollowing() {
           this.user = userData as UserProfilePublic;
         }
         this.userExist = true;
-        this.isLoading = false;
+        this.loading = false;
         this.loaderService.hide();
         this.isFollowing = userData.following;
         this.courses = userData.courses_create;
         this.courses_favorites = userData.courses_favorites;
       },
       error: (err) => {
-        this.isLoading = false;
+        this.loading = false;
         console.log('Error al cargar usuario:', err.error.detail);
         if (err.error.detail === "Usuario no encontrado" ){
           this.userExist = false;

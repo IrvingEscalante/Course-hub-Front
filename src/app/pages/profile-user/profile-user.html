@@ -1,4 +1,4 @@
-@if (isLoading){
+@if (loading){
     <div class="loading text-center">Cargando perfil...</div>
 }
 @else if (userExist){
@@ -31,7 +31,7 @@
                 <a routerLink="/compartir" class="edit-profile">Compartir perfil</a>
             </div>
         }@else {
-            <button class="edit-profile follow" [class.unfollow]="isFollowing" (click)="followUnfollow()">{{ isFollowing ? 'Dejar de seguir' : 'Seguir' }}</button>
+            <button class="edit-profile follow" [class.unfollow]="isFollowing" (click)="followUnfollow()">@if (isFollowingLoading){<span class="spinner"></span>}@if(isFollowing){Dejar de seguir}@else{Seguir}</button>
         }
         <div class="courses-detail-user flex-row">
             <button (click)="selectTab('created')" [class.active]="selectedTab === 'created'">Cursos creados</button>

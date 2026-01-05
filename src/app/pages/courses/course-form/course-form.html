@@ -11,6 +11,16 @@
         <div class="form-group">
           <label>Nombre del curso</label>
           <input formControlName="title" class="input-style" />
+          <div class="error-forms flex-column">
+            @if (courseForm.get('title')?.touched && courseForm.get('title')?.invalid) {
+              @if (courseForm.get('title')?.errors?.['required']) {
+                <small class="error">El nombre del curso es obligatorio</small>
+              }
+              @if (courseForm.get('title')?.errors?.['minlength']) {
+                <small class="error">El nombre debe tener al menos 3 caracteres</small>
+              }
+            }
+          </div>
         </div>
 
         <div class="form-group">
@@ -22,35 +32,72 @@
               <option [value]="t.id_theme">{{ t.name_theme }}</option>
             }
           </select>
+          <div class="error-forms flex-column">
+            @if (courseForm.get('topic')?.touched && courseForm.get('topic')?.invalid) {
+              @if (courseForm.get('topic')?.errors?.['required']) {
+                <small class="error">Debes seleccionar un tema</small>
+              }
+            }
+          </div>
         </div>
       </div>
 
       <div class="form-group">
         <label>Descripción del curso</label>
         <textarea formControlName="description" class="input-style" rows="4"></textarea>
+        <div class="error-forms flex-column">
+          @if (courseForm.get('description')?.touched && courseForm.get('description')?.invalid) {
+            @if (courseForm.get('description')?.errors?.['required']) {
+              <small class="error">La descripción es obligatoria</small>
+            }
+            @if (courseForm.get('description')?.errors?.['minlength']) {
+              <small class="error">La descripción debe tener al menos 10 caracteres</small>
+            }
+          }
+        </div>
       </div>
 
       <!-- Image dropzone -->
       <div class="form-group">
         <label>Imagen del curso</label>
 
-        <div class="image-dropzone" (click)="coverInput.click()">
-          <input #coverInput type="file" (change)="onCoverSelected($event)" class="image-input" />
+        <div class="image-dropzone" [class.has-image]="!!coverPreview">
+          <input #coverInput type="file" (change)="onCoverSelected($event)" class="image-input" accept="image/*" />
 
           <div class="dropzone-content">
             @if (!coverPreview) {
-              <p>Click o arrastra una imagen aquí</p>
+              <div class="upload-prompt" (click)="coverInput.click()">
+                <p>Click o arrastra una imagen aquí</p>
+              </div>
             } @else {
-              <img [src]="coverPreview" alt="preview" style="max-height:140px; border-radius:8px;" />
+              <div class="image-preview-wrapper">
+                <img [src]="coverPreview" alt="preview" class="image-preview" />
+                <div class="image-actions">
+                  <button type="button" class="btn-action btn-change" (click)="changeCover($event)">
+                    Cambiar imagen
+                  </button>
+                  <button type="button" class="btn-action btn-delete" (click)="removeCover($event)">
+                    Eliminar
+                  </button>
+                </div>
+              </div>
             }
           </div>
+        </div>
+
+        <div class="error-forms flex-column">
+          @if (courseForm.get('image')?.touched && courseForm.get('image')?.invalid) {
+            @if (courseForm.get('image')?.errors?.['required']) {
+              <small class="error">La imagen del curso es obligatoria</small>
+            }
+          }
         </div>
       </div>
 
 
 
       <div class="submit-row">
-        <button type="submit" class="btn-submit">Publicar curso</button>
+        <button type="submit" class="btn-submit" [disabled]="loading || courseForm.invalid">@if(loading){<span class="spinner"></span> Publicando...}@else{Publicar curso}</button>
       </div>
 
     </form>

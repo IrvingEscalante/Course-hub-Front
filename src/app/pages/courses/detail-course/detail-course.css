@@ -386,13 +386,16 @@
 }
 
 .btn-save {
-    background-color: #00c896;
-    color: #121C2D;
+    background-color: var(--primary-button);
+    color: var(--color-text);
 }
 
-.btn-save:hover {
-    background-color: #00e0a8;
+.btn-save:disabled{
+    background-color: #3A6FF8;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
+
 
 .btn-cancel {
     background-color: transparent;

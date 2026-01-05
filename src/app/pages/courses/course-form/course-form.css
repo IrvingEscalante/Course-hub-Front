@@ -104,9 +104,15 @@
     background: rgba(255, 255, 255, 0.02);
 }
 
-.image-dropzone:hover {
+.image-dropzone:hover:not(.has-image) {
     border-color: var(--primary-button);
     background: rgba(58, 111, 248, 0.05);
+}
+
+.image-dropzone.has-image {
+    padding: 20px;
+    border-color: var(--primary-button);
+    background: rgba(58, 111, 248, 0.08);
 }
 
 .image-input {
@@ -116,12 +122,110 @@
     position: absolute;
     top: 0;
     left: 0;
+    cursor: pointer;
 }
 
 .dropzone-content {
-    pointer-events: none;
-    opacity: 0.8;
     color: var(--text-color);
+}
+
+.upload-prompt {
+    pointer-events: all;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.upload-prompt:hover {
+    opacity: 0.8;
+}
+
+.image-preview-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    pointer-events: all;
+}
+
+.image-preview {
+    max-height: 200px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+    pointer-events: none;
+}
+
+.image-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    pointer-events: all;
+}
+
+.btn-action {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    pointer-events: all;
+}
+
+.btn-change {
+    background: var(--primary-button);
+    color: white;
+}
+
+.btn-change:hover {
+    background: #3a5fd6;
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.btn-action:active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   VALIDATION ERRORS
+   ============================================================ */
+.error-forms {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.error {
+    font-size: 13px;
+    color: #ef4444;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.error-forms small {
+    margin: 0;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
 }
 
 /* ============================================================
@@ -199,6 +303,16 @@
     margin-top: 35px;
     cursor: pointer;
     transition: 0.3s ease;
+}
+
+.submit-row{
+    text-align: -webkit-right;
+}
+
+.btn-submit:disabled {
+    background-color: #3A6FF8;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .btn-submit:hover {

@@ -100,12 +100,6 @@ main {
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-.button-access:disabled {
-    background-color: #787D87;
-    cursor: default;
-    transform: none;
-    box-shadow: none;
-}
 
 /* REGISTER TEXT */
 .register-text {

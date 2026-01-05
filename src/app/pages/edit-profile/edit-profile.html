@@ -1,4 +1,5 @@
 <main>
+  @if (isrendering) {
   <div class="edit-profile-container">
     <h1>Editar Perfil</h1>
     <p class="subtitle">Actualiza tu información personal.</p>
@@ -42,11 +43,31 @@
           <div class="input-group">
             <label>Nombre</label>
             <input type="text" formControlName="name" />
+            <div class="error-forms flex-column">
+              @if (profileForm.get('name')?.touched && profileForm.get('name')?.invalid) {
+                @if (profileForm.get('name')?.errors?.['required']) {
+                  <small class="error">El nombre es obligatorio</small>
+                }
+                @if (profileForm.get('name')?.errors?.['minlength']) {
+                  <small class="error">El nombre debe tener al menos 2 caracteres</small>
+                }
+              }
+            </div>
           </div>
 
           <div class="input-group">
             <label>Apellidos</label>
             <input type="text" formControlName="lastname" />
+            <div class="error-forms flex-column">
+              @if (profileForm.get('lastname')?.touched && profileForm.get('lastname')?.invalid) {
+                @if (profileForm.get('lastname')?.errors?.['required']) {
+                  <small class="error">El apellido es obligatorio</small>
+                }
+                @if (profileForm.get('lastname')?.errors?.['minlength']) {
+                  <small class="error">El apellido debe tener al menos 2 caracteres</small>
+                }
+              }
+            </div>
           </div>
         </div>
 
@@ -54,17 +75,47 @@
           <div class="input-group">
             <label>Correo electrónico</label>
             <input type="email" formControlName="email" />
+            <div class="error-forms flex-column">
+              @if (profileForm.get('email')?.touched && profileForm.get('email')?.invalid) {
+                @if (profileForm.get('email')?.errors?.['required']) {
+                  <small class="error">El email es obligatorio</small>
+                }
+                @if (profileForm.get('email')?.errors?.['email']) {
+                  <small class="error">El formato del email no es válido</small>
+                }
+              }
+            </div>
           </div>
 
           <div class="input-group">
             <label>Nombre de usuario</label>
             <input type="text" formControlName="username" />
+            <div class="error-forms flex-column">
+              @if (profileForm.get('username')?.touched && profileForm.get('username')?.invalid) {
+                @if (profileForm.get('username')?.errors?.['required']) {
+                  <small class="error">El nombre de usuario es obligatorio</small>
+                }
+                @if (profileForm.get('username')?.errors?.['minlength']) {
+                  <small class="error">El nombre de usuario debe tener al menos 3 caracteres</small>
+                }
+                @if (profileForm.get('username')?.errors?.['pattern']) {
+                  <small class="error">Solo se permiten letras, números, guiones y guiones bajos</small>
+                }
+              }
+            </div>
           </div>
         </div>
 
         <div class="input-group">
           <label>Biografía</label>
           <textarea formControlName="biography"></textarea>
+          <div class="error-forms flex-column">
+            @if (profileForm.get('biography')?.invalid && profileForm.get('biography')?.touched) {
+              @if (profileForm.get('biography')?.errors?.['maxlength']) {
+                <small class="error">La biografía no puede exceder 500 caracteres</small>
+              }
+            }
+          </div>
         </div>
 
         <!-- SEPARADOR -->
@@ -83,26 +134,52 @@
             <div class="input-group">
               <label>Nueva contraseña</label>
               <input type="password" formControlName="newPassword" />
+              <div class="error-forms flex-column">
+                @if (profileForm.get('passwords')?.get('newPassword')?.touched && profileForm.get('passwords')?.get('newPassword')?.invalid) {
+                  @if (profileForm.get('passwords')?.get('newPassword')?.errors?.['pattern']) {
+                    <small class="error">La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo (_ ! @ # $ % ^ & * -)</small>
+                  }
+                }
+              </div>
             </div>
           </div>
 
           <div class="input-group">
             <label>Confirmar nueva contraseña</label>
             <input type="password" formControlName="confirmPassword" />
+            <div class="error-forms flex-column">
+              @if (profileForm.get('passwords')?.touched && profileForm.get('passwords')?.errors?.['passwordMismatch']) {
+                <small class="error">Las contraseñas no coinciden</small>
+              }
+            </div>
           </div>
         </div>
 
         <!-- ACCIONES -->
         <div class="actions">
           <button
+            type="button"
+            class="back-button"
+            (click)="goBack()"
+          >
+            Regresar
+          </button>
+          <button
             type="submit"
             class="save-button"
-            [disabled]="profileForm.invalid"
+            [disabled]="profileForm.invalid || loadingedit"
           >
-            Guardar Cambios
+          @if(loadingedit){<span class="spinner"></span> Guardando...} @else {
+            Guardar Cambios}
           </button>
         </div>
       </form>
     </div>
   </div>
+}@else{
+    <div class="loader-center">
+      <div class="loader"></div>
+    </div>
+  }
+  
 </main>
