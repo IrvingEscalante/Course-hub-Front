@@ -4,14 +4,14 @@
             <form class="form-send-email flex-column" [formGroup]="verifyEmailForm" (submit)="onSubmit()">
                 <h1 for="" class="text-title-send-email bold">Ingrese el código de confirmación enviado a su correo electrónico</h1>
                 <div class="form-group flex-column">
-                    <button type="button" class="button-resend-code bold" (click)="resendCode()">{{ seconds > 0 ? 'Puedes volver a solicitar un codigo en '+seconds+' segundos' : 'Reenviar codigo' }}</button>
+                    <button type="button" class="button-resend-code bold" (click)="resendCode()">@if(seconds > 0){Puedes volver a solicitar un codigo en {{seconds}} segundos} @else{@if(loadingCode){<span class="spinner"></span>Reenviando codigo}@else{Reenviar codigo}}</button>
                     <input type="text" formControlName="emailverify" class="input-style" placeholder="Ingrese el código de verificación">
                     @if(messageCode){
                         <small class="error-forms">{{messageCode}}</small>
                     }
                 </div>
                 
-                <button class="button-access" type="submit" [disabled]="verifyEmailForm.invalid || loading">@if (loading) {Verificando correo...}@else {Verificar correo}</button>
+                <button class="button-access" type="submit" [disabled]="verifyEmailForm.invalid || loading">@if (loading) {<span class="spinner"></span>Verificando correo...}@else {Verificar correo}</button>
             </form>
 
         </div>

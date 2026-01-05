@@ -12,6 +12,8 @@
 }
 .button-resend-code{
     text-align: left;
+    align-items: center;
+    justify-content: center;
     background-color: transparent;
     color: var(--primary-button);
     font-size: 12px;

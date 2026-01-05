@@ -17,10 +17,38 @@
     margin-top: 10px;
     cursor: pointer;
 }
-.button-access:disabled{
-    background-color: #787D87;
-    cursor: default;
+
+.input-password-wrapper {
+  position: relative;
+  width: 100%;
 }
+.material-icons{
+    color: #c7cacf;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+  opacity: 0.6;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+.password_input{
+    width: 100%;
+}
+.input-style {
+  padding-right: 45px; /* espacio para el botón */
+}
+
 @media(min-width:600px){
     main{
         display: grid;

@@ -11,24 +11,26 @@ import { ToastService } from '../../../core/services/toast.service';
   styleUrl: './change-password.css'
 })
 export class ChangePassword implements OnInit {
-  changePasswordForm!: FormGroup;
+  changePasswordForm: FormGroup;
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
+  loading:boolean = false;
+  validatePassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_!@#$%^&*\-])[A-Za-z\d_!@#$%^&*\-]{8,}$/
   toastService = inject(ToastService);
   token: string = '';
 
+
   ngOnInit(): void {
-    this.initializeForm();
     this.activatedRoute.queryParams.subscribe(params => {
       this.token = params['token'] || '';
     });
   }
 
-  initializeForm(): void {
+  constructor(){
     this.changePasswordForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.pattern(this.validatePassword)]],
       confirmPassword: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
   }
@@ -46,14 +48,18 @@ export class ChangePassword implements OnInit {
 
   onSubmit(): void {
     if (this.changePasswordForm.valid) {
+      this.loading = true;
       const new_password = this.changePasswordForm.get('password')?.value;
       this.authService.change_password({ token: this.token, new_password }).subscribe({
         next: (response) => {
           this.toastService.success(response.message);
           console.log('Contraseña cambiada exitosamente:', response);
+          this.loading = false;
           this.router.navigate(['/login']);
         },
         error: (error) => {
+          this.loading=false;
+          this.toastService.error(error.error.detail || 'Error al cambiar la contraseña');
           console.error('Error al cambiar la contraseña:', error);
         }
       });

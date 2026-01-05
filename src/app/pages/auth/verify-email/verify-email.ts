@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { VerifyEmailPayload } from '../../../core/models/auth.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LoaderService } from '../../../core/services/loader';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -16,7 +17,9 @@ export class VerifyEmail {
   intervalo: any;
   loaderService=inject(LoaderService);
   loading:boolean = false;
+  loadingCode:boolean=false;
   verifyEmailForm!:FormGroup
+  toastService=inject(ToastService);
   email:string = '';
   messageCode:string = '';
   constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private route:ActivatedRoute){
@@ -47,7 +50,6 @@ export class VerifyEmail {
   onSubmit(){
     this.loaderService.show();
     if (this.verifyEmailForm.valid){
-
       this.loading = true;
       const code = this.verifyEmailForm.value.emailverify;
       const payload:VerifyEmailPayload = {
@@ -57,6 +59,7 @@ export class VerifyEmail {
       this.authService.verify_email(payload).subscribe({
         next:(res)=>{
           this.loaderService.hide();
+          this.toastService.success("Correo verificado correctamente, ya puedes iniciar sesión");
           this.router.navigate(['/login']);
         },
         error:(err) =>{
@@ -74,14 +77,19 @@ export class VerifyEmail {
 
   resendCode(){
     this.loaderService.show();
+    this.loadingCode=true;
     if (this.email){
       console.log(this.email);
       this.authService.resend_code_verification(this.email).subscribe({
         next:(res) =>{
           this.loaderService.hide();
+          this.loadingCode=false;
           this.startCountdown();
         },
         error:(error)=>{
+          this.loaderService.hide();
+          this.loadingCode=false;
+          this.toastService.error(error.error.detail);
           console.log("Ocurrio un error", error);
         }
       })
