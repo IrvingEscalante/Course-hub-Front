@@ -76,6 +76,7 @@
     align-items: center;
     align-self: flex-end;
     font-size: 15px;
+    cursor: pointer;
 }
 .send-comment-button:disabled{
     background-color: #3A6FF8;

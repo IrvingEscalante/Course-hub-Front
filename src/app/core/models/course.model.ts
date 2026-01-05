@@ -13,6 +13,7 @@ export interface Course {
   id_user: number;
   id_author_user: number;
   avg_rating:number;
+  ratings_count:number;
   status_course: boolean;
   is_favorite:boolean;
   is_my_favorite:boolean;

@@ -226,7 +226,7 @@
 
                     </div>
                 </div>
-                <p class="based-ratings">Basado en 2 reseñas</p>
+                <p class="based-ratings">Basado en {{course.ratings_count}} reseñas</p>
             @for (rating of ratings; track $index) {
                 <div class="rating-bar">
                     <div class="rating-label">{{ rating.stars }}</div>
