@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 
 export type ActionType = 'add' | 'edit';
 export type ElementType = 'module' | 'publication' | 'content';
-export type ContentType = 'image' | 'video' | 'note' | 'file' | null;
+export type ContentType = 'image' | 'video' | 'video-embed' | 'note' | 'file' | null;
 
 export interface ContentPayload {
   type: Exclude<ContentType, null>;
@@ -106,6 +106,24 @@ export class CourseModal implements OnInit {
     return this.selectedContentType === type;
   }
 
+  isContentValid(): boolean {
+    if (!this.selectedContentType) return false;
+
+    const file = this.form.get('file')?.value as File | null;
+    const videoUrl = this.form.get('videoUrl')?.value as string;
+    const note = this.form.get('note')?.value as string;
+
+    if (this.selectedContentType === 'image' || this.selectedContentType === 'video' || this.selectedContentType === 'file') {
+      return !!file;
+    } else if (this.selectedContentType === 'video-embed') {
+      return !!videoUrl && videoUrl.trim().length > 0;
+    } else if (this.selectedContentType === 'note') {
+      return !!note && note.trim().length > 0;
+    }
+
+    return false;
+  }
+
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -130,12 +148,12 @@ export class CourseModal implements OnInit {
     if (!this.selectedContentType) return;
 
     const file = this.form.get('file')?.value as File | null;
-    const videoUrl = this.form.get('videoUrl')?.value as string;
+    const videembed = this.form.get('videoUrl')?.value as string;
     const note = this.form.get('note')?.value as string;
 
     let content: ContentPayload | null = null;
 
-    if (this.selectedContentType === 'image' || this.selectedContentType === 'file') {
+    if (this.selectedContentType === 'image' || this.selectedContentType === 'file' || this.selectedContentType === 'video') {
       if (!file) return;
       content = {
         type: this.selectedContentType,
@@ -143,13 +161,14 @@ export class CourseModal implements OnInit {
         fileName: file.name,
         imagePreview: this.selectedContentType === 'image' ? this.currentImagePreview || undefined : undefined
       };
-    } else if (this.selectedContentType === 'video') {
-      if (!videoUrl) return;
+    }else if (this.selectedContentType === 'video-embed') {
+      if (!videembed) return;
       content = {
-        type: 'video',
-        videoUrl
+        type: 'video-embed',
+        videoUrl: videembed
       };
-    } else if (this.selectedContentType === 'note') {
+    } 
+    else if (this.selectedContentType === 'note') {
       if (!note) return;
       content = {
         type: 'note',
@@ -187,12 +206,12 @@ export class CourseModal implements OnInit {
   isFormValid(): boolean {
     if (!this.form.valid) return false;
 
-    const hasContents = this.contents.length > 0;
-
+    // Para publicaciones y contenidos: requiere al menos 1 contenido de cualquier tipo
     if (this.elementType === 'publication' || this.elementType === 'content') {
-      if (!hasContents) return false;
+      return this.contents.length >= 1;
     }
 
+    // Para módulos: solo necesita título y descripción
     return true;
   }
 

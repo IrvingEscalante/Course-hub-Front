@@ -70,7 +70,7 @@ export class PublicationsService {
     let fileIndex = 0;
     
     for (const content of contents) {
-      if (content.type === 'image' || content.type === 'file') {
+      if (content.type === 'image' || content.type === 'video' || content.type === 'file') {
         if (content.file) {
           formData.append('files', content.file);
           contentsMetadata.push({
@@ -79,9 +79,9 @@ export class PublicationsService {
           });
           fileIndex++;
         }
-      } else if (content.type === 'video') {
+      } else if (content.type === 'video-embed') {
         contentsMetadata.push({
-          type: 'video',
+          type: 'video-embed',
           url: content.videoUrl
         });
       } else if (content.type === 'note') {
@@ -146,7 +146,7 @@ export class PublicationsService {
         });
       } else {
         // Es contenido nuevo
-        if (content.type === 'image' || content.type === 'file') {
+        if (content.type === 'image' || content.type === 'video' || content.type === 'file') {
           if (content.file) {
             formData.append('files', content.file);
             contentsMetadata.push({
@@ -155,9 +155,9 @@ export class PublicationsService {
             });
             fileIndex++;
           }
-        } else if (content.type === 'video') {
+        } else if (content.type === 'video-embed') {
           contentsMetadata.push({
-            type: 'video',
+            type: 'video-embed',
             url: content.videoUrl
           });
         } else if (content.type === 'note') {

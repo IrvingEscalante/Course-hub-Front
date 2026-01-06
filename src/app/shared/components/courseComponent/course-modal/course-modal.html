@@ -58,6 +58,15 @@
               <button 
                 type="button" 
                 class="content-btn" 
+                [class.active]="isContentTypeSelected('video-embed')"
+                (click)="selectContentType('video-embed')"
+                title="Insertar video embebido">
+                <span class="material-icons">youtube_activity</span>
+                <span class="btn-text">Video embebido</span>
+              </button>
+              <button 
+                type="button" 
+                class="content-btn" 
                 [class.active]="isContentTypeSelected('note')"
                 (click)="selectContentType('note')"
                 title="Agregar nota">
@@ -101,9 +110,9 @@
           }
 
           <!-- Video Link Input -->
-          @if (selectedContentType === 'video') {
+          @if (selectedContentType === 'video-embed') {
             <div class="form-group content-input">
-              <label for="video-url">URL del video de YouTube o Vimeo *</label>
+              <label for="video-url">URL del video de YouTube*</label>
               <input 
                 type="url" 
                 id="video-url" 
@@ -111,6 +120,23 @@
                 placeholder="https://www.youtube.com/watch?v=..."
                 required
               />
+            </div>
+          }
+          @if (selectedContentType === 'video'){
+            <div class="form-group content-input">
+              <label for="video-file">Selecciona un video *</label>
+              <div class="file-input-wrapper image-wrapper">
+                <input 
+                  type="file" 
+                  id="video-file" 
+                  (change)="onFileSelected($event)"
+                  accept="video/*"
+                  required
+                />
+                @if (selectedFileName) {
+                  <span class="file-name">✓ {{ selectedFileName }}</span>
+                }
+              </div>
             </div>
           }
 
@@ -148,7 +174,7 @@
           }
 
           <div class="content-actions">
-            <button type="button" class="btn btn-secondary" (click)="addContentFromSelection()" [disabled]="!selectedContentType">
+            <button type="button" class="btn btn-secondary" (click)="addContentFromSelection()" [disabled]="!isContentValid()">
               Agregar contenido
             </button>
           </div>

@@ -4,6 +4,7 @@ import { Avatar } from "../avatar/avatar";
 import { UserOut, UserOutFollow} from '../../../core/models/user.model';
 import { Router, RouterLink, RouterModule } from "@angular/router";
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-follower-following-modal',
@@ -19,6 +20,7 @@ export class FollowerFollowingModal {
   user: UserOut | null = null;
   userService = inject(UserService);
   authService = inject(AuthService);
+  toastService = inject(ToastService);
   router = inject(Router);
 
   ngOnInit(): void {
@@ -34,6 +36,11 @@ export class FollowerFollowingModal {
     this.userService.followUnfollow(user.username).subscribe({
       next: (res) => {
         user.is_following = res.following;
+        if (res.following){
+          this.toastService.success("Se ha empezado a seguir al usuario "+res.username);
+        }else{
+          this.toastService.success("Se ha dejado de seguir al usuario "+res.username);
+        }
       },
       error: (err) => {
         console.error(err);
