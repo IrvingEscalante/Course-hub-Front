@@ -1,4 +1,8 @@
-@if (courseList.length > 0) {
+@if (isLoading) {
+<div class="loader-center">
+  <div class="loader"></div>
+</div>
+} @else if (courseList.length > 0) {
 <div class="carousel-container">
         <h1 class="courses-desc">{{title}}</h1>
         <div class="carousel-track" #carouselTrack>
@@ -6,7 +10,7 @@
                 <div class="carousel-item">
                     <app-course-card [course]="course"></app-course-card>
                 </div>
-            }
+            }@empty {hola}
         </div>
         
         @if (totalPages > 1) {

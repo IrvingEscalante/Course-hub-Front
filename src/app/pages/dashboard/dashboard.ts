@@ -20,8 +20,19 @@ export class Dashboard implements OnInit {
   loaderService=inject(LoaderService)
   toastService = inject(ToastService);
   
+  // Mapeo de filtros a parámetros de query
+  filterTypeMap: { [key: string]: 'all' | 'new' | 'popular' | 'trending' } = {
+    'Todos': 'all',
+    'Populares': 'popular',
+    'Nuevos': 'new',
+    'Tendencias': 'trending'
+  };
+  
   selectFilter(filter: string) {
     this.selectedFilter = filter;
+    this.loading = true;
+    this.loaderService.show();
+    this.fetchCourses();
   }
   
   constructor(private courseService: CoursesService){}
@@ -33,7 +44,10 @@ export class Dashboard implements OnInit {
   }
 
   fetchCourses(){
-    this.courseService.getCourses().subscribe({
+    this.loading = true;
+    const typeQuery = this.filterTypeMap[this.selectedFilter] || 'all';
+    
+    this.courseService.getCourses(this.searchTerm || undefined, typeQuery).subscribe({
       next:(courses)=>{
         this.courses = courses;
         this.loading=false;
@@ -41,6 +55,8 @@ export class Dashboard implements OnInit {
       },
       error:(error)=>{
         this.toastService.error(error.error.detail);
+        this.loading = false;
+        this.loaderService.hide();
       },
       complete:()=>{
         this.loading = false;
@@ -52,8 +68,9 @@ export class Dashboard implements OnInit {
   onSearch() {
     this.loaderService.show();
     this.loading = true;
+    const typeQuery = this.filterTypeMap[this.selectedFilter] || 'all';
 
-    this.courseService.getCourses(this.searchTerm).subscribe({
+    this.courseService.getCourses(this.searchTerm || undefined, typeQuery).subscribe({
       next: (courses) => {
         this.courses = courses;
         this.loading = false;
@@ -62,6 +79,7 @@ export class Dashboard implements OnInit {
       error: (error) => {
         console.log(error);
         this.loading = false;
+        this.loaderService.hide();
       }
     });
   }

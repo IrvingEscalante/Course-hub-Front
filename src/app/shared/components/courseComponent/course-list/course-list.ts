@@ -15,6 +15,7 @@ export class CourseList implements AfterViewInit, OnDestroy, OnChanges {
   @Input() courseList: Course[] = [];
   @Input() username: string = '';
   @Input() isFavorites: boolean = false;
+  @Input() isLoading: boolean = false;
 
   private _carouselTrack?: ElementRef;
   

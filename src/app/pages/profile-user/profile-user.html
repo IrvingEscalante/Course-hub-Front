@@ -5,7 +5,11 @@
 <div class="principal-content-profile">
     <div class="container-profile flex-column">
         <div class="header-data-user flex-column">
-            <img src="https://i.pinimg.com/736x/78/26/4d/78264d3ebca1f385593ff1a6552b5a7e.jpg" alt="Portada" class="user-cover">
+            @if (user.back_photo) {
+                <img [src]="user.back_photo" alt="Portada" class="user-cover">
+            }@else {
+                <img src="images/cover-photo.jpeg" alt="Portada" class="user-cover">
+            }
             <div class="user-photo-name flex-column">
                 <app-avatar [size]="120" [name]="user.name" [photo]="user.photo || ''"></app-avatar>
                 <h1 class="name-user text-center">{{this.user.name + " " + this.user.lastname}}</h1>

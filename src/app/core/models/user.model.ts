@@ -6,6 +6,7 @@ export interface UserOut{
   lastname:string;
   email: string;
   photo:string;
+  back_photo:string | null;
   biography:string | null;
 }
 
@@ -22,6 +23,7 @@ export interface UserProfilePublic {
   name: string;
   lastname: string;
   photo: string | null;
+  back_photo : string | null;
   biography: string | null;
   date_joined: string; // o Date
   followers_count : number

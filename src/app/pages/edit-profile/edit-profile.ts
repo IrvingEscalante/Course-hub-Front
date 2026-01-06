@@ -26,6 +26,8 @@ export class EditProfile {
   user:UserOut | null = null;
   previewImage: string | null = null;
   selectedFile: File | null = null;
+  previewBackPhoto: string | null = null;
+  selectedBackPhoto: File | null = null;
   isrendering:boolean = false;
   loadingedit:boolean = false;
   constructor(private fb: FormBuilder) {}
@@ -50,6 +52,7 @@ export class EditProfile {
       next:(user)=>{
         this.user = user;
         this.isrendering = true;
+        this.previewBackPhoto = user.back_photo ?? null;
         this.profileForm.patchValue({
           name: user.name,
           lastname: user.lastname,
@@ -90,6 +93,20 @@ onFileSelected(event: Event) {
   }
 }
 
+onBackPhotoSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+
+  if (!input.files || input.files.length === 0) return;
+
+  this.selectedBackPhoto = input.files[0];
+  this.previewBackPhoto = URL.createObjectURL(this.selectedBackPhoto);
+}
+
+removeBackPhoto() {
+  this.selectedBackPhoto = null;
+  this.previewBackPhoto = null;
+}
+
   onSubmit(): void {
     if (this.profileForm.invalid) return;
     this.loaderService.show();
@@ -112,6 +129,11 @@ onFileSelected(event: Event) {
     if (this.selectedFile) {
       payload.avatar = this.selectedFile;
     }
+
+    if (this.selectedBackPhoto) {
+      payload.back_photo = this.selectedBackPhoto;
+    }
+
     const formData = new FormData();
 
     Object.entries(payload).forEach(([key, value]) => {

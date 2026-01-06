@@ -147,6 +147,7 @@ openFollowing() {
         } else {
           this.user = userData as UserProfilePublic;
         }
+        console.log(userData);
         this.userExist = true;
         this.loading = false;
         this.loaderService.hide();

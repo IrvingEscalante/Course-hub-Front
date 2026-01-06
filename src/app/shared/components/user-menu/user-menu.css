@@ -32,6 +32,8 @@
 .link-myprofile{
     font-size: 15px;
     cursor: pointer;
+    align-items: center;
+    gap: 5px;
     padding: 10px;
     border-radius: 10px 10px 0 0;
     transition: ease-out 0.2s;
@@ -42,6 +44,8 @@
     padding: 0;
     color: #fff;
     font-size: 15px;
+    align-items: center;
+    gap: 5px;
     cursor: pointer;
     padding: 10px;
     border-radius: 0 0 10px 10px;

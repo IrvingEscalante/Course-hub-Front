@@ -5,6 +5,54 @@
     <p class="subtitle">Actualiza tu información personal.</p>
 
     <div class="profile-card">
+      <!-- FOTO DE PORTADA -->
+      <div class="back-photo-section">
+        @if (previewBackPhoto) {
+          <div class="back-photo-container">
+            <img [src]="previewBackPhoto" alt="Foto de portada" class="back-photo-preview" />
+            <div class="back-photo-actions">
+              <button
+                type="button"
+                class="action-btn change-btn"
+                (click)="backPhotoInput.click()"
+                title="Cambiar foto de portada"
+              >
+                <span class="material-icons">edit</span>
+              </button>
+              <button
+                type="button"
+                class="action-btn delete-btn"
+                (click)="removeBackPhoto()"
+                title="Eliminar foto de portada"
+              >
+                <span class="material-icons">delete</span>
+              </button>
+            </div>
+          </div>
+        } @else {
+          <div class="back-photo-empty">
+            <span class="material-icons">image_not_supported</span>
+            <p>Sin foto de portada</p>
+          </div>
+        }
+        <!-- INPUT FILE OCULTO PARA FOTO DE PORTADA -->
+        <input
+          type="file"
+          accept="image/*"
+          #backPhotoInput
+          (change)="onBackPhotoSelected($event)"
+          hidden
+        />
+        <button
+          type="button"
+          class="add-back-photo-btn"
+          (click)="backPhotoInput.click()"
+        >
+          <span class="material-icons">add_a_photo</span>
+          Agregar foto de portada
+        </button>
+      </div>
+
       <!-- FOTO -->
       <div class="photo-section">
         <div class="photo-container">
