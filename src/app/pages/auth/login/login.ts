@@ -39,7 +39,7 @@ export class Login {
       this.auth_service.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.auth_service.setToken(response.access_token);
-          this.router.navigate(['/']);
+          this.router.navigate(['/courses']);
           this.toastr.success("Se ha iniciado sesión con éxito");
         },
         error: (err) => {

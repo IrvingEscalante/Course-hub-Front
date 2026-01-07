@@ -1,0 +1,324 @@
+<div class="landing-container">
+  <!-- NAVBAR 
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-logo">
+        <span class="logo-icon">📚</span>
+        <h2>CourseHub</h2>
+      </div>
+      <div class="navbar-links">
+        <a href="#features" class="nav-link">Características</a>
+        <a href="#how-it-works" class="nav-link">Cómo Funciona</a>
+        <a href="#workflow" class="nav-link">Flujo</a>
+        <a href="#cta" class="nav-link">Comenzar</a>
+      </div>
+      <div class="navbar-buttons">
+        <button class="btn-secondary" (click)="navigateTo('login')">Iniciar Sesión</button>
+        <button class="btn-primary" (click)="navigateTo('register')">Registrarse</button>
+      </div>
+    </div>
+  </nav>
+-->
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="highlight">Crea</span> cursos colaborativos
+        <br>
+        <span class="highlight">propone</span> mejoras,
+        <br>
+        <span class="highlight">colabora</span> en línea
+      </h1>
+      <p class="hero-subtitle">
+        CourseHub es la plataforma de control de versiones para cursos educativos. 
+        Diseña tu contenido, colabora con otros educadores y gestiona cambios de manera inteligente.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-cta" (click)="navigateTo('register')">Crear Curso Ahora</button>
+        <button class="btn-secondary-outline" (click)="scrollToSection('features')">Ver Características</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">1000+</span>
+          <span class="stat-label">Cursos Creados</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Colaboradores</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">2000+</span>
+          <span class="stat-label">Estudiantes</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="card-header">
+          <span class="material-icons">school</span>
+          <p>Mi Curso</p>
+        </div>
+        <div class="card-content">
+          <div class="card-module">📖 Módulo 1</div>
+          <div class="card-module">📹 Módulo 2</div>
+          <div class="card-module">✨ Módulo 3</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section id="features" class="features">
+    <div class="section-header">
+      <h2>Características Poderosas</h2>
+      <p>Todo lo que necesitas para crear cursos educativos excepcionales</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Feature 1: Create Courses -->
+      <div class="feature-card">
+        <div class="feature-icon create">
+          <span class="material-icons">create</span>
+        </div>
+        <h3>Crear Cursos</h3>
+        <p>Diseña cursos con una interfaz intuitiva. Organiza tu contenido en módulos y define la estructura de tu educación.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Estructura modular</li>
+          <li><span class="checkmark">✓</span> Portadas personalizadas</li>
+          <li><span class="checkmark">✓</span> Descripciones detalladas</li>
+        </ul>
+      </div>
+
+      <!-- Feature 2: Manage Content -->
+      <div class="feature-card">
+        <div class="feature-icon manage">
+          <span class="material-icons">folder_open</span>
+        </div>
+        <h3>Gestionar Contenido</h3>
+        <p>Publica múltiples tipos de contenido en tus cursos: videos, PDFs, presentaciones y notas en texto.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Soporte multimedia</li>
+          <li><span class="checkmark">✓</span> Organización por módulos</li>
+          <li><span class="checkmark">✓</span> Gestión de versiones</li>
+        </ul>
+      </div>
+
+      <!-- Feature 3: Collaborate -->
+      <div class="feature-card">
+        <div class="feature-icon collaborate">
+          <span class="material-icons">people</span>
+        </div>
+        <h3>Colaboración en Tiempo Real</h3>
+        <p>Trabaja con otros educadores. Propone cambios, revisa mejoras y acepta contribuciones de tu comunidad.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Pull Requests</li>
+          <li><span class="checkmark">✓</span> Control de cambios</li>
+          <li><span class="checkmark">✓</span> Historial de versiones</li>
+        </ul>
+      </div>
+
+      <!-- Feature 4: Fork & Improve -->
+      <div class="feature-card">
+        <div class="feature-icon fork">
+          <span class="material-icons">call_split</span>
+        </div>
+        <h3>Copiar y Mejorar</h3>
+        <p>Copia cursos existentes y crea tus propias versiones. Propón mejoras a través de pull requests.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Bifurcación de cursos</li>
+          <li><span class="checkmark">✓</span> Propuestas de cambio</li>
+          <li><span class="checkmark">✓</span> Historial de modificaciones</li>
+        </ul>
+      </div>
+
+      <!-- Feature 5: Ratings & Feedback -->
+      <div class="feature-card">
+        <div class="feature-icon ratings">
+          <span class="material-icons">star</span>
+        </div>
+        <h3>Calificaciones y Reseñas</h3>
+        <p>Obtén feedback de estudiantes con un sistema de calificaciones detallado y comentarios constructivos.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Sistema de estrellas</li>
+          <li><span class="checkmark">✓</span> Análisis de calificaciones</li>
+          <li><span class="checkmark">✓</span> Comentarios educativos</li>
+        </ul>
+      </div>
+
+      <!-- Feature 6: Community -->
+      <div class="feature-card">
+        <div class="feature-icon community">
+          <span class="material-icons">public</span>
+        </div>
+        <h3>Comunidad Global</h3>
+        <p>Conecta con educadores de todo el mundo. Síguelos, marca favoritos y descubre nuevos cursos.</p>
+        <ul class="feature-list">
+          <li><span class="checkmark">✓</span> Perfiles de usuarios</li>
+          <li><span class="checkmark">✓</span> Sistema de seguimiento</li>
+          <li><span class="checkmark">✓</span> Descubrimiento de cursos</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="section-header">
+      <h2>Cómo Funciona</h2>
+      <p>Tres pasos simples para comenzar tu viaje educativo</p>
+    </div>
+
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Crea tu Curso</h3>
+        <p>Comienza registrándote y creando tu primer curso. Define el tema, la descripción y agrega una portada atractiva.</p>
+        <div class="step-icon">
+          <span class="material-icons">edit_note</span>
+        </div>
+      </div>
+
+      <div class="step-arrow">
+        <span class="material-icons">arrow_forward</span>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Organiza en Módulos</h3>
+        <p>Estructura tu curso en módulos lógicos. Cada módulo puede contener múltiples publicaciones con distintos tipos de contenido.</p>
+        <div class="step-icon">
+          <span class="material-icons">folder_special</span>
+        </div>
+      </div>
+
+      <div class="step-arrow">
+        <span class="material-icons">arrow_forward</span>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Publica Contenido</h3>
+        <p>Agrega videos, PDF, presentaciones y notas a tus publicaciones. Los estudiantes acceden al contenido completo.</p>
+        <div class="step-icon">
+          <span class="material-icons">cloud_upload</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLABORATION WORKFLOW SECTION -->
+  <section id="workflow" class="workflow">
+    <div class="section-header">
+      <h2>Flujo de Colaboración</h2>
+      <p>Como GitHub, pero diseñado para educadores</p>
+    </div>
+
+    <div class="workflow-container">
+      <div class="workflow-card">
+        <div class="workflow-number">1</div>
+        <h3>Bifurca un Curso</h3>
+        <p>Copia cualquier curso público y crea tu propia versión personalizada.</p>
+        <div class="workflow-visual">
+          <div class="workflow-icon fork-icon">
+            <span class="material-icons">call_split</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-arrow">
+        <span class="material-icons">trending_flat</span>
+      </div>
+
+      <div class="workflow-card">
+        <div class="workflow-number">2</div>
+        <h3>Propón Cambios</h3>
+        <p>Realiza modificaciones y propón un Pull Request al curso original.</p>
+        <div class="workflow-visual">
+          <div class="workflow-icon pr-icon">
+            <span class="material-icons">send</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-arrow">
+        <span class="material-icons">trending_flat</span>
+      </div>
+
+      <div class="workflow-card">
+        <div class="workflow-number">3</div>
+        <h3>Revisa & Acepta</h3>
+        <p>El creador original revisa tus cambios y decide aceptarlos o rechazarlos.</p>
+        <div class="workflow-visual">
+          <div class="workflow-icon accept-icon">
+            <span class="material-icons">check_circle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow-benefits">
+      <div class="benefit">
+        <span class="material-icons">verified</span>
+        <p><strong>Control Total:</strong> Tú decides qué cambios integrar a tu curso</p>
+      </div>
+      <div class="benefit">
+        <span class="material-icons">history</span>
+        <p><strong>Historial Completo:</strong> Rastrea todos los cambios y versiones</p>
+      </div>
+      <div class="benefit">
+        <span class="material-icons">group</span>
+        <p><strong>Comunidad Activa:</strong> Benefíciate de la inteligencia colectiva</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section id="cta" class="cta">
+    <div class="cta-content">
+      <h2>¿Listo para revolucionar la educación?</h2>
+      <p>Únete a miles de educadores que ya usan CourseHub para crear y colaborar.</p>
+      <div class="cta-buttons">
+        <button class="btn-cta-large" (click)="navigateTo('register')">Crear mi Primer Curso</button>
+        <button class="btn-secondary-outline-large" (click)="navigateTo('login')">Ya tengo cuenta</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>CourseHub</h4>
+        <p>La plataforma de control de versiones para cursos educativos.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Características</h4>
+        <ul>
+          <li><a href="#features">Crear Cursos</a></li>
+          <li><a href="#features">Colaboración</a></li>
+          <li><a href="#features">Versionado</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Comunidad</h4>
+        <ul>
+          <li><a href="#">Explorar Cursos</a></li>
+          <li><a href="#">Educadores</a></li>
+          <li><a href="#">Ayuda</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Términos</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CourseHub. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</div>

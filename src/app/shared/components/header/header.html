@@ -1,3 +1,4 @@
+@if (isLandingPage) {
 <header class="header">
     <div class="logo">
         <img src="images/logo.png" width="50px" alt="logo">
@@ -6,19 +7,27 @@
     <div class="interactive-elements">
             @if (userLoaded) {
                 <ul class="elements">
+                    @if (!user) {
+                        <li>
+                            <a routerLink="/" [class]="{'active': router.url=='/'}" class="element-item item home">
+                                <span class="material-icons">home</span>
+                                <span class="item-text bold">Inicio</span>
+                            </a>
+                        </li>
+                    }
                     <li>
-                        <a routerLink="/" [class]="{'active': router.url=='/'}" class="element-item item home">
-                            <span class="material-icons">home</span>
-                            <span class="item-text bold">Inicio</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/course/create" [class]="{'active': router.url ==='/course/create'}" class="element-item item create">
-                            <span class="material-icons">add</span>
-                            <span class="item-text bold">Crear</span>
+                        <a routerLink="/courses" [class]="{'active': router.url ==='/courses'}" class="element-item item create">
+                            <span class="material-icons">school</span>
+                            <span class="item-text bold">Cursos</span>
                         </a>
                     </li>
                     @if (user) {
+                        <li>
+                            <a routerLink="/course/create" [class]="{'active': router.url ==='/course/create'}" class="element-item item create">
+                                <span class="material-icons">add</span>
+                                <span class="item-text bold">Crear</span>
+                            </a>
+                        </li>
                     <li class="element-item-photo">
                         <button class="button-show-modal-profile flex-row" (click)="toggleMenu()">
                             <app-avatar [size]="40" [name]="user.name" [photo]="user.photo"></app-avatar>
@@ -31,18 +40,20 @@
                     }
                     </li>
                 }@else {
-                        <li class="element-item item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                            <span class="material-icons">login</span>
-                            <a routerLink="/register" class="item access bold">Registrarse</a>
+                        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            
+                            <a routerLink="/register" class="element-item item bold">
+                            <span class="material-icons">person_add</span>
+                            Registrarse</a>
                         </li>
-                        <li class="element-item item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <a routerLink="/login" class="element-item item bold">
                             <span class="material-icons">login</span>
-                            <a routerLink="/login" class="item access bold">Login</a>
+                            Login</a>
                         </li>
                 }
                 </ul>
             }
     </div>
-
-
 </header>
+}

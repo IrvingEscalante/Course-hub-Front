@@ -29,7 +29,7 @@ export class UserMenu {
     this.authService.logout();
     this.close.emit();
     this.toastService.success("Cesión cerrada correctamente");
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
 }

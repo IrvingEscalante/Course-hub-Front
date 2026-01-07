@@ -6,9 +6,12 @@ import { UserResolver } from "../../core/services/user-resolver.service";
 import { VerifyEmail } from "./verify-email/verify-email";
 import { RecoverPassword } from "./recover-password/recover-password";
 import { ChangePassword } from "./change-password/change-password";
+import { Landing } from "../landing/landing";
+import { landingRedirectGuard } from "../../core/guards/landing-redirect.guard";
 
 export const AUTH_ROUTES: Routes = [
-    {path: '', component:Dashboard, resolve:{user : UserResolver}},
+    {path: '', component:Landing, canActivate: [landingRedirectGuard]},
+    {path: 'courses', component:Dashboard, resolve:{user : UserResolver}},
     {path: 'register', component:Register},
     {path: 'login', component:Login},
     {path: 'verify-email', component:VerifyEmail},

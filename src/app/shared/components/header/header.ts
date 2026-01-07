@@ -6,10 +6,11 @@ import { AvatarModule } from 'ngx-avatars';
 import { UserMenu } from '../user-menu/user-menu';
 import { UserService } from '../../../core/services/user/user.service';
 import { Avatar } from "../avatar/avatar";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, AvatarModule, UserMenu, Avatar],
+  imports: [RouterModule, AvatarModule, UserMenu, Avatar, CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
@@ -21,9 +22,13 @@ export class Header {
   avatarUrl:string = '';
   userLoaded:boolean = false;
   userService = inject(UserService);
+  isLandingPage = false;
   constructor(private authService: AuthService, public router:Router) { }
 
   ngOnInit(){
+    // Detectar si estamos en landing page
+    this.isLandingPage = this.router.url === '/';
+    
     // Kick off a one-time load to resolve auth state before rendering
     this.authService.loadCurrentUser().subscribe({
       next: () => this.userLoaded = true,
