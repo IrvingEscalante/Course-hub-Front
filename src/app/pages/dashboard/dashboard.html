@@ -1,37 +1,44 @@
 
 <div class="principal-content-dashboard">
     <div class="header-dashboard flex-column">
-        <div class="hero-text text-center flex-column">
-            <h1 class="title-dashboard">Encuentra tu próximo curso</h1>
-            <p class="subtitle-dashboard">Explora miles de cursos en linea impartidos por expertos</p>
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-text text-center flex-column">
+                <h1 class="title-dashboard">Encuentra tu próximo curso</h1>
+                <p class="subtitle-dashboard">Explora miles de cursos en línea impartidos por expertos de todo el mundo</p>
+            </div>
         </div>
+
+        <!-- Search Section -->
         <div class="search-filters flex-column">
-            <form (submit)="onSearch()" class="search">
-               
-                
-                <input name="search" class="input-search" type="search" placeholder="Buscar cursos por nombre o descripción" [(ngModel)]="searchTerm">
-                <button type="submit" class="search-btn"><span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </button>
-            
+            <form (submit)="onSearch()" class="search-form">
+                <div class="search-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input name="search" class="input-search" type="search" placeholder="Buscar cursos por nombre o descripción" [(ngModel)]="searchTerm">
+                    <button type="submit" class="search-btn">Buscar</button>
+                </div>
             </form>
-            <div class="filters">
+
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <span class="filter-label">Filtrar por:</span>
                 <ul class="list-filters flex-row">
                     @for (filter of filters; track $index) {
-                    <li
-                        [class.active]="selectedFilter == filter"
-                        (click)="selectFilter(filter)">
-                        {{ filter }}
-                    </li>
-                }
+                        <li
+                            [class.active]="selectedFilter == filter"
+                            (click)="selectFilter(filter)"
+                            class="filter-item">
+                            {{ filter }}
+                        </li>
+                    }
                 </ul>
             </div>
-
         </div>
     </div>
+
+    <!-- Courses List -->
     @if (courses) {
         <app-course-list [title]="selectedFilter" [courseList]="courses" [isLoading]="loading"></app-course-list>
     }

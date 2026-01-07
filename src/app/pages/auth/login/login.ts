@@ -40,6 +40,7 @@ export class Login {
         next: (response) => {
           this.auth_service.setToken(response.access_token);
           this.router.navigate(['/courses']);
+          this.loaderService.hide();
           this.toastr.success("Se ha iniciado sesión con éxito");
         },
         error: (err) => {

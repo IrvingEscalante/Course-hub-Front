@@ -43,6 +43,6 @@ export class CoursesService {
     return this.http.post<any>(`${this.baseUrl}/course/courses/${id_course}/commit`, {});
   }
   deactivateCourse(id_course: number): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/course/courses/${id_course}/deactivate`, {});
+    return this.http.put<any>(`${this.baseUrl}/course/courses/${id_course}/deactivate-activate`, {});
   }
 }

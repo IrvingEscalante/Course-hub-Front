@@ -90,6 +90,9 @@
     .item-text{
         display: block;
     }
+    .header{
+        height: 65px;
+    }
     .item{
         padding-inline: 15px;
         gap: 5px;
@@ -111,5 +114,6 @@
     }
     .element-item{
         width: auto;
+        height: 40px;
     }
 }

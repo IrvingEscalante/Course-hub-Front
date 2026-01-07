@@ -31,7 +31,6 @@ export class Dashboard implements OnInit {
   selectFilter(filter: string) {
     this.selectedFilter = filter;
     this.loading = true;
-    this.loaderService.show();
     this.fetchCourses();
   }
   
@@ -39,8 +38,6 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.fetchCourses();
-    this.loaderService.show();
-
   }
 
   fetchCourses(){
@@ -51,12 +48,10 @@ export class Dashboard implements OnInit {
       next:(courses)=>{
         this.courses = courses;
         this.loading=false;
-        this.loaderService.hide();
       },
       error:(error)=>{
         this.toastService.error(error.error.detail);
         this.loading = false;
-        this.loaderService.hide();
       },
       complete:()=>{
         this.loading = false;
@@ -66,7 +61,6 @@ export class Dashboard implements OnInit {
   searchTerm: string = '';
 
   onSearch() {
-    this.loaderService.show();
     this.loading = true;
     const typeQuery = this.filterTypeMap[this.selectedFilter] || 'all';
 
@@ -74,12 +68,10 @@ export class Dashboard implements OnInit {
       next: (courses) => {
         this.courses = courses;
         this.loading = false;
-        this.loaderService.hide();
       },
       error: (error) => {
         console.log(error);
         this.loading = false;
-        this.loaderService.hide();
       }
     });
   }

@@ -45,19 +45,7 @@ main {
     gap: 10px;
 }
 
-.form-group input {
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db; /* gris neutro */
-    font-size: 14px;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
 
-.form-group input:focus {
-    outline: none;
-    border-color: var(--primary-button);
-    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
-}
 
 /* RECOVER PASSWORD */
 .recover-and-button {
@@ -149,10 +137,6 @@ main {
 .password_input{
     width: 100%;
 }
-.input-style {
-  padding-right: 45px; /* espacio para el botón */
-}
-
 /* RESPONSIVE */
 @media(min-width:600px){
     main {

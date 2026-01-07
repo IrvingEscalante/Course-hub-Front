@@ -1,6 +1,7 @@
 :root{
     --primary-color: #050a14;
     --secondary-color : #0d172d;
+    --secondary-gradient : linear-gradient(135deg, #16233e 0%, #050d1f 100%);
     --color-bg : #0D1117;
     --header-color:black;
     --color-container: #121C2D;
@@ -86,9 +87,13 @@ button{
   background-color: rgba(255,255,255,0.06);
 }
 
+.labels-form{
+  font-size: 14px;
+}
+
 .input-style{
     padding: 10px;
-    background-color: var(--color-input);
+    background-color: transparent;
     border: none;
     color : var(--color-text);
     border: 1px solid var(--border);
@@ -123,7 +128,7 @@ button{
     color: var(--color-text);
     gap: 10px;
     border-radius: 15px;
-    background-color: var(--bg-color);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(0, 200, 150, 0.1) 100%);
     margin-inline: 20px;
 }
 .error-forms{

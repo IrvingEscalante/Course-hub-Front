@@ -439,17 +439,6 @@
     border-color: #143876;
 }
 
-@media(max-width:900px){
-.principal-container-detail-course{
-    padding-inline: 40px;
-    grid-template-columns: 1fr;
-}
-.container-rating{
-    background: transparent;
-    border: none;
-}
-}
-
 .no-pulls-message {
     display: flex;
     flex-direction: column;
@@ -571,4 +560,18 @@
 .btn-deactivate:hover {
     background-color: rgba(239, 68, 68, 0.1);
     border-color: #ef4444;
+}
+
+@media(max-width:900px){
+.principal-container-detail-course{
+    padding-inline: 20px;
+    grid-template-columns: 1fr;
+}
+.name-course{
+    font-size: 30px;
+}
+.container-rating{
+    background: transparent;
+    border: none;
+}
 }

@@ -105,6 +105,9 @@ export class DetailCourse {
       const id = Number(params.get('id'));
       this.loaderService.show();
       this.getCourseDetail(id);
+    /*  if(!this.course?.status_course){
+        this.router.navigate(['/courses']);
+      }*/
       this.getModules(id);
       this.getPulls(id);
       this.loadMyPullRequests(id);
@@ -321,9 +324,9 @@ export class DetailCourse {
       next: (response: any) => {
         this.loaderService.hide();
         if (this.course) {
-          this.course.status_course = false;
+          this.course.status_course = response.status_course;
         }
-        this.toastService.success('Curso desactivado exitosamente');
+        this.toastService.success(response.message);
         console.log('Curso desactivado:', response);
       },
       error: (err: any) => {

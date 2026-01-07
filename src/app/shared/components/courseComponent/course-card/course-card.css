@@ -4,7 +4,8 @@
     z-index: 1;
     max-width: 260px; /* o 300px, lo que quieras */
     border-radius: 5px;
-    background:  var(--secondary-color);
+    background:  var(--secondary-gradient);
+    border: var(--border);
     color: var(--color-text);
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* sombra más sutil */
