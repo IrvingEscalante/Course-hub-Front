@@ -10,7 +10,7 @@
     padding: 0;
 }
 .description-course{
-    font-size: 16px;
+    font-size: 17px;
     margin: 0;
     padding: 0;
 }
@@ -562,4 +562,13 @@
 
 .pr-tab-btn.active .badge {
     background-color: rgba(59, 130, 246, 0.3);
+}
+
+.btn-deactivate {
+    border-color: #ef4444;
+}
+
+.btn-deactivate:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
 }

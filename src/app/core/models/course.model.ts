@@ -14,6 +14,14 @@ export interface Course {
   id_author_user: number;
   avg_rating:number;
   ratings_count:number;
+  ratings_breakdown: {
+    1: { count: number; percentage: number };
+    2: { count: number; percentage: number };
+    3: { count: number; percentage: number };
+    4: { count: number; percentage: number };
+    5: { count: number; percentage: number };
+  };
+  id_theme: number;
   status_course: boolean;
   is_favorite:boolean;
   is_my_favorite:boolean;

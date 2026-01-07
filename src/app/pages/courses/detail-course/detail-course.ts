@@ -58,6 +58,7 @@ export class DetailCourse {
   user: UserOut | null = null;
   isSavingOrder = false;
   editLoading:boolean = false;
+  ratings: Array<{ stars: number; percent: number; count: number }> = [];
 
   onModalClose() {
     this.isModalOpen = false;
@@ -99,14 +100,6 @@ export class DetailCourse {
     this.isModalOpen = true;
   }
 
-   ratings = [
-    { stars: 5, percent: 50 },
-    { stars: 4, percent: 30 },
-    { stars: 3, percent: 10 },
-    { stars: 2, percent: 5 },
-    { stars: 1, percent: 5 }
-  ];
-
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
@@ -126,6 +119,7 @@ export class DetailCourse {
     this.courseService.getDetailCourse(id_course).subscribe({
       next:(data)=>{
         this.course=data;
+        this.updateRatings();
         this.getCourseOriginalDetail(this.course.id_course_parent);
         this.loaderService.hide();
         this.isLoading = false;
@@ -312,6 +306,34 @@ export class DetailCourse {
     this.isPRModalOpen = true;
   }
 
+  deactivateCourse() {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+
+    if (!confirm(`¿Estás seguro de que deseas desactivar el curso "${this.course.name_course}"?`)) {
+      return;
+    }
+
+    this.loaderService.show();
+    this.courseService.deactivateCourse(this.course.id_course).subscribe({
+      next: (response: any) => {
+        this.loaderService.hide();
+        if (this.course) {
+          this.course.status_course = false;
+        }
+        this.toastService.success('Curso desactivado exitosamente');
+        console.log('Curso desactivado:', response);
+      },
+      error: (err: any) => {
+        this.loaderService.hide();
+        console.log(err);
+        this.toastService.error(err.error?.detail || 'Error al desactivar el curso');
+      }
+    });
+  }
+
   onPRModalClose() {
     this.isPRModalOpen = false;
   }
@@ -353,6 +375,42 @@ export class DetailCourse {
       ...module,
       order_index: index + 1
     }));
+  }
+
+  private updateRatings() {
+    if (!this.course || !this.course.ratings_breakdown) {
+      this.ratings = [];
+      return;
+    }
+
+    // Transformar el objeto del backend al formato del template
+    this.ratings = [
+      {
+        stars: 5,
+        percent: this.course.ratings_breakdown[5].percentage || 0,
+        count: this.course.ratings_breakdown[5].count || 0
+      },
+      {
+        stars: 4,
+        percent: this.course.ratings_breakdown[4].percentage || 0,
+        count: this.course.ratings_breakdown[4].count || 0
+      },
+      {
+        stars: 3,
+        percent: this.course.ratings_breakdown[3].percentage || 0,
+        count: this.course.ratings_breakdown[3].count || 0
+      },
+      {
+        stars: 2,
+        percent: this.course.ratings_breakdown[2].percentage || 0,
+        count: this.course.ratings_breakdown[2].count || 0
+      },
+      {
+        stars: 1,
+        percent: this.course.ratings_breakdown[1].percentage || 0,
+        count: this.course.ratings_breakdown[1].count || 0
+      }
+    ];
   }
 
   private persistModuleOrder() {

@@ -36,7 +36,6 @@ export class ProfileUser {
   toastService=inject(ToastService);
   auth=inject(AuthService);
   loading:boolean = true;
-  userLogged!:string | null;
   username!:string | null;
   isModalLoading = false;
   isFollowingLoading: boolean = false;  
@@ -52,7 +51,6 @@ export class ProfileUser {
   this.loaderService.show();
   this.route.paramMap.subscribe(params => {
     this.username = params.get('username');
-    this.userLogged = this.auth.currentUserValue?.username ?? null;
     if (this.username && this.username !== 'null') {
       this.getUserProfile(this.username);
       this.getCoursesFavorites(this.username);
@@ -60,11 +58,6 @@ export class ProfileUser {
       
   });
 }
-
-  isOwner(): boolean {
-    return this.userLogged === this.username;
-  }
-
 
   getFollowers(){
     this.followService.getFollowers(this.user.username).subscribe({

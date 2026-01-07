@@ -232,6 +232,7 @@
                     <div class="rating-label">{{ rating.stars }}</div>
                     <div class="bar-container">
                         <div class="bar-fill" [style.width.%]="rating.percent"></div>
+                        <p>{{rating.percent}}</p>
                     </div>
                     <div class="rating-percent">{{ rating.percent }}%</div>
                 </div>
@@ -271,6 +272,19 @@
             <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
         </div>
     </div>
+    @if (course.is_my_course) {
+        @if (course.status_course) {
+            <button (click)="deactivateCourse()" class="btn-action btn-deactivate flex-row">
+                <span class="material-icons">block</span>
+                <p>Desactivar curso</p>
+            </button>
+        }@else if (!course.status_course) {
+            <button (click)="deactivateCourse()" class="btn-action btn-deactivate flex-row">
+                <span class="material-icons">check</span>
+                <p>Activar curso</p>
+            </button> 
+        }
+    }
 </div>
 </div>
 } 

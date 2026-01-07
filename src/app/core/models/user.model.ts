@@ -26,6 +26,7 @@ export interface UserProfilePublic {
   back_photo : string | null;
   biography: string | null;
   date_joined: string; // o Date
+  is_my_profile: boolean;
   followers_count : number
   following_count : number
   following : boolean

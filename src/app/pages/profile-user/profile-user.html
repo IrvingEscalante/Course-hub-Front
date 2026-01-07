@@ -29,10 +29,12 @@
             }
         </div>
 
-        @if (userLogged && isOwner()) {
+        @if (user.is_my_profile) {
             <div class="action-buttons flex-row">
                 <a routerLink="/edit-profile" class="edit-profile">Editar perfil</a>
+                <!--
                 <a routerLink="/compartir" class="edit-profile">Compartir perfil</a>
+                -->
             </div>
         }@else {
             <button class="edit-profile follow" [class.unfollow]="isFollowing" (click)="followUnfollow()">@if (isFollowingLoading){<span class="spinner"></span>}@if(isFollowing){Dejar de seguir}@else{Seguir}</button>
