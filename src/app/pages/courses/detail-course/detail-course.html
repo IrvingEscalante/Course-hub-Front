@@ -169,6 +169,20 @@
                     }
                 </div>
             }
+            <div class="ai-summary-section">
+                @if (summary) {
+                    <div class="summary-card">
+                        <div class="summary-header">
+                            <div class="ai-badge">
+                                <span class="ai-icon">✨</span>
+                                <span>Generado por IA</span>
+                            </div>
+                            <h2 class="summary-title">Opinión General del Curso</h2>
+                        </div>
+                        <p class="summary-content">{{summary}}</p>
+                    </div>
+                }
+            </div>
             <div class="module-list-comments flex-column">
                 @if (course) {
                     <app-course-comments [(value)]="courseRating" [id_course]="course.id_course" [userLogged]="user"></app-course-comments>

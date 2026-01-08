@@ -58,6 +58,7 @@ export class DetailCourse {
   user: UserOut | null = null;
   isSavingOrder = false;
   editLoading:boolean = false;
+  summary:string = '';
   ratings: Array<{ stars: number; percent: number; count: number }> = [];
 
   onModalClose() {
@@ -111,6 +112,7 @@ export class DetailCourse {
       this.getModules(id);
       this.getPulls(id);
       this.loadMyPullRequests(id);
+      this.getSummary(id);
     });
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
@@ -123,7 +125,9 @@ export class DetailCourse {
       next:(data)=>{
         this.course=data;
         this.updateRatings();
-        this.getCourseOriginalDetail(this.course.id_course_parent);
+        if (this.course.id_course_parent) {
+          this.getCourseOriginalDetail(this.course.id_course_parent);
+        }
         this.loaderService.hide();
         this.isLoading = false;
       },
@@ -133,6 +137,7 @@ export class DetailCourse {
   }
 
   getCourseOriginalDetail(id_course:number){
+    if (!id_course) return;
     this.courseService.getDetailCourse(id_course).subscribe({
       next:(data)=>{
         this.originalCourse=data;
@@ -307,6 +312,22 @@ export class DetailCourse {
       return;
     }
     this.isPRModalOpen = true;
+  }
+
+  getSummary(id_course:number) {
+    this.detailService.getCourseSummary(id_course).subscribe({
+      next: (data) => {
+        if ('error' in data) {
+          this.toastService.error(data.error);
+        } else {
+          this.summary = data.summary;
+          this.toastService.success('Resumen generado exitosamente');
+        }
+      },
+      error: (err) => {
+        this.toastService.error(err.error?.detail || 'Error al generar el resumen');
+      }
+    });
   }
 
   deactivateCourse() {

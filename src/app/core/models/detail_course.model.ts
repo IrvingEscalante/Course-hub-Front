@@ -84,3 +84,9 @@ export interface EditModule{
   status_module: boolean | null;
   order_index: number | null;
 }
+
+export interface SummaryResponse {
+  summary: string;
+  average_rating: number;
+  comment_count: number;
+}

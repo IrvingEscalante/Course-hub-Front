@@ -24,7 +24,8 @@ export const API_ROUTES = {
   },
   detail_course:{
     get_full_data_course: '/detail_course/course/raw/',
-    get_publications:'/detail_course/publications/'
+    get_publications:'/detail_course/publications/',
+    get_summary:'/detail_course/summary/'
   },
   module_course:{
     get_modules:'/modules/getAll/',
