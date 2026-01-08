@@ -25,7 +25,8 @@
   <app-publication-content
     [content]="publication.content"
     [apiUrlBack]="apiUrlBack"
-    (pdfClick)="onPdfClick($event)">
+    (pdfClick)="onPdfClick($event)"
+    (imageClicked)="onImageClicked($event)">
   </app-publication-content>
 }
 

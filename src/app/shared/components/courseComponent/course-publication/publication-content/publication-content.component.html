@@ -31,14 +31,20 @@
       @switch (content.type_content) {
 
         @case ('image') {
-          <div class="content-card">
+          <div class="content-card image-card" (click)="openImageModal(content.content)">
             <img [src]="content.content" alt="Imagen del contenido" class="content-image" loading="lazy" />
           </div>
         }
 
         @case ('video') {
           <div class="content-card video-card">
-            <video [src]="content.content" controls class="content-video"></video>
+            <video 
+              [src]="content.content" 
+              [poster]="content.content"
+              controls 
+              class="content-video"
+              preload="metadata">
+            </video>
           </div>
         }
 

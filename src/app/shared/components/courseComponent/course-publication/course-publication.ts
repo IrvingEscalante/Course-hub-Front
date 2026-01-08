@@ -26,6 +26,7 @@ export class CoursePublication {
   @Input() publication!: CoursePublishResponse;
   @Input() isMyCourse?: boolean;
   @Output() pdfClick = new EventEmitter<string>();
+  @Output() imageClicked = new EventEmitter<string>();
   @Output() getpublications = new EventEmitter<void>();
   @Output() editPublication = new EventEmitter<CoursePublishResponse>();
   @Output() deletePublication = new EventEmitter<CoursePublishResponse>();
@@ -73,6 +74,11 @@ export class CoursePublication {
     console.log(url);
     this.pdfClick.emit(url);
   }
+
+  onImageClicked(url: string) {
+    this.imageClicked.emit(url);
+  }
+
   onAddContent() {
     console.log('Acción: Agregar contenido a la publicacion', this.publication.id_course_publish);
     this.addContent.emit(this.publication);

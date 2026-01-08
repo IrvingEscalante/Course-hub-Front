@@ -38,11 +38,13 @@
 
 @if (isOpen) {
 <div class="course-publication-list">
+  @if (hasLoaded) {
     @for (publication of publications; track $index) {
       <app-course-publication 
         [publication]="publication"
         [isMyCourse]="isMyCourse"
         (pdfClick)="openPdf($event)"
+        (imageClicked)="openImageModal($event)"
         (addContent)="openAddContentModal()"
         (editPublication)="onEditPublication($event)"
         (getpublications)="this.getPublications(moduleCourse.id_module)">
@@ -58,6 +60,11 @@
       </div>
     </div>
   }
+}@else {
+  <div class="loader-center">
+    <div class="loader"></div>
+  </div>
+}
 </div>
 }
 
@@ -80,3 +87,15 @@
   (confirm)="confirmDeleteModule()"
   (cancel)="onCancelDelete()">
 </app-modal-confirmation>
+
+<!-- IMAGE MODAL -->
+@if (isImageModalOpen) {
+  <div class="image-modal-backdrop" (click)="onImageBackdropClick($event)">
+    <div class="image-modal-container">
+      <button class="close-button" (click)="closeImageModal()" title="Cerrar">
+        <span class="material-icons">close</span>
+      </button>
+      <img [src]="selectedImageUrl" alt="Imagen ampliada" class="image-modal-content" />
+    </div>
+  </div>
+}

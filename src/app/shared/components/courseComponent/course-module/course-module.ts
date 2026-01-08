@@ -1,4 +1,5 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, Renderer2 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule, ContentCoursePublishResponse } from '../../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
 import { ModuleCoursesService } from '../../../../core/services/courses/module-courses.service';
@@ -13,7 +14,7 @@ import { ModalConfirmation } from '../../modal-confirmation/modal-confirmation';
 
 @Component({
   selector: 'app-course-module',
-  imports: [CoursePublication, CourseModal, ModalConfirmation],
+  imports: [CoursePublication, CourseModal, ModalConfirmation, CommonModule],
   templateUrl: './course-module.html',
   styleUrl: './course-module.css'
 })
@@ -31,11 +32,17 @@ export class CourseModule {
   detailService=inject(DetailCourses);
   moduleService=inject(ModuleCoursesService);
   publicationsService=inject(PublicationsService);
+  private renderer = inject(Renderer2);
   @Input() moduleCourse!:ModuleCourseResponse;
   @Input() isMyCourse?: boolean;
   publications: CoursePublishResponse[] = [];
   hasLoaded: boolean = false;
   pdfModalUrl?: string;
+  
+  // Image modal state
+  isImageModalOpen = false;
+  selectedImageUrl: string = '';
+
   @Output() getmodules = new EventEmitter<number>();
   initialModalData?: ModalData;
   currentEditingPublicationId?: number;
@@ -336,6 +343,25 @@ closePdf() {
     this.modalActionType = 'add';
     this.modalElementType = 'content';
     this.isModalOpen = true;
+  }
+
+  // Image modal methods
+  openImageModal(imageUrl: string) {
+    this.selectedImageUrl = imageUrl;
+    this.isImageModalOpen = true;
+    this.renderer.addClass(document.body, 'modal-open');
+  }
+
+  closeImageModal() {
+    this.isImageModalOpen = false;
+    this.selectedImageUrl = '';
+    this.renderer.removeClass(document.body, 'modal-open');
+  }
+
+  onImageBackdropClick(event: MouseEvent) {
+    if ((event.target as HTMLElement).classList.contains('image-modal-backdrop')) {
+      this.closeImageModal();
+    }
   }
 
   getModules(){

@@ -32,6 +32,11 @@ body{
     background-color: var(--primary-color);
     color: var(--color-text);
 }
+
+body.modal-open {
+    overflow: hidden;
+}
+
 input{
     font-family: var(--font-family)
 }

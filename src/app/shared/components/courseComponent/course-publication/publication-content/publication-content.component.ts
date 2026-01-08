@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ContentCoursePublishResponse } from '../../../../../core/models/detail_course.model';
 import { SafeUrlPipe } from '../../../../pipes/safeurlpipe-pipe';
 import { YouTubePlayer } from "@angular/youtube-player";
 
 @Component({
   selector: 'app-publication-content',
-  imports: [SafeUrlPipe, YouTubePlayer],
+  imports: [SafeUrlPipe, YouTubePlayer, CommonModule],
   templateUrl: './publication-content.component.html',
   styleUrl: './publication-content.component.css'
 })
@@ -13,6 +14,7 @@ export class PublicationContentComponent {
   @Input() content: ContentCoursePublishResponse[] | null = null;
   @Input() apiUrlBack!: string;
   @Output() pdfClick = new EventEmitter<string>();
+  @Output() imageClicked = new EventEmitter<string>();
 
   hasPdfContent(): boolean {
     if (!this.content) return false;
@@ -74,6 +76,11 @@ export class PublicationContentComponent {
 
   openPdf(url: string) {
     this.pdfClick.emit(url);
+  }
+
+  // Image modal methods
+  openImageModal(imageUrl: string) {
+    this.imageClicked.emit(imageUrl);
   }
 
   ngOnInit() {

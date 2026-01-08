@@ -18,9 +18,9 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -33,13 +33,44 @@
 /* ========================================
    IMAGE CONTENT
    ======================================== */
+.content-card.image-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.content-card.image-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(59, 130, 246, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.content-card.image-card:hover::before {
+  opacity: 1;
+}
+
+.content-card.image-card:hover .content-image {
+  transform: scale(1.05);
+}
+
 .content-image {
   max-width: 100%;
-  width: auto;
-  max-height: 500px;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
   border-radius: 12px;
   object-fit: contain;
   display: block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ========================================
@@ -47,34 +78,61 @@
    ======================================== */
 .content-card.video-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   padding: 0;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .content-video {
   width: 100%;
-  border-radius: 12px;
+  height: 100%;
+  border-radius: 16px;
   aspect-ratio: 16/9;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  background: #000;
 }
 
 /* YouTube Player */
 .content-card.youtube-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   padding: 0;
   background: #000;
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 .content-card.youtube-card youtube-player {
   width: 100%;
+  height: auto;
   display: block;
+  aspect-ratio: 16/9;
+}
+
+.content-card.youtube-card ::ng-deep .youtube-player-placeholder {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 16/9 !important;
+  display: block !important;
+  object-fit: contain !important;
+  border-radius: 16px;
+  clip-path: inset(0) !important;
+  text-align: -webkit-center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .content-card.youtube-card ::ng-deep iframe {
   border-radius: 16px;
   width: 100% !important;
-  aspect-ratio: 16/9;
+  text-align: -webkit-center !important;
+  height: auto !important;
+  aspect-ratio: 16/9 !important;
+  display: block !important;
 }
 
 /* ========================================
@@ -84,7 +142,8 @@
   padding: 20px 24px;
   background: linear-gradient(135deg, var(--secondary-color) 0%, var(--color-container) 100%);
   border-left: 4px solid var(--primary-button);
-  max-width: 700px;
+  max-width: 100%;
+  width: fit-content;
 }
 
 .content-card.text-card p {
@@ -93,6 +152,7 @@
   color: var(--color-text);
   margin: 0;
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* ========================================
@@ -212,6 +272,31 @@
 /* ========================================
    RESPONSIVE
    ======================================== */
+@media (max-width: 1024px) {
+  .content-image {
+    max-height: 550px;
+  }
+
+  .content-video {
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card youtube-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card ::ng-deep .youtube-player-placeholder {
+    width: 100% !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  .content-card.youtube-card ::ng-deep iframe {
+    width: 100% !important;
+    aspect-ratio: 16/9 !important;
+  }
+}
+
 @media (max-width: 768px) {
   .pdf-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -225,10 +310,125 @@
   .content-card.text-card {
     padding: 16px 18px;
   }
+
+  .content-image {
+    max-height: 450px;
+  }
+
+  .content-card.video-card {
+    width: 100%;
+  }
+
+  .content-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .content-card.youtube-card youtube-player {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card ::ng-deep .youtube-player-placeholder {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  .content-card.youtube-card ::ng-deep iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+  }
 }
 
 @media (max-width: 480px) {
   .pdf-grid {
     grid-template-columns: 1fr;
+  }
+
+  .content-image {
+    max-height: 350px;
+  }
+
+  .content-card.video-card,
+  .content-card.youtube-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .content-video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card youtube-player {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card ::ng-deep .youtube-player-placeholder {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  .content-card.youtube-card ::ng-deep iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+    display: block !important;
+  }
+
+  .content-card.text-card {
+    max-width: 100%;
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .content-image {
+    max-height: 280px;
+  }
+
+  .content-card.video-card,
+  .content-card.youtube-card {
+    width: 100%;
+    padding: 0;
+  }
+
+  .content-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card youtube-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .content-card.youtube-card ::ng-deep .youtube-player-placeholder {
+    width: 100% !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  .content-card.youtube-card ::ng-deep iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+  }
+
+  .content-card.text-card {
+    padding: 12px 14px;
+    font-size: 0.9rem;
   }
 }

@@ -1,6 +1,6 @@
 @if (isLoading) {
 <div class="carousel-container">
-    <h1 class="courses-desc">{{title}}</h1>
+    <!--<h1 class="courses-desc">{{title}}</h1>-->
     <div class="carousel-track">
         @for (item of [0,1,2,3,4, 5, 6]; track $index) {
             <div class="carousel-item">
@@ -23,7 +23,7 @@
 </div>
 } @else if (courseList.length > 0) {
 <div class="carousel-container">
-        <h1 class="courses-desc">{{title}}</h1>
+        <!--<h1 class="courses-desc">{{title}}</h1>-->
         <div class="carousel-track" #carouselTrack>
             @for (course of courseList; track $index) {
                 <div class="carousel-item">

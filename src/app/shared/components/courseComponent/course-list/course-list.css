@@ -8,7 +8,7 @@
 .carousel-container {
     position: relative;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 35px;
     padding-inline: 40px;
     padding-bottom: 50px;
 }
@@ -233,7 +233,7 @@
 /* Responsivo */
 @media (max-width: 768px) {
     .carousel-container {
-        padding-inline: 50px;
+        padding-inline: 30px;
     }
     
     .carousel-btn {
