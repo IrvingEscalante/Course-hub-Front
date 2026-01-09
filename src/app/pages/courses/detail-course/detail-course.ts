@@ -37,6 +37,7 @@ export class DetailCourse {
   toastService = inject(ToastService);
   course?:Course;
   originalCourse?:Course;
+  collaborators:UserOut[] = [];
   courseCopy?:CourseBase;
   detailService = inject(DetailCourses);
   moduleService = inject(ModuleCoursesService);
@@ -113,6 +114,7 @@ export class DetailCourse {
       this.getPulls(id);
       this.loadMyPullRequests(id);
       this.getSummary(id);
+      this.getCollaborators(id);
     });
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
@@ -326,6 +328,16 @@ export class DetailCourse {
       },
       error: (err) => {
         this.toastService.error(err.error?.detail || 'Error al generar el resumen');
+      }
+    });
+  }
+
+  getCollaborators(id_course : number){
+    this.detailService.getCollaborators(id_course).subscribe({
+      next: (data) => {
+        this.collaborators = data;
+      },error:(err)=>{
+
       }
     });
   }

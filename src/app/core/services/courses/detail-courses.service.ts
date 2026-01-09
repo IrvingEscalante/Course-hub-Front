@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CourseFullResponse, CoursePublishResponse, CreateModuleRequest, ModuleCourseResponse, SummaryResponse } from '../../models/detail_course.model';
 import { API_ROUTES } from '../../constants/api.routes';
+import { UserOut } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,8 @@ export class DetailCourses {
   }
   getCourseSummary(id_course:number):Observable<SummaryResponse | {error:string}>{
     return this.http.get<SummaryResponse | {error:string}>(this.baseUrl+API_ROUTES.detail_course.get_summary+id_course);
+  }
+  getCollaborators(id_course:number):Observable<UserOut[]>{
+    return this.http.get<UserOut[]>(this.baseUrl+API_ROUTES.detail_course.get_collaborators+id_course);
   }
 }

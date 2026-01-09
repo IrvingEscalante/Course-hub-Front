@@ -1,19 +1,89 @@
 <main>
-    <div class="email-verification-container flex-column">
-        <div class="form-container">
-            <form class="form-send-email flex-column" [formGroup]="verifyEmailForm" (submit)="onSubmit()">
-                <h1 for="" class="text-title-send-email bold">Ingrese el código de confirmación enviado a su correo electrónico</h1>
-                <div class="form-group flex-column">
-                    <button type="button" class="button-resend-code bold" (click)="resendCode()">@if(seconds > 0){Puedes volver a solicitar un codigo en {{seconds}} segundos} @else{@if(loadingCode){<span class="spinner"></span>Reenviando codigo}@else{Reenviar codigo}}</button>
-                    <input type="text" formControlName="emailverify" class="input-style" placeholder="Ingrese el código de verificación">
-                    @if(messageCode){
-                        <small class="error-forms">{{messageCode}}</small>
-                    }
-                </div>
-                
-                <button class="button-access" type="submit" [disabled]="verifyEmailForm.invalid || loading">@if (loading) {<span class="spinner"></span>Verificando correo...}@else {Verificar correo}</button>
-            </form>
+    <div class="auth-card flex-column">
+        <div class="auth-header">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="CourseHub Logo" class="auth-logo">
+            </div>
+            <h1 class="auth-title">Verificar Correo</h1>
+            <p class="auth-subtitle">Ingresa el código que enviamos a tu correo</p>
+        </div>
 
+        <form class="auth-form flex-column" [formGroup]="verifyEmailForm" (submit)="onSubmit()">
+            <p class="form-description">
+                Hemos enviado un código de verificación a tu correo electrónico. Ingrésalo a continuación para confirmar tu cuenta.
+            </p>
+
+            <!-- Código de Verificación -->
+            <div class="form-group flex-column">
+                <label for="emailverify" class="form-label">
+                    <span class="label-text">Código de verificación</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">security</span>
+                    <input 
+                        id="emailverify"
+                        type="text" 
+                        formControlName="emailverify" 
+                        placeholder="000000"
+                        class="form-input code-input"
+                        maxlength="6"
+                    />
+                </div>
+                @if(messageCode) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>{{ messageCode }}</span>
+                    </span>
+                }
+                @if(verifyEmailForm.get('emailverify')?.invalid && verifyEmailForm.get('emailverify')?.touched) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>Ingresa los 6 dígitos correctamente</span>
+                    </span>
+                }
+            </div>
+
+            <!-- Reenviar Código -->
+            <button 
+                type="button" 
+                class="button-resend"
+                (click)="resendCode()"
+                [disabled]="seconds > 0"
+            >
+                @if(seconds > 0) {
+                    <span class="material-icons">schedule</span>
+                    <span>Espera {{ seconds }}s para reenviar</span>
+                } @else {
+                    @if(loadingCode) {
+                        <span class="spinner"></span>
+                        <span>Reenviando código...</span>
+                    } @else {
+                        <span class="material-icons">mail</span>
+                        <span>Reenviar código</span>
+                    }
+                }
+            </button>
+
+            <!-- Botón Verificar -->
+            <button 
+                class="button-submit flex-row" 
+                type="submit" 
+                [disabled]="verifyEmailForm.invalid || loading"
+            >
+                @if (loading) {
+                    <span class="spinner"></span>
+                    <span>Verificando...</span>
+                } @else {
+                    <span class="material-icons">check_circle</span>
+                    <span>Verificar correo</span>
+                }
+            </button>
+        </form>
+
+        <!-- Back to Login -->
+        <div class="auth-footer">
+            <p class="footer-text">¿Ya verificaste tu correo?</p>
+            <a routerLink="/login" class="link-primary">Ir a inicio de sesión</a>
         </div>
     </div>
 </main>

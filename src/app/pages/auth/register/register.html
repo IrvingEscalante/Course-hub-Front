@@ -1,148 +1,232 @@
 <main>
-    <div class="form-container flex-column">
-        <div class="title-logo flex-row">
-            <img src="images/logo.png" width="80px" alt="logo" class="">
-            <h2 class="text-center text-title">Registrarse</h2>
-        </div>
-        <div class="form-group flex-column">
-            <form [formGroup]="registerForm" (submit)="onSubmit()" class="form-auth flex-column">
-                <div class="form-group flex-column">
-                    <label for="name" class="labels-form bold">Nombre(s)</label>
-                    <input id="name" type="text" formControlName="name" class="input-style" placeholder="Ingrese su nombre">
-                    <div class="error-forms flex-column">
-                       @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
-                   
-                            @if (registerForm.get('name')?.errors?.['pattern']) {
-                                <small class="error">El formato del nombre no es válido.</small>
-                            }@if (registerForm.get('name')?.errors?.['required']){
-                                <small class="error">El nombre es obligatorio</small>
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="form-group flex-column">
-                    <label for="lastname" class="labels-form bold">Apellido(s)</label>
-                    <input id="lastname" type="text" formControlName="lastname" class="input-style" placeholder="Ingrese su apellido">
-                    <div class="error-forms">
-                        @if (registerForm.get('lastname')?.touched && registerForm.get('lastname')?.invalid) {
-                   
-                            @if (registerForm.get('lastname')?.errors?.['pattern']) {
-                                <small class="error">El formato del apellido no es válido.</small>
-                            }@if (registerForm.get('lastname')?.errors?.['required']){
-                                <small class="error">El apellido es obligatorio</small>
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="form-group flex-column">
-                    <label for="email" class="labels-form bold">Email</label>
-                    <input id="email" type="text" formControlName="email" class="input-style" placeholder="ejemplo@correo.com">
-                    <div class="error-forms flex-column">
-                       @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-                            @if (registerForm.get('email')?.errors?.['required']){
-                                <small class="error">El email es obligatorio</small>
-                            }
-                            @if (registerForm.get('email')?.errors?.['email']) {
-                                <small>El formato no es válido.</small>
-                            }
-                        }
-                        @if (messageEmail) {
-                            <small class="error">{{messageEmail}}</small>
-                        }
-                    </div>
-                    
-                </div>
-                <div class="form-group flex-column">
-                    <label for="user" class="labels-form bold">Usuario</label>
-                    <input id="user" type="text" formControlName="username" class="input-style" placeholder="Elige un nombre de usuario">
-                    <div class="error-forms">
-                        @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
-                            @if (registerForm.get('username')?.errors?.['required']){
-                                <small class="error">El nombre de usuario es obligatorio</small>
-                            }
-                            @if (registerForm.get('username')?.errors?.['pattern']){
-                                <small class="error">El formato es invalido</small>
-                            }
-                        }
-                         @if (messageUser) {
-                            <small class="error">{{messageUser}}</small>
-                         }
-                    </div>
-                </div>
-
-                <div class="form-group flex-column">
-                    <label for="password" class="labels-form bold">Contraseña</label>
-                        <div class="input-password-wrapper">
-                            <input 
-                                id="password"
-                                [type]="showPassword ? 'text' : 'password'"
-                                formControlName="password" 
-                                placeholder="********"
-                                class="input-style password_input"
-                            />
-
-                            <button type="button" class="toggle-password" (click)="togglePassword()">
-                                @if(showPassword){
-                                    <span class="material-icons">
-                                        visibility
-                                    </span>
-                                } @else {
-                                    <span class="material-icons">
-                                        visibility_off
-                                    </span>
-                                }
-                            </button>
-                        </div>
-
-                    <div class="error-forms flex-column">
-                        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-                            @if (registerForm.get('password')?.errors?.['required']){
-                                <small class="error">La contraseña es requerida</small>
-                            }
-                            @if (registerForm.get('password')?.errors?.['pattern']) {
-                                <small class="error">La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo (_ ! @ # $ % ^ & * -)</small>
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="form-group flex-column">
-                    <label for="confirmpassword" class="labels-form bold">Confirmar Contraseña</label>
-                     <div class="input-password-wrapper">
-                            <input 
-                                id="confirmpassword"
-                                [type]="showPasswordConfirm ? 'text' : 'password'"
-                                formControlName="confirmPassword" 
-                                placeholder="Repite la contraseña"
-                                class="input-style password_input"
-                            />
-
-                            <button type="button" class="toggle-password" (click)="togglePasswordConfirm()">
-                                @if(showPasswordConfirm){
-                                    <span class="material-icons">
-                                        visibility
-                                    </span>
-                                } @else {
-                                    <span class="material-icons">
-                                        visibility_off
-                                    </span>
-                                }
-                            </button>
-                        </div>
-                    <div class="error-forms flex-column">
-                        @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
-                            <small class="error">La confirmación de la contraseña es requerida</small>
-                        }
-                        @if(registerForm.hasError('mismatch') && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)){
-                            <small class="error">Las contraseñas no coinciden</small>
-                        }
-                    </div>
-                </div>
-                <button class="button-access" type="submit" [disabled]="registerForm.invalid || loading">@if (loading) {<span class="spinner"></span>Registrando...} @else {Registrarse}</button>
-            </form>
-            <div class="login-text text-center bold flex-row">
-                <p>¿Ya tienes una cuenta?</p>
-                <a routerLink="/login" class="login">Inicia sesión</a>
+    <div class="auth-card flex-column">
+        <div class="auth-header">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="CourseHub Logo" class="auth-logo">
             </div>
+            <h1 class="auth-title">Registrarse</h1>
+            <p class="auth-subtitle">Crea una cuenta en CourseHub</p>
+        </div>
+
+        <form [formGroup]="registerForm" (submit)="onSubmit()" class="auth-form flex-column">
+            <!-- Nombre -->
+            <div class="form-group flex-column">
+                <label for="name" class="form-label">
+                    <span class="label-text">Nombres</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">person_add</span>
+                    <input 
+                        id="name" 
+                        type="text" 
+                        formControlName="name" 
+                        placeholder="Juan"
+                        class="form-input"
+                    />
+                </div>
+                @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        @if (registerForm.get('name')?.errors?.['pattern']) {
+                            <span>El formato del nombre no es válido</span>
+                        } @else if (registerForm.get('name')?.errors?.['required']) {
+                            <span>El nombre es obligatorio</span>
+                        }
+                    </span>
+                }
+            </div>
+
+            <!-- Apellido -->
+            <div class="form-group flex-column">
+                <label for="lastname" class="form-label">
+                    <span class="label-text">Apellidos</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">badge</span>
+                    <input 
+                        id="lastname" 
+                        type="text" 
+                        formControlName="lastname" 
+                        placeholder="García"
+                        class="form-input"
+                    />
+                </div>
+                @if (registerForm.get('lastname')?.touched && registerForm.get('lastname')?.invalid) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        @if (registerForm.get('lastname')?.errors?.['pattern']) {
+                            <span>El formato del apellido no es válido</span>
+                        } @else if (registerForm.get('lastname')?.errors?.['required']) {
+                            <span>El apellido es obligatorio</span>
+                        }
+                    </span>
+                }
+            </div>
+
+            <!-- Email -->
+            <div class="form-group flex-column">
+                <label for="email" class="form-label">
+                    <span class="label-text">Correo electrónico</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">email</span>
+                    <input 
+                        id="email" 
+                        type="email" 
+                        formControlName="email" 
+                        placeholder="ejemplo@correo.com"
+                        class="form-input"
+                    />
+                </div>
+                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        @if (registerForm.get('email')?.errors?.['required']) {
+                            <span>El email es obligatorio</span>
+                        } @else if (registerForm.get('email')?.errors?.['email']) {
+                            <span>El formato no es válido</span>
+                        }
+                    </span>
+                }
+                @if (messageEmail) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>{{ messageEmail }}</span>
+                    </span>
+                }
+            </div>
+
+            <!-- Usuario -->
+            <div class="form-group flex-column">
+                <label for="username" class="form-label">
+                    <span class="label-text">Nombre de usuario</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">alternate_email</span>
+                    <input 
+                        id="username" 
+                        type="text" 
+                        formControlName="username" 
+                        placeholder="tu_usuario"
+                        class="form-input"
+                    />
+                </div>
+                @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        @if (registerForm.get('username')?.errors?.['required']) {
+                            <span>El nombre de usuario es obligatorio</span>
+                        } @else if (registerForm.get('username')?.errors?.['pattern']) {
+                            <span>Solo letras, números y guiones. De 2 a 30 caracteres</span>
+                        }
+                    </span>
+                }
+                @if (messageUser) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>{{ messageUser }}</span>
+                    </span>
+                }
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group flex-column">
+                <label for="password" class="form-label">
+                    <span class="label-text">Contraseña</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">lock</span>
+                    <input 
+                        id="password"
+                        [type]="showPassword ? 'text' : 'password'"
+                        formControlName="password" 
+                        placeholder="••••••••"
+                        class="form-input password-input"
+                        autocomplete="new-password"
+                    />
+                    <button 
+                        type="button" 
+                        class="toggle-password" 
+                        (click)="togglePassword()"
+                        title="Mostrar/Ocultar contraseña"
+                    >
+                        <span class="material-icons">
+                            @if(showPassword) { visibility } @else { visibility_off }
+                        </span>
+                    </button>
+                </div>
+                @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        @if (registerForm.get('password')?.errors?.['required']) {
+                            <span>La contraseña es requerida</span>
+                        } @else if (registerForm.get('password')?.errors?.['pattern']) {
+                            <span>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 símbolo</span>
+                        }
+                    </span>
+                }
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="form-group flex-column">
+                <label for="confirmPassword" class="form-label">
+                    <span class="label-text">Confirmar contraseña</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">lock_outline</span>
+                    <input 
+                        id="confirmPassword"
+                        [type]="showPasswordConfirm ? 'text' : 'password'"
+                        formControlName="confirmPassword" 
+                        placeholder="••••••••"
+                        class="form-input password-input"
+                        autocomplete="new-password"
+                    />
+                    <button 
+                        type="button" 
+                        class="toggle-password" 
+                        (click)="togglePasswordConfirm()"
+                        title="Mostrar/Ocultar contraseña"
+                    >
+                        <span class="material-icons">
+                            @if(showPasswordConfirm) { visibility } @else { visibility_off }
+                        </span>
+                    </button>
+                </div>
+                @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>La confirmación de contraseña es requerida</span>
+                    </span>
+                }
+                @if (registerForm.hasError('mismatch') && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>Las contraseñas no coinciden</span>
+                    </span>
+                }
+            </div>
+
+            <!-- Botón Enviar -->
+            <button 
+                class="button-submit flex-row" 
+                type="submit" 
+                [disabled]="registerForm.invalid || loading"
+            >
+                @if (loading) {
+                    <span class="spinner"></span>
+                    <span>Registrando...</span>
+                } @else {
+                    <span class="material-icons">person_add</span>
+                    <span>Registrarse</span>
+                }
+            </button>
+        </form>
+
+        <!-- Login -->
+        <div class="auth-footer">
+            <p class="footer-text">¿Ya tienes una cuenta?</p>
+            <a routerLink="/login" class="link-primary">Inicia sesión aquí</a>
         </div>
     </div>
 </main>

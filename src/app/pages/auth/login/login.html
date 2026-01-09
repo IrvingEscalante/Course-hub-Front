@@ -1,69 +1,105 @@
 <main>
-    <div class="form-container flex-column">
-    <div class="title-logo flex-row">
-        <img src="images/logo.png" width="80px" alt="logo" class="">
-        <h2 class="text-center text-title">Iniciar Sesión</h2>
-    </div>
-
-    <form [formGroup]="loginForm" (submit)="onSubmit()" class="form-auth flex-column">
-        <!-- Correo -->
-        <div class="form-group flex-column">
-        <label for="email" class="labels-form bold">Correo o nombre de usuario</label>
-        <input 
-            id="email"
-            type="email" 
-            formControlName="username" 
-            placeholder="ejemplo@correo.com"
-            class="input-style"
-        />
-        @if (loginForm.get('username')?.invalid && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)) {
-                <small class="error-forms">Este campo es obligatorio</small>
-        }
+    <div class="auth-card flex-column">
+        <div class="auth-header">
+            <div class="logo-wrapper">
+                <img src="images/logo.png" alt="CourseHub Logo" class="auth-logo">
+            </div>
+            <h1 class="auth-title">Iniciar Sesión</h1>
+            <p class="auth-subtitle">Accede a tu cuenta de CourseHub</p>
         </div>
 
-        <!-- Contraseña -->
-<div class="form-group flex-column">
-    <label for="password" class="labels-form bold">Contraseña</label>
+        <form [formGroup]="loginForm" (submit)="onSubmit()" class="auth-form flex-column">
+            <!-- Email/Usuario -->
+            <div class="form-group flex-column">
+                <label for="username" class="form-label">
+                    <span class="label-text">Correo o usuario</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">person</span>
+                    <input 
+                        id="username"
+                        type="text" 
+                        formControlName="username" 
+                        placeholder="ejemplo@correo.com o usuario"
+                        class="form-input"
+                        autocomplete="username"
+                    />
+                </div>
+                @if (loginForm.get('username')?.invalid && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>Este campo es obligatorio</span>
+                    </span>
+                }
+            </div>
 
-    <div class="input-password-wrapper">
-        <input 
-            id="password"
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password" 
-            placeholder="********"
-            class="input-style password_input"
-        />
+            <!-- Contraseña -->
+            <div class="form-group flex-column">
+                <label for="password" class="form-label">
+                    <span class="label-text">Contraseña</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon material-icons">lock</span>
+                    <input 
+                        id="password"
+                        [type]="showPassword ? 'text' : 'password'"
+                        formControlName="password" 
+                        placeholder="••••••••"
+                        class="form-input password-input"
+                        autocomplete="current-password"
+                    />
+                    <button 
+                        type="button" 
+                        class="toggle-password" 
+                        (click)="togglePassword()"
+                        title="Mostrar/Ocultar contraseña"
+                    >
+                        <span class="material-icons">
+                            @if(showPassword) { visibility } @else { visibility_off }
+                        </span>
+                    </button>
+                </div>
+                @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)) {
+                    <span class="error-message">
+                        <span class="error-icon material-icons">error</span>
+                        <span>Este campo es obligatorio</span>
+                    </span>
+                }
+            </div>
 
-        <button type="button" class="toggle-password" (click)="togglePassword()">
-            @if(showPassword){
-                <span class="material-icons">
-                    visibility
-                </span>
-            } @else {
-                <span class="material-icons">
-                    visibility_off
-                </span>
+            <!-- Mensaje de Error General -->
+            @if (messageLogin) {
+                <div class="alert alert-error flex-row">
+                    <span class="alert-icon material-icons">warning</span>
+                    <span>{{ messageLogin }}</span>
+                </div>
             }
-        </button>
-    </div>
 
-    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)) {
-        <small class="error-forms">Este campo es obligatorio</small>
-    }
-</div>
+            <!-- Botón Enviar -->
+            <button 
+                class="button-submit flex-row" 
+                type="submit" 
+                [disabled]="loginForm.invalid || loading"
+            >
+                @if(loading) {
+                    <span class="spinner"></span>
+                    <span>Iniciando sesión...</span>
+                } @else {
+                    <span class="material-icons">login</span>
+                    <span>Iniciar sesión</span>
+                }
+            </button>
 
-        @if (messageLogin){
-            <small class="error-forms">{{messageLogin}}</small>
-        }
-        <div class="recover-and-button flex-column">
-            <a routerLink="/recover-password" class="recover-password bold">¿Olvidaste tu contraseña?</a>
-            <button class="button-access flex-row" type="submit" [disabled]="loginForm.invalid || loading"> @if(loading){<span class="spinner"></span>Iniciando sesión...}@else{Iniciar sesión}</button>
+            <!-- Enlace Recuperar Contraseña -->
+            <a routerLink="/recover-password" class="link-secondary text-center">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </form>
+
+        <!-- Registro -->
+        <div class="auth-footer">
+            <p class="footer-text">¿No tienes cuenta?</p>
+            <a routerLink="/register" class="link-primary">Registrarse ahora</a>
         </div>
-    </form>
-
-    <div class="register-text text-center bold flex-row">
-        <p>¿Aun tienes cuenta?</p>
-        <a routerLink="/register" class="create-account">Crea una</a>
-    </div>
     </div>
 </main>

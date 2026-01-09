@@ -278,13 +278,21 @@
     </div>
     <div class="container-info colab flex-column">
         <h2 class="title-info">Colaboradores</h2>
-        <div class="item-photo-colab flex-row">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
-            <img src="https://i.pinimg.com/736x/ad/fe/39/adfe395b3028e091991cd9b71ed4b279.jpg" alt="" class="photo-user">
-        </div>
+        @if (collaborators.length > 0) {
+            <div class="item-photo-colab flex-row">
+                @for (collaborator of collaborators; track $index) {
+                    <a class="collaborators" [title]="collaborator.username" [routerLink]="'/'+collaborator.username">
+                        <app-avatar [name]="collaborator.name" [photo]="collaborator.photo"></app-avatar>
+                    </a>
+                }
+            </div>
+        } @else {
+            <div class="no-collaborators-message">
+                <div class="no-collaborators-icon">👥</div>
+                <p class="no-collaborators-text">Sin colaboradores</p>
+                <p class="no-collaborators-subtitle">Aún no hay colaboradores en este curso</p>
+            </div>
+        }
     </div>
     @if (course.is_my_course) {
         @if (course.status_course) {

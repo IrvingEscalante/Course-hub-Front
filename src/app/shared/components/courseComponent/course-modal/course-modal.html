@@ -174,8 +174,14 @@
           }
 
           <div class="content-actions">
-            <button type="button" class="btn btn-secondary" (click)="addContentFromSelection()" [disabled]="!isContentValid()">
+            <button 
+              type="button" 
+              class="btn btn-secondary" 
+              (click)="addContentFromSelection()" 
+              [disabled]="!isContentValid() || isAddingContent || isSubmitting"
+            >
               Agregar contenido
+              <span class="spinner" *ngIf="isAddingContent"></span>
             </button>
           </div>
 
@@ -237,11 +243,13 @@
         }
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-cancel" (click)="handleClose()">
+          <button type="button" class="btn btn-cancel" (click)="handleClose()" [disabled]="isSubmitting || isClosing">
             Cancelar
+            <span class="spinner" *ngIf="isClosing"></span>
           </button>
-          <button type="submit" class="btn btn-submit" [disabled]="!isFormValid()">
+          <button type="submit" class="btn btn-submit" [disabled]="!isFormValid() || isSubmitting">
             {{ actionType === 'add' ? 'Agregar' : 'Guardar' }}
+            <span class="spinner" *ngIf="isSubmitting"></span>
           </button>
         </div>
       </form>

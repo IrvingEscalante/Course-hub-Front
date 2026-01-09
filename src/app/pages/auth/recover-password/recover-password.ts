@@ -46,7 +46,7 @@ form: FormGroup;
         this.loaderService.hide();
         this.router.navigate(['/login']);
       },error:(error)=>{
-        this.toastService.error(error.error.message || 'Error al enviar el correo de recuperación');
+        this.toastService.error(error.error.detail || 'Error al enviar el correo de recuperación');
         this.loading = false;
         this.loaderService.hide();
       }

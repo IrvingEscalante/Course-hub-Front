@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -34,7 +34,7 @@ export interface ModalData {
   templateUrl: './course-modal.html',
   styleUrl: './course-modal.css'
 })
-export class CourseModal implements OnInit {
+export class CourseModal implements OnInit, OnChanges {
   @Input() isOpen: boolean = false;
   @Input() actionType: ActionType = 'add';
   @Input() elementType: ElementType = 'module';
@@ -42,13 +42,16 @@ export class CourseModal implements OnInit {
   
   @Output() onClose = new EventEmitter<void>();
   @Output() onSubmit = new EventEmitter<ModalData>();
-
+  loading: boolean = false;
   form!: FormGroup;
   selectedFileName: string = '';
   selectedContentType: ContentType = null;
   contents: ContentPayload[] = [];
   currentImagePreview: string | null = null;
   deletedContentIds: number[] = [];
+  isSubmitting: boolean = false;
+  isAddingContent: boolean = false;
+  isClosing: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -56,23 +59,28 @@ export class CourseModal implements OnInit {
     this.initializeForm();
   }
 
-  ngOnChanges() {
-    if (this.form && this.initialData) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (!this.form) return;
+
+    if (changes['isOpen'] && changes['isOpen'].previousValue && changes['isOpen'].currentValue === false) {
+      this.resetForm();
+      return;
+    }
+
+    if (this.initialData) {
       this.form.patchValue({
         title: this.initialData.title,
         description: this.initialData.description
       });
       this.selectedFileName = '';
-      // Cargar contenidos existentes si los hay (modo edición)
-      if (this.initialData.contents && this.initialData.contents.length > 0) {
-        this.contents = [...this.initialData.contents];
-      } else {
-        this.contents = [];
-      }
+      this.contents = this.initialData.contents && this.initialData.contents.length > 0 ? [...this.initialData.contents] : [];
       this.currentImagePreview = null;
       this.selectedContentType = null;
       this.deletedContentIds = [];
-    } else if (this.form) {
+      this.isSubmitting = false;
+      this.isAddingContent = false;
+      this.isClosing = false;
+    } else {
       this.resetForm();
     }
   }
@@ -145,7 +153,9 @@ export class CourseModal implements OnInit {
   }
 
   addContentFromSelection() {
-    if (!this.selectedContentType) return;
+    if (!this.selectedContentType || this.isAddingContent || this.isSubmitting) return;
+
+    this.isAddingContent = true;
 
     const file = this.form.get('file')?.value as File | null;
     const videembed = this.form.get('videoUrl')?.value as string;
@@ -180,10 +190,18 @@ export class CourseModal implements OnInit {
       this.contents = [...this.contents, content];
       this.clearContentInputs();
     }
+
+    setTimeout(() => {
+      this.isAddingContent = false;
+    }, 0);
   }
 
   handleSubmit() {
+    if (this.isSubmitting) return;
+
     if (this.form.valid && this.isFormValid()) {
+      this.loading = true;
+      this.isSubmitting = true;
       const formValue = this.form.value;
       const modalData: ModalData = {
         title: formValue.title,
@@ -194,13 +212,14 @@ export class CourseModal implements OnInit {
         deletedContentIds: this.deletedContentIds
       };
       this.onSubmit.emit(modalData);
-      this.resetForm();
     }
   }
 
   handleClose() {
+    if (this.isClosing) return;
+
+    this.isClosing = true;
     this.onClose.emit();
-    this.resetForm();
   }
 
   isFormValid(): boolean {
@@ -222,6 +241,10 @@ export class CourseModal implements OnInit {
     this.contents = [];
     this.currentImagePreview = null;
     this.deletedContentIds = [];
+    this.loading = false;
+    this.isSubmitting = false;
+    this.isAddingContent = false;
+    this.isClosing = false;
   }
 
   clearContentInputs() {
