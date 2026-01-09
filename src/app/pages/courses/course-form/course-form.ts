@@ -10,10 +10,11 @@ import { CourseFullResponse, CoursePublishResponse } from '../../../core/models/
 import { DetailCourses } from '../../../core/services/courses/detail-courses.service';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast.service';
+import { ErrorMessageComponent } from '../../../shared/components/error-message/error-message.component';
 
 @Component({
   selector: 'app-course-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ErrorMessageComponent],
   templateUrl: './course-form.html',
   styleUrl: './course-form.css'
 })

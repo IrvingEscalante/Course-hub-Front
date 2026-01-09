@@ -11,13 +11,13 @@
         <div class="form-group">
           <label>Nombre del curso</label>
           <input formControlName="title" class="input-style" />
-          <div class="error-forms flex-column">
+          <div class="flex-column">
             @if (courseForm.get('title')?.touched && courseForm.get('title')?.invalid) {
               @if (courseForm.get('title')?.errors?.['required']) {
-                <small class="error">El nombre del curso es obligatorio</small>
+                <app-error-message message="Este campo es obligatorio" [showError]="true"></app-error-message>
               }
               @if (courseForm.get('title')?.errors?.['minlength']) {
-                <small class="error">El nombre debe tener al menos 3 caracteres</small>
+                <small class="error-message">El nombre debe tener al menos 3 caracteres</small>
               }
             }
           </div>
@@ -32,10 +32,10 @@
               <option [value]="t.id_theme">{{ t.name_theme }}</option>
             }
           </select>
-          <div class="error-forms flex-column">
+          <div class="flex-column">
             @if (courseForm.get('topic')?.touched && courseForm.get('topic')?.invalid) {
               @if (courseForm.get('topic')?.errors?.['required']) {
-                <small class="error">Debes seleccionar un tema</small>
+                <app-error-message message="Debes seleccionar un tema" [showError]="true"></app-error-message>
               }
             }
           </div>
@@ -45,13 +45,13 @@
       <div class="form-group">
         <label>Descripción del curso</label>
         <textarea formControlName="description" class="input-style" rows="4"></textarea>
-        <div class="error-forms flex-column">
+        <div class="flex-column">
           @if (courseForm.get('description')?.touched && courseForm.get('description')?.invalid) {
             @if (courseForm.get('description')?.errors?.['required']) {
-              <small class="error">La descripción es obligatoria</small>
+              <app-error-message message="La descripción es obligatoria" [showError]="true"></app-error-message>
             }
             @if (courseForm.get('description')?.errors?.['minlength']) {
-              <small class="error">La descripción debe tener al menos 10 caracteres</small>
+              <small class="error-message">La descripción debe tener al menos 10 caracteres</small>
             }
           }
         </div>
@@ -89,7 +89,7 @@
         <div class="error-forms flex-column">
           @if (courseForm.get('image')?.touched && courseForm.get('image')?.invalid) {
             @if (courseForm.get('image')?.errors?.['required']) {
-              <small class="error">La imagen del curso es obligatoria</small>
+              <app-error-message message="La imagen del curso es obligatoria" [showError]="true"></app-error-message>
             }
           }
         </div>
