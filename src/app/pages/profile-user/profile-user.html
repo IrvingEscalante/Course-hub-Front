@@ -1,5 +1,9 @@
+
+<main>
 @if (loading){
-    <div class="loading text-center">Cargando perfil...</div>
+    <div class="loader-center">
+      <div class="loader"></div>
+    </div>
 }
 @else if (userExist){
 <div class="principal-content-profile">
@@ -64,3 +68,4 @@
     }
 </div>
 }@else {Usuario no encontrado}
+</main>

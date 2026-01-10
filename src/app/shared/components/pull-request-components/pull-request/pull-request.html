@@ -1,13 +1,42 @@
 <div class="container-pull-request flex-row" (click)="goToPullRequestDetail(pull!.id_pull_request)">
-    <div class="info-pull flex-column">
-        <strong class="name-pull">{{pull?.title}}</strong>
-        <p class="description-pull">{{pull?.description_pull_request}}</p>
-        <div class="info-user-and-date flex-row">
-            <div class="info-user flex-row">
-                <app-avatar [name]="pull!.user.name" [photo]="pull!.user.photo" [size]="24"></app-avatar>
-                <strong>{{pull?.user?.username}}</strong>
+    <div class="pr-left-section flex-column">
+        <!-- Título y Estados -->
+        <div class="pr-header flex-row">
+            <div class="pr-title-wrapper flex-column">
+                <h3 class="pr-title">{{pull?.title}}</h3>
+                <div class="pr-badges flex-row">
+                    <span class="badge" [ngClass]="'status-' + (pull?.status_pull?.toLowerCase() || 'open')">{{pull?.status_pull}}</span>
+                    <span class="badge" [ngClass]="'merge-' + (pull?.merge_status?.toLowerCase() || 'pending')">{{pull?.merge_status}}</span>
+                </div>
             </div>
-            <p>12/12/2022</p>
         </div>
+        
+        <!-- Descripción -->
+        <p class="pr-description">{{pull?.description_pull_request}}</p>
+        
+        <!-- Meta información -->
+        <div class="pr-meta flex-row">
+            <div class="pr-author flex-row">
+                <app-avatar [name]="pull!.user.name" [photo]="pull!.user.photo" [size]="28"></app-avatar>
+                <div class="author-info flex-column">
+                    <strong class="author-name">{{pull?.user?.username}}</strong>
+                    <span class="meta-text">Solicitado</span>
+                </div>
+            </div>
+            <div class="meta-separator"></div>
+            <time class="pr-date">{{pull?.date_created | date:'short'}}</time>
+        </div>
+    </div>
+    
+    <!-- Acciones a la derecha -->
+    <div class="pr-actions flex-row">
+        <button class="action-btn approve" title="Aprobar" (click)="$event.stopPropagation()">
+            <span class="material-icons">check_circle</span>
+            <span class="btn-text">Aprobar</span>
+        </button>
+        <button class="action-btn reject" title="Rechazar" (click)="$event.stopPropagation()">
+            <span class="material-icons">cancel</span>
+            <span class="btn-text">Rechazar</span>
+        </button>
     </div>
 </div>

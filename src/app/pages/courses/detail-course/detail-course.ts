@@ -105,7 +105,6 @@ export class DetailCourse {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-      this.loaderService.show();
       this.getCourseDetail(id);
     /*  if(!this.course?.status_course){
         this.router.navigate(['/courses']);
@@ -130,7 +129,6 @@ export class DetailCourse {
         if (this.course.id_course_parent) {
           this.getCourseOriginalDetail(this.course.id_course_parent);
         }
-        this.loaderService.hide();
         this.isLoading = false;
       },
       error:(err)=>{

@@ -48,7 +48,6 @@ export class ProfileUser {
   constructor(private route:ActivatedRoute, private authService:AuthService, private userService:UserService){}
 
   ngOnInit(): void {
-  this.loaderService.show();
   this.route.paramMap.subscribe(params => {
     this.username = params.get('username');
     if (this.username && this.username !== 'null') {
@@ -143,7 +142,6 @@ openFollowing() {
         console.log(userData);
         this.userExist = true;
         this.loading = false;
-        this.loaderService.hide();
         this.isFollowing = userData.following;
         this.courses = userData.courses_create;
         this.courses_favorites = userData.courses_favorites;

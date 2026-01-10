@@ -125,7 +125,7 @@ export class PullRequestDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/course', 'detail', this.pr?.id_course_target?.toString()]);
+    this.router.navigate(['/course', 'detail', this.pr?.id_course_source?.toString()]);
   }
 
   getEntityIcon(entityType: string): string {

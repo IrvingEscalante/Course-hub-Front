@@ -1,7 +1,7 @@
 .principal-container-detail-course{
     display: grid;
     grid-template-columns: 3fr 1fr;
-    padding: 80px;
+    padding: 20px 80px 80px 80px;
     gap: 50px;
 }
 .name-course{
