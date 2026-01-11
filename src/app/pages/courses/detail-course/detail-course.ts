@@ -49,6 +49,7 @@ export class DetailCourse {
   myPulls:PullRequestBasicOut[]=[];  // PRs que envío
   selectedTab:string = "content-course";
   prSubTab: 'received' | 'sent' = 'received';
+  prStatusFilter: 'all' | 'pending' | 'merged' | 'rejected' = 'all';
   isEditMode: boolean = false;
   editingCourse: any = {};
   selectedCoverFile: File | null = null;
@@ -318,14 +319,11 @@ export class DetailCourse {
     this.detailService.getCourseSummary(id_course).subscribe({
       next: (data) => {
         if ('error' in data) {
-          this.toastService.error(data.error);
         } else {
           this.summary = data.summary;
-          this.toastService.success('Resumen generado exitosamente');
         }
       },
       error: (err) => {
-        this.toastService.error(err.error?.detail || 'Error al generar el resumen');
       }
     });
   }
@@ -469,5 +467,19 @@ export class DetailCourse {
         this.toastService.error(err.error?.detail || 'No se pudo actualizar el orden de los módulos');
       }
     });
+  }
+
+  // Filtros de Pull Request
+  changeStatusFilter(status: 'all' | 'pending' | 'merged' | 'rejected') {
+    this.prStatusFilter = status;
+  }
+
+  getFilteredPullRequests(): PullRequestBasicOut[] {
+    if (this.prStatusFilter === 'all') {
+      return this.prSubTab === 'received' ? this.pulls : this.myPulls;
+    }
+    
+    const prs = this.prSubTab === 'received' ? this.pulls : this.myPulls;
+    return prs.filter(pr => pr.merge_status === this.prStatusFilter);
   }
 }

@@ -1,20 +1,13 @@
 import { Routes } from "@angular/router";
-import { Register } from "./register/register";
-import { Login } from "./login/login";
-import { Dashboard } from "../dashboard/dashboard";
 import { UserResolver } from "../../core/services/user-resolver.service";
-import { VerifyEmail } from "./verify-email/verify-email";
-import { RecoverPassword } from "./recover-password/recover-password";
-import { ChangePassword } from "./change-password/change-password";
-import { Landing } from "../landing/landing";
 import { landingRedirectGuard } from "../../core/guards/landing-redirect.guard";
 
 export const AUTH_ROUTES: Routes = [
-    {path: '', component:Landing, canActivate: [landingRedirectGuard]},
-    {path: 'courses', component:Dashboard, resolve:{user : UserResolver}},
-    {path: 'register', component:Register},
-    {path: 'login', component:Login},
-    {path: 'verify-email', component:VerifyEmail},
-    {path: 'recover-password', component: RecoverPassword},
-    {path: 'change-password-recover', component: ChangePassword}
+    {path: '', loadComponent: () => import('../landing/landing').then(m => m.Landing), canActivate: [landingRedirectGuard]},
+    {path: 'courses', loadComponent: () => import('../dashboard/dashboard').then(m => m.Dashboard), resolve:{user : UserResolver}},
+    {path: 'register', loadComponent: () => import('./register/register').then(m => m.Register)},
+    {path: 'login', loadComponent: () => import('./login/login').then(m => m.Login)},
+    {path: 'verify-email', loadComponent: () => import('./verify-email/verify-email').then(m => m.VerifyEmail)},
+    {path: 'recover-password', loadComponent: () => import('./recover-password/recover-password').then(m => m.RecoverPassword)},
+    {path: 'change-password-recover', loadComponent: () => import('./change-password/change-password').then(m => m.ChangePassword)}
 ]

@@ -120,11 +120,12 @@
                 </div>
             }@else if (selectedTab == 'content-pull-request') {
                 <div class="container-content flex-column">
+                    <!-- Sub-tabs: Recibidos/Enviados -->
                     <div class="pr-sub-tabs flex-row">
                         <button 
                             class="pr-tab-btn" 
                             [class.active]="prSubTab === 'received'"
-                            (click)="prSubTab = 'received'">
+                            (click)="prSubTab = 'received'; prStatusFilter = 'all'">
                             Recibidos
                             <span class="badge">{{ pulls.length }}</span>
                         </button>
@@ -132,11 +133,39 @@
                             <button 
                                 class="pr-tab-btn" 
                                 [class.active]="prSubTab === 'sent'"
-                                (click)="prSubTab = 'sent'">
+                                (click)="prSubTab = 'sent'; prStatusFilter = 'all'">
                                 Enviados
                                 <span class="badge">{{ myPulls.length }}</span>
                             </button>
                         }
+                    </div>
+
+                    <!-- Filtro de Estado -->
+                    <div class="pr-status-filters flex-row">
+                        <button 
+                            class="filter-btn" 
+                            [class.active]="prStatusFilter === 'all'"
+                            (click)="changeStatusFilter('all')">
+                            <span class="filter-icon">◆</span>Todos
+                        </button>
+                        <button 
+                            class="filter-btn" 
+                            [class.active]="prStatusFilter === 'pending'"
+                            (click)="changeStatusFilter('pending')">
+                            <span class="filter-icon pending">⏳</span>Pendiente
+                        </button>
+                        <button 
+                            class="filter-btn" 
+                            [class.active]="prStatusFilter === 'merged'"
+                            (click)="changeStatusFilter('merged')">
+                            <span class="filter-icon merged">✓</span>Fusionado
+                        </button>
+                        <button 
+                            class="filter-btn" 
+                            [class.active]="prStatusFilter === 'rejected'"
+                            (click)="changeStatusFilter('rejected')">
+                            <span class="filter-icon rejected">✕</span>Rechazado
+                        </button>
                     </div>
 
                     <!-- PRs RECIBIDOS -->
@@ -147,8 +176,14 @@
                                 <p class="no-pulls-text">Aún no hay pull requests</p>
                                 <p class="no-pulls-subtitle">Los cambios propuestos aparecerán aquí</p>
                             </div>
+                        } @else if (getFilteredPullRequests().length === 0) {
+                            <div class="no-pulls-message">
+                                <div class="no-pulls-icon">🔍</div>
+                                <p class="no-pulls-text">No hay pull requests con este estado</p>
+                                <p class="no-pulls-subtitle">Intenta con otro filtro</p>
+                            </div>
                         } @else {
-                            @for (pull of pulls; track $index) {
+                            @for (pull of getFilteredPullRequests(); track $index) {
                                 <app-pull-request [pull]="pull"></app-pull-request>
                             }
                         }
@@ -162,8 +197,14 @@
                                 <p class="no-pulls-text">Aún no has enviado pull requests</p>
                                 <p class="no-pulls-subtitle">Los PRs que hagas aparecerán aquí</p>
                             </div>
+                        } @else if (getFilteredPullRequests().length === 0) {
+                            <div class="no-pulls-message">
+                                <div class="no-pulls-icon">🔍</div>
+                                <p class="no-pulls-text">No hay pull requests con este estado</p>
+                                <p class="no-pulls-subtitle">Intenta con otro filtro</p>
+                            </div>
                         } @else {
-                            @for (pull of myPulls; track $index) {
+                            @for (pull of getFilteredPullRequests(); track $index) {
                                 <app-pull-request [pull]="pull" [isReceivedPR]="false"></app-pull-request>
                             }
                         }

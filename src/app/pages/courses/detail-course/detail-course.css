@@ -747,6 +747,62 @@
     background-color: rgba(59, 130, 246, 0.3);
 }
 
+/* Filtros de estado de PR */
+.pr-status-filters {
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted-text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-family);
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: rgba(59, 130, 246, 0.5);
+    color: var(--color-text);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.filter-btn.active {
+    background-color: rgba(59, 130, 246, 0.15);
+    border-color: #3B82F6;
+    color: #3B82F6;
+}
+
+.filter-icon {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.filter-icon.pending {
+    color: #f59e0b;
+}
+
+.filter-icon.merged {
+    color: #10b981;
+}
+
+.filter-icon.rejected {
+    color: #ef4444;
+}
+
 .btn-deactivate {
     border-color: #ef4444;
 }
