@@ -1,6 +1,7 @@
 import { Course } from "./course.model";
 
 export interface UserOut{
+  id_user:number;
   username:string;
   name: string;
   lastname:string;

@@ -47,7 +47,7 @@
         (imageClicked)="openImageModal($event)"
         (addContent)="openAddContentModal()"
         (editPublication)="onEditPublication($event)"
-        (getpublications)="this.getPublications(moduleCourse.id_module)">
+        (getpublications)="preloadedPublications ? null : this.getPublications(moduleCourse.id_module)">
       </app-course-publication>
     }@empty {
     <div class="empty-publications flex-row">

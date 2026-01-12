@@ -64,5 +64,10 @@ export const API_ROUTES = {
   pull_request:{
     get_pulls:'/pull-request/get_pull_request/',
     get_my_pulls:'/pull-request/my-pull-requests/'
+  },
+  versions:{
+    get_versions_by_course: '/versions/course/',
+    get_version: '/versions/course/',
+    get_latest_version: '/versions/course/'
   }
 }

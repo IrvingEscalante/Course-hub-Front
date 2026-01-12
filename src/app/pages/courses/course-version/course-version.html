@@ -1,0 +1,261 @@
+<main>
+  @if (isLoading) {
+    <div class="loader-center">
+      <div class="loader"></div>
+    </div>
+  }
+
+  @if (!isLoading && currentVersion) {
+    <div class="principal-container-detail-course">
+      <div class="content-course">
+        <div class="version-selector-bar flex-row">
+          <div class="version-selector-container">
+            <label for="version-select">Seleccionar versión:</label>
+            <select 
+              id="version-select"
+              class="version-select"
+              [(ngModel)]="selectedVersionId"
+              (change)="onVersionChange(selectedVersionId)">
+              @for (version of availableVersions; track version.id_version) {
+                <option [value]="version.id_version">
+                  v{{ version.version_number }} - {{ version.created_at | date: 'dd/MM/yyyy HH:mm' }}
+                </option>
+              }
+            </select>
+          </div>
+          <button class="btn-back-course" (click)="goBackToCourse()">
+            <span class="material-icons">arrow_back</span>
+            <span>Volver al curso</span>
+          </button>
+        </div>
+
+        <div class="info-course flex-column">
+          <h1 class="name-course">{{ currentVersion.snapshot.name_course }}</h1>
+          <p class="description-course">{{ currentVersion.snapshot.description_course }}</p>
+          <img [src]="currentVersion.snapshot.image" alt="Portada del curso" class="image-course">
+        </div>
+
+        <div class="content-course-content">
+          <div class="container-content flex-column">
+            @if (displayModules && displayModules.length > 0) {
+              <div class="module-drop-list flex-column">
+                @for (module of displayModules; track module.id_module) {
+                  <div class="module-container">
+                    <div class="container-module flex-row" [class.active]="openModuleId === module.id_module">
+                      <div class="icon-title flex-row">
+                        <div class="container-icons flex-row">
+                          <svg class="module-icon" viewBox="0 0 24 24">
+                            <path d="M12 7C12 5.93913 11.5786 4.92172 10.8284 4.17157C10.0783 3.42143 9.06087 3 8 3H2V18H9C9.79565 18 10.5587 18.3161 11.1213 18.8787C11.6839 19.4413 12 20.2044 12 21M12 7V21M12 7C12 5.93913 12.4214 4.92172 13.1716 4.17157C13.9217 3.42143 14.9391 3 16 3H22V18H15C14.2044 18 13.4413 18.3161 12.8787 18.8787C12.3161 19.4413 12 20.2044 12 21"
+                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                        <h3 class="title-module">{{ module.name_module }}</h3>
+                      </div>
+                      <div class="icons flex-row">
+                        <div class="container-icon-open" [class.rotated]="openModuleId === module.id_module" 
+                             (click)="toggleModule(module.id_module)">
+                          <span class="material-icons">keyboard_arrow_down</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (openModuleId === module.id_module) {
+                      <div class="course-publication-list">
+                        @if (module.course_publish && module.course_publish.length > 0) {
+                          @for (publication of module.course_publish; track publication.id_course_publish) {
+                            <div class="publication-container">
+                              <div class="publication-header">
+                                <div class="header-top flex-row">
+                                  <div class="header-text flex-column">
+                                    <div class="publication-title-container flex-row">
+                                      <div class="material-icons">article</div>
+                                      <h3 class="publication-title">{{ publication.name_publication }}</h3>
+                                    </div>
+                                    <p class="publication-description">{{ publication.description }}</p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              @if (publication.content) {
+                                <div class="publication-content">
+                                  <!-- GRID para PDFs -->
+                                  @if (hasPdfContent(publication.content)) {
+                                    <div class="pdf-grid">
+                                      @for (content of publication.content; track $index) {
+                                        @if (content.type_content === 'file' || content.type_content === 'pdf' || content.type_content === 'pptx' || content.type_content === 'docx') {
+                                          <div class="pdf-card" (click)="openPdf(content.content)">
+                                            <div class="pdf-preview-wrapper">
+                                              <div class="file-icon-container" [ngSwitch]="getFileExtension(content.content).toLowerCase()">
+                                                <svg *ngSwitchCase="'pdf'" class="file-icon pdf-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                                  <rect width="64" height="64" rx="8" fill="#EF4444" opacity="0.2"/>
+                                                  <g transform="translate(32, 32)">
+                                                    <text x="0" y="8" text-anchor="middle" font-size="24" font-weight="bold" fill="#EF4444" font-family="Arial">PDF</text>
+                                                  </g>
+                                                </svg>
+                                                <svg *ngSwitchCase="'pptx'" class="file-icon pptx-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                                  <rect width="64" height="64" rx="8" fill="#F97316" opacity="0.2"/>
+                                                  <g transform="translate(32, 32)">
+                                                    <circle cx="-8" cy="-4" r="5" fill="#F97316"/>
+                                                    <circle cx="0" cy="-4" r="5" fill="#F97316"/>
+                                                    <circle cx="8" cy="-4" r="5" fill="#F97316"/>
+                                                    <rect x="-10" y="3" width="20" height="12" rx="2" fill="none" stroke="#F97316" stroke-width="2"/>
+                                                  </g>
+                                                </svg>
+                                                <svg *ngSwitchCase="'docx'" class="file-icon docx-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                                  <rect width="64" height="64" rx="8" fill="#3B82F6" opacity="0.2"/>
+                                                  <g transform="translate(32, 32)">
+                                                    <path d="M -10 -10 L -10 10 L 10 10 L 10 -10 Z" fill="none" stroke="#3B82F6" stroke-width="2"/>
+                                                    <line x1="-6" y1="-5" x2="6" y2="-5" stroke="#3B82F6" stroke-width="1.5"/>
+                                                    <line x1="-6" y1="-1" x2="6" y2="-1" stroke="#3B82F6" stroke-width="1.5"/>
+                                                    <line x1="-6" y1="3" x2="6" y2="3" stroke="#3B82F6" stroke-width="1.5"/>
+                                                  </g>
+                                                </svg>
+                                                <svg *ngSwitchDefault class="file-icon default-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                                  <rect width="64" height="64" rx="8" fill="#9CA3AF" opacity="0.2"/>
+                                                  <g transform="translate(32, 32)">
+                                                    <path d="M -8 -10 L -8 10 L 8 10 L 8 -6 L 4 -10 Z" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linejoin="round"/>
+                                                    <path d="M 4 -10 L 8 -6" stroke="#9CA3AF" stroke-width="2" stroke-linejoin="round"/>
+                                                  </g>
+                                                </svg>
+                                              </div>
+                                            </div>
+                                            <div class="pdf-card-body">
+                                              <p class="pdf-title">{{ getFilename(content.content) }}</p>
+                                              <div class="pdf-meta">
+                                                <span>{{ getFileExtension(content.content) }}</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        }
+                                      }
+                                    </div>
+                                  }
+
+                                  <!-- CONTENIDO MULTIMEDIA -->
+                                  @for (content of publication.content; track $index) {
+                                    @if (content.type_content !== 'file' && content.type_content !== 'pdf' && content.type_content !== 'pptx' && content.type_content !== 'docx') {
+                                      @switch (content.type_content) {
+                                        @case ('image') {
+                                          <div class="content-card image-card" (click)="openImageModal(content.content)">
+                                            <img [src]="content.content" alt="Imagen del contenido" class="content-image" loading="lazy" />
+                                          </div>
+                                        }
+                                        @case ('video') {
+                                          <div class="content-card video-card">
+                                            <video 
+                                              [src]="content.content" 
+                                              [poster]="content.content"
+                                              controls 
+                                              class="content-video"
+                                              preload="metadata">
+                                            </video>
+                                          </div>
+                                        }
+                                        @case ('video-embed') {
+                                          <div class="content-card youtube-card">
+                                            <iframe 
+                                              [src]="getYouTubeEmbedUrl(extractYouTubeId(content.content))" 
+                                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                              allowfullscreen
+                                              class="youtube-embed">
+                                            </iframe>
+                                          </div>
+                                        }
+                                        @case ('note') {
+                                          <div class="content-card text-card">
+                                            <p>{{ content.content }}</p>
+                                          </div>
+                                        }
+                                        @case ('text') {
+                                          <div class="content-card text-card">
+                                            <p>{{ content.content }}</p>
+                                          </div>
+                                        }
+                                        @default {
+                                          <div class="content-card text-card">
+                                            <p>{{ content.content }}</p>
+                                          </div>
+                                        }
+                                      }
+                                    }
+                                  }
+                                </div>
+                              }
+                            </div>
+                          }
+                        } @else {
+                          <div class="empty-publications flex-row">
+                            <div class="empty-icon">
+                              <span class="material-icons">inbox</span>
+                            </div>
+                            <div class="empty-text flex-column">
+                              <strong class="empty-title">No hay publicaciones disponibles</strong>
+                              <span class="empty-subtitle">Aún no se ha agregado contenido a este módulo</span>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="no-content-message flex-column">
+                <span class="material-icons">library_books</span>
+                <h3>Sin contenido</h3>
+                <p>Esta versión del curso no contiene módulos</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="more-info-course flex-column">
+        <div class="version-info-card">
+          <h3>Información de la versión</h3>
+          
+          <div class="version-details">
+            <div class="detail-item">
+              <span class="label">Versión:</span>
+              <span class="value">v{{ currentVersion.version_number }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Creada por:</span>
+              <span class="value">Usuario ID {{ currentVersion.created_by }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Fecha de creación:</span>
+              <span class="value">{{ currentVersion.created_at | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Total módulos:</span>
+              <span class="value">{{ displayModules.length }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading && !currentVersion) {
+    <div class="error-container">
+      <h2>No se encontró la versión</h2>
+      <button class="btn-back" (click)="goBackToCourse()">
+        <span class="material-icons">arrow_back</span>
+        <span>Volver al curso</span>
+      </button>
+    </div>
+  }
+
+  <!-- IMAGE MODAL -->
+  @if (isImageModalOpen) {
+    <div class="image-modal-backdrop" (click)="onImageBackdropClick($event)">
+      <div class="image-modal-container">
+        <button class="close-button" (click)="closeImageModal()" title="Cerrar">
+          <span class="material-icons">close</span>
+        </button>
+        <img [src]="selectedImageUrl" alt="Imagen ampliada" class="image-modal-content" />
+      </div>
+    </div>
+  }
+</main>

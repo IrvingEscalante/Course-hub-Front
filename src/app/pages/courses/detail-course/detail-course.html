@@ -244,6 +244,10 @@
                     <span class="material-icons">save</span>
                     <p>Guardar versión</p>
                 </button>
+                <button (click)="goToMyVersions()" class="btn-action btn-versions flex-row">
+                    <span class="material-icons">history</span>
+                    <p>Ir a mis versiones</p>
+                </button>
             </div>
         }
         @if (!isEditMode && course.is_my_course && course.is_forked) {

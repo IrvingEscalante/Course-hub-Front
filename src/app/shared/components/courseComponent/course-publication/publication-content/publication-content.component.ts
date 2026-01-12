@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContentCoursePublishResponse } from '../../../../../core/models/detail_course.model';
-import { SafeUrlPipe } from '../../../../pipes/safeurlpipe-pipe';
 import { YouTubePlayer } from "@angular/youtube-player";
 
 @Component({
   selector: 'app-publication-content',
-  imports: [SafeUrlPipe, YouTubePlayer, CommonModule],
+  imports: [YouTubePlayer, CommonModule],
   templateUrl: './publication-content.component.html',
   styleUrl: './publication-content.component.css'
 })

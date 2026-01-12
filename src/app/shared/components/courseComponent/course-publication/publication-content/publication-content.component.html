@@ -7,10 +7,39 @@
         @if (content.type_content === 'file' || content.type_content === 'pdf' || content.type_content === 'pptx' || content.type_content === 'docx') {
           <div class="pdf-card" (click)="openPdf(content.content)">
             <div class="pdf-preview-wrapper">
-              <object 
-                [data]="apiUrlBack + content.content | safeUrl" 
-                class="pdf-preview">
-              </object>
+              <div class="file-icon-container" [ngSwitch]="getFileExtension(content.content).toLowerCase()">
+                <svg *ngSwitchCase="'pdf'" class="file-icon pdf-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#EF4444" opacity="0.2"/>
+                  <g transform="translate(32, 32)">
+                    <text x="0" y="8" text-anchor="middle" font-size="24" font-weight="bold" fill="#EF4444" font-family="Arial">PDF</text>
+                  </g>
+                </svg>
+                <svg *ngSwitchCase="'pptx'" class="file-icon pptx-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#F97316" opacity="0.2"/>
+                  <g transform="translate(32, 32)">
+                    <circle cx="-8" cy="-4" r="5" fill="#F97316"/>
+                    <circle cx="0" cy="-4" r="5" fill="#F97316"/>
+                    <circle cx="8" cy="-4" r="5" fill="#F97316"/>
+                    <rect x="-10" y="3" width="20" height="12" rx="2" fill="none" stroke="#F97316" stroke-width="2"/>
+                  </g>
+                </svg>
+                <svg *ngSwitchCase="'docx'" class="file-icon docx-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#3B82F6" opacity="0.2"/>
+                  <g transform="translate(32, 32)">
+                    <path d="M -10 -10 L -10 10 L 10 10 L 10 -10 Z" fill="none" stroke="#3B82F6" stroke-width="2"/>
+                    <line x1="-6" y1="-5" x2="6" y2="-5" stroke="#3B82F6" stroke-width="1.5"/>
+                    <line x1="-6" y1="-1" x2="6" y2="-1" stroke="#3B82F6" stroke-width="1.5"/>
+                    <line x1="-6" y1="3" x2="6" y2="3" stroke="#3B82F6" stroke-width="1.5"/>
+                  </g>
+                </svg>
+                <svg *ngSwitchDefault class="file-icon default-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="64" height="64" rx="8" fill="#9CA3AF" opacity="0.2"/>
+                  <g transform="translate(32, 32)">
+                    <path d="M -8 -10 L -8 10 L 8 10 L 8 -6 L 4 -10 Z" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M 4 -10 L 8 -6" stroke="#9CA3AF" stroke-width="2" stroke-linejoin="round"/>
+                  </g>
+                </svg>
+              </div>
             </div>
             <div class="pdf-card-body">
               <p class="pdf-title">{{ getFilename(content.content) }}</p>

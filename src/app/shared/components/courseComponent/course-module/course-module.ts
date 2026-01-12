@@ -35,6 +35,7 @@ export class CourseModule {
   private renderer = inject(Renderer2);
   @Input() moduleCourse!:ModuleCourseResponse;
   @Input() isMyCourse?: boolean;
+  @Input() preloadedPublications?: CoursePublishResponse[]; // Publicaciones precargadas (opcional)
   publications: CoursePublishResponse[] = [];
   hasLoaded: boolean = false;
   pdfModalUrl?: string;
@@ -63,7 +64,14 @@ closePdf() {
     this.isOpen = !this.isOpen;
 
      if (this.isOpen && !this.hasLoaded) {
-      this.getPublications(this.moduleCourse.id_module);
+      // Si hay publicaciones precargadas, usarlas directamente
+      if (this.preloadedPublications && this.preloadedPublications.length > 0) {
+        this.publications = this.preloadedPublications;
+        this.hasLoaded = true;
+      } else {
+        // Si no, cargar desde la API
+        this.getPublications(this.moduleCourse.id_module);
+      }
     }
   }
 

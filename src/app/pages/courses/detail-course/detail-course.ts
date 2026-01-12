@@ -307,6 +307,14 @@ export class DetailCourse {
     });
   }
 
+  goToMyVersions() {
+    if (!this.course) {
+      this.toastService.error('Curso no cargado');
+      return;
+    }
+    this.router.navigate(['/course', this.course.id_course, 'versions']);
+  }
+
   openPullRequest() {
     if (!this.course) {
       this.toastService.error('Curso no cargado');
