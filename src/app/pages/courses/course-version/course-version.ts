@@ -168,7 +168,7 @@ export class CourseVersionPage implements OnInit {
 
     this.versionService.restoreVersion(this.idCourse, this.currentVersion.id_version).subscribe({
       next: (resp) => {
-        this.toastService.success(`Curso reestablecido a la versión ${resp.version_number} correctamente`);
+        this.toastService.success(`Curso reestablecido a la versión ${resp.id_version} correctamente`);
         this.isConfirmingRestore = false;
         setTimeout(() => {
           this.router.navigate(['/course/detail', this.idCourse]);

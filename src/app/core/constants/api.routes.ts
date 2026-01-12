@@ -68,6 +68,7 @@ export const API_ROUTES = {
   versions:{
     get_versions_by_course: '/versions/course/',
     get_version: '/versions/course/',
-    get_latest_version: '/versions/course/'
+    get_latest_version: '/versions/course/',
+    restore_version: '/versions/course/'
   }
 }
