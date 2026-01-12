@@ -39,7 +39,7 @@
 @if (isOpen) {
 <div class="course-publication-list">
   @if (hasLoaded) {
-    @for (publication of publications; track $index) {
+    @for (publication of visiblePublications; track $index) {
       <app-course-publication 
         [publication]="publication"
         [isMyCourse]="isMyCourse"

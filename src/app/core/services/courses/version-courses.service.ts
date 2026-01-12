@@ -39,4 +39,11 @@ export class VersionCoursesService {
       `${this.baseUrl}${API_ROUTES.versions.get_latest_version}${id_course}/versions/latest`
     );
   }
+  //HACER
+  restoreVersion(id_course: number, id_version: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}${API_ROUTES.versions}${id_course}/versions/${id_version}/restore`,
+      {}
+    );
+  }
 }

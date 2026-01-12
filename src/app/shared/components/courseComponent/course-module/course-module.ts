@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, Renderer2, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoursePublishResponse, ModuleCourseResponse, CreateModuleRequest, EditModule, ContentCoursePublishResponse } from '../../../../core/models/detail_course.model';
 import { DetailCourses } from '../../../../core/services/courses/detail-courses.service';
@@ -18,7 +18,7 @@ import { ModalConfirmation } from '../../modal-confirmation/modal-confirmation';
   templateUrl: './course-module.html',
   styleUrl: './course-module.css'
 })
-export class CourseModule {
+export class CourseModule implements OnChanges {
   isModalOpen: boolean = false;
   modalActionType: 'add' | 'edit' = 'add';
   modalElementType: 'module' | 'publication' | 'content' = 'publication';
@@ -48,6 +48,22 @@ export class CourseModule {
   initialModalData?: ModalData;
   currentEditingPublicationId?: number;
 
+  // Getter para las publicaciones visibles (solo las publicadas)
+  get visiblePublications(): CoursePublishResponse[] {
+    return this.publications.filter(pub => pub.status_publish);
+  }  ngOnChanges(changes: SimpleChanges) {
+    // Si cambian las publicaciones precargadas, reiniciar el estado de carga
+    if (changes['preloadedPublications'] && !changes['preloadedPublications'].firstChange) {
+      this.hasLoaded = false;
+      this.publications = [];
+      // Si el módulo está abierto, recargar las publicaciones
+      if (this.isOpen && this.preloadedPublications) {
+        this.publications = this.preloadedPublications;
+        this.hasLoaded = true;
+      }
+    }
+  }
+
   openPdf(url: string) {
     const fullUrl = environment.apiUrlForStatics+url
     window.open(fullUrl, "_blank");
@@ -64,12 +80,13 @@ closePdf() {
     this.isOpen = !this.isOpen;
 
      if (this.isOpen && !this.hasLoaded) {
+      console.log("Preload:", this.preloadedPublications);
       // Si hay publicaciones precargadas, usarlas directamente
-      if (this.preloadedPublications && this.preloadedPublications.length > 0) {
+      if (this.preloadedPublications) {
         this.publications = this.preloadedPublications;
         this.hasLoaded = true;
       } else {
-        // Si no, cargar desde la API
+        // Si no hay publicaciones precargadas, cargar desde la API
         this.getPublications(this.moduleCourse.id_module);
       }
     }

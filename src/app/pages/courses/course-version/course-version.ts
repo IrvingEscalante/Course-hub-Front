@@ -8,10 +8,12 @@ import { LoaderService } from '../../../core/services/loader';
 import { ToastService } from '../../../core/services/toast.service';
 import { ModuleResponse, ModuleCourseResponse, CoursePublishResponse, ContentCoursePublishResponse } from '../../../core/models/detail_course.model';
 import { environment } from '../../../../environments/environment';
+import { CourseModule } from '../../../shared/components/courseComponent/course-module/course-module';
+import { ModalConfirmation } from '../../../shared/components/modal-confirmation/modal-confirmation';
 
 @Component({
   selector: 'app-course-version',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, CourseModule, ModalConfirmation],
   templateUrl: './course-version.html',
   styleUrl: './course-version.css'
 })
@@ -29,11 +31,14 @@ export class CourseVersionPage implements OnInit {
   selectedVersionId: number = 0;
   isLoading: boolean = true;
   displayModules: (ModuleCourseResponse & { course_publish: CoursePublishResponse[] })[] = [];
-  openModuleId: number | null = null;
 
   // Image modal state
   isImageModalOpen = false;
   selectedImageUrl: string = '';
+  
+  // Restore version state
+  isConfirmingRestore = false;
+  isRestoringVersion = false;
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -135,61 +140,55 @@ export class CourseVersionPage implements OnInit {
     this.router.navigate(['/course/detail', this.idCourse]);
   }
 
-  toggleModule(moduleId: number) {
-    this.openModuleId = this.openModuleId === moduleId ? null : moduleId;
-  }
-
-  hasPdfContent(content: ContentCoursePublishResponse[]): boolean {
-    return content.some(c => 
-      c.type_content === 'file' || c.type_content === 'pdf' || 
-      c.type_content === 'pptx' || c.type_content === 'docx'
-    );
-  }
-
-  getFileExtension(url: string): string {
-    return url.split('.').pop()?.toLowerCase() || 'file';
-  }
-
-  getFilename(url: string): string {
-    const fullName = url.split('/').pop() || url;
-    const parts = fullName.split('_');
-    if (parts.length > 1 && !isNaN(Number(parts[0]))) {
-      return parts.slice(1).join('_');
-    }
-    return fullName;
-  }
-
-  extractYouTubeId(url: string): string | null {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  }
-
-  getYouTubeEmbedUrl(videoId: string | null): string {
-    if (!videoId) return '';
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-
-  openPdf(url: string) {
+  onPdfClick(url: string) {
     const fullUrl = environment.apiUrlForStatics + url;
     window.open(fullUrl, '_blank');
   }
 
-  openImageModal(imageUrl: string) {
-    this.selectedImageUrl = imageUrl;
+  onImageClicked(url: string) {
+    this.selectedImageUrl = url;
     this.isImageModalOpen = true;
     this.renderer.addClass(document.body, 'modal-open');
   }
 
-  closeImageModal() {
-    this.isImageModalOpen = false;
-    this.selectedImageUrl = '';
-    this.renderer.removeClass(document.body, 'modal-open');
+  onRestoreVersion() {
+    if (!this.currentVersion) {
+      this.toastService.error('No hay una versión seleccionada');
+      return;
+    }
+
+    this.isConfirmingRestore = true;
   }
 
-  onImageBackdropClick(event: MouseEvent) {
-    if ((event.target as HTMLElement).classList.contains('image-modal-backdrop')) {
-      this.closeImageModal();
+  confirmRestoreVersion() {
+    if (this.isRestoringVersion || !this.currentVersion) return;
+    
+    this.isRestoringVersion = true;
+    this.loaderService.show();
+
+    this.versionService.restoreVersion(this.idCourse, this.currentVersion.id_version).subscribe({
+      next: (resp) => {
+        this.toastService.success(`Curso reestablecido a la versión ${resp.version_number} correctamente`);
+        this.isConfirmingRestore = false;
+        setTimeout(() => {
+          this.router.navigate(['/course/detail', this.idCourse]);
+        }, 1500);
+      },
+      error: (err) => {
+        console.error('Error al reestablecer versión:', err);
+        this.toastService.error(err.error?.detail || 'Error al reestablecer la versión');
+        this.isConfirmingRestore = false;
+      },
+      complete: () => {
+        this.isRestoringVersion = false;
+        this.loaderService.hide();
+      }
+    });
+  }
+
+  cancelRestoreVersion() {
+    if (!this.isRestoringVersion) {
+      this.isConfirmingRestore = false;
     }
   }
 }

@@ -213,7 +213,7 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 180px;
+  min-height: 100vh;
 }
 .loader-inline {
   display: inline-flex;
