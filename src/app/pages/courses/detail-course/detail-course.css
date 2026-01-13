@@ -211,6 +211,7 @@
 }
 .subtitle-copycourse{
     align-items: center;
+    margin-top: 20px;
     justify-content: space-between;
 }
 .module-list-comments{

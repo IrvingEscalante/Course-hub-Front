@@ -1,3 +1,4 @@
+import { ModalConfirmation } from '../../../shared/components/modal-confirmation/modal-confirmation';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +17,7 @@ interface GroupedChanges {
 @Component({
   selector: 'app-pull-request-detail',
   standalone: true,
-  imports: [CommonModule, PullRequestChangeItemComponent, Avatar],
+  imports: [CommonModule, PullRequestChangeItemComponent, Avatar, ModalConfirmation],
   templateUrl: './pull-request-detail.html',
   styleUrl: './pull-request-detail.css'
 })
@@ -29,6 +30,15 @@ export class PullRequestDetail implements OnInit {
   isLoading: boolean = true;
   isProcessing: boolean = false;
   error: string | null = null;
+  showModalAccept: boolean = false;
+  showModalReject: boolean = false;
+  showAcceptModal() {
+    this.showModalAccept = true;
+  }
+
+    showRejectModal() {
+      this.showModalReject = true;
+    }
 
   constructor(
     private route: ActivatedRoute,
@@ -83,20 +93,18 @@ export class PullRequestDetail implements OnInit {
   }
 
   acceptPR() {
-    if (!confirm('¿Aceptar este Pull Request? Los cambios se aplicarán al curso.')) {
-      return;
-    }
-
     this.isProcessing = true;
     this.prService.acceptPR(this.prId).subscribe({
       next: () => {
         this.pr!.status_pull = 'closed';
         this.isProcessing = false;
+        this.showModalAccept = false;
         setTimeout(() => {
           this.router.navigate(['/course', 'detail', this.pr?.id_course_target.toString()]);
         }, 800);
       },
       error: (err) => {
+        this.showModalAccept = false;
         alert(err.error?.detail || 'Error al aceptar el PR');
         this.isProcessing = false;
       }
@@ -104,20 +112,18 @@ export class PullRequestDetail implements OnInit {
   }
 
   rejectPR() {
-    if (!confirm('¿Rechazar este Pull Request? No se aplicarán los cambios.')) {
-      return;
-    }
-
     this.isProcessing = true;
     this.prService.rejectPR(this.prId).subscribe({
       next: () => {
         this.pr!.status_pull = 'rejected';
         this.isProcessing = false;
+        this.showModalReject = false;
         setTimeout(() => {
           this.router.navigate(['/course', 'detail', this.pr?.id_course_target.toString()]);
         }, 800);
       },
       error: (err) => {
+        this.showModalReject = false;
         alert(err.error?.detail || 'Error al rechazar el PR');
         this.isProcessing = false;
       }
@@ -125,7 +131,7 @@ export class PullRequestDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/course', 'detail', this.pr?.id_course_source?.toString()]);
+    this.router.navigate(['/course', 'detail', this.pr?.id_course_target?.toString()]);
   }
 
   getEntityIcon(entityType: string): string {

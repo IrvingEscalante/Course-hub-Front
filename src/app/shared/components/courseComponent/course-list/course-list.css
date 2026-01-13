@@ -233,7 +233,7 @@
 /* Responsivo */
 @media (max-width: 768px) {
     .carousel-container {
-        padding-inline: 30px;
+        padding-inline: 10px;
     }
     
     .carousel-btn {

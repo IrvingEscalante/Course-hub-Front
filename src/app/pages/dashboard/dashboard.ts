@@ -75,5 +75,13 @@ export class Dashboard implements OnInit {
       }
     });
   }
+  getCoursePages(): Course[][] {
+    const pageSize = 10;
+    const pages: Course[][] = [];
+    for (let i = 0; i < this.courses.length; i += pageSize) {
+      pages.push(this.courses.slice(i, i + pageSize));
+    }
+    return pages;
+  }
 
 }

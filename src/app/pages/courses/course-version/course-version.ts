@@ -58,7 +58,6 @@ export class CourseVersionPage implements OnInit {
 
   private loadVersions(idCourse: number, selectedVersionId?: number) {
     this.isLoading = true;
-    this.loaderService.show();
 
     this.versionService.getVersionsByCourse(idCourse).subscribe({
       next: (versions) => {
@@ -69,7 +68,6 @@ export class CourseVersionPage implements OnInit {
         if (this.availableVersions.length === 0) {
           this.toastService.error('No hay versiones disponibles para este curso');
           this.isLoading = false;
-          this.loaderService.hide();
           return;
         }
 
@@ -82,7 +80,6 @@ export class CourseVersionPage implements OnInit {
         console.error('Error cargando versiones:', err);
         this.toastService.error('Error al cargar las versiones');
         this.isLoading = false;
-        this.loaderService.hide();
       }
     });
   }

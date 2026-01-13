@@ -38,8 +38,10 @@
         </div>
     </div>
 
-    <!-- Courses List -->
-    @if (courses) {
-        <app-course-list [title]="selectedFilter" [courseList]="courses" [isLoading]="loading"></app-course-list>
+        <!-- Courses List Paginado -->
+    @if (courses && courses.length) {
+        @for (page of getCoursePages(); track $index) {
+            <app-course-list [title]="selectedFilter" [courseList]="page" [isLoading]="loading"></app-course-list>
+        }
     }
 </div>

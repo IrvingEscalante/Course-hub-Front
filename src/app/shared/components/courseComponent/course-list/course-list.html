@@ -32,18 +32,6 @@
             }@empty {hola}
         </div>
         
-        @if (totalPages > 1) {
-        <div class="carousel-dots">
-            @for (dot of dots; track $index) {
-                <button 
-                    class="dot" 
-                    [class.active]="$index === currentIndex"
-                    (click)="goToSlide($index)"
-                    [attr.aria-label]="'Ir a página ' + ($index + 1)">
-                </button>
-            }
-        </div>
-        }
 </div>
 } @else {
 
@@ -54,7 +42,7 @@
         <!-- Heart icon -->
         <span class="material-icons">favorite</span>
       </div>
-      <h2 class="empty-title">Aún no tienes cursos favoritos</h2>
+      <h2 class="empty-title">No se encontraron cursos favoritos</h2>
       <p class="empty-desc">Marca cursos como favoritos para encontrarlos rápidamente y seguir aprendiendo.</p>
     } @else {
       <div class="empty-icon" aria-hidden="true">

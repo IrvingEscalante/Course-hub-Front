@@ -31,7 +31,8 @@ export class PullRequestService {
     );
   }
 
-  getPRById(id: number): Observable<PullRequestBasicOut> {
+
+  getPRById(id: number | string): Observable<PullRequestBasicOut> {
     return this.http.get<PullRequestBasicOut>(
       `${this.baseUrl}/pull-request/${id}`
     );

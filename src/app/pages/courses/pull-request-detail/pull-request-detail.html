@@ -176,15 +176,35 @@
     <!-- ACTION BUTTONS -->
     @if (pr.status_pull === 'open') {
       <div class="action-buttons flex-row">
-        <button (click)="rejectPR()" [disabled]="isProcessing" class="btn-reject">
+        <button (click)="showRejectModal()" [disabled]="isProcessing" class="btn-reject">
           <span class="material-icons">close</span>
           <span>Rechazar</span>
         </button>
-        <button (click)="acceptPR()" [disabled]="isProcessing" class="btn-accept">
+        <button (click)="showAcceptModal()" [disabled]="isProcessing" class="btn-accept">
           <span class="material-icons">{{ isProcessing ? 'hourglass_empty' : 'check_circle' }}</span>
           <span>{{ isProcessing ? 'Procesando...' : 'Aceptar PR' }}</span>
         </button>
       </div>
+      <app-modal-confirmation
+        [isOpen]="showModalAccept"
+        title="Aceptar Pull Request"
+        description="¿Aceptar este Pull Request? Los cambios se aplicarán al curso."
+        confirmText="Aceptar PR"
+        cancelText="Cancelar"
+        [loading]="isProcessing"
+        (confirm)="acceptPR()"
+        (cancel)="showModalAccept = false"
+      ></app-modal-confirmation>
+      <app-modal-confirmation
+        [isOpen]="showModalReject"
+        title="Rechazar Pull Request"
+        description="¿Rechazar este Pull Request? No se aplicarán los cambios."
+        confirmText="Rechazar PR"
+        cancelText="Cancelar"
+        [loading]="isProcessing"
+        (confirm)="rejectPR()"
+        (cancel)="showModalReject = false"
+      ></app-modal-confirmation>
     }
 
     <!-- RESOLVED BADGE -->

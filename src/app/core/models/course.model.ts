@@ -25,6 +25,11 @@ export interface Course {
   status_course: boolean;
   is_favorite:boolean;
   is_my_favorite:boolean;
+  num_videos: number | 0;
+  num_files: number | 0;
+  num_embed: number | 0;
+  num_notes: number | 0;
+  num_images: number | 0;
   user: UserOut;     
   author: UserOut;  
 }

@@ -8,10 +8,11 @@ import { ToastService } from '../../core/services/toast.service';
 import { Router} from '@angular/router';
 import { LoaderService } from '../../core/services/loader';
 import { Location } from '@angular/common';
+import { ErrorMessageComponent } from "../../shared/components/error-message/error-message.component";
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [ReactiveFormsModule, Avatar],
+  imports: [ReactiveFormsModule, Avatar, ErrorMessageComponent],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css'
 })

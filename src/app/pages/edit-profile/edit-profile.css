@@ -295,8 +295,7 @@ textarea {
    VALIDATION ERRORS
    ============================================================ */
 .error-forms {
-  display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 5px;
   margin-top: 8px;
 }

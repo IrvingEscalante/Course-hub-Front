@@ -65,12 +65,29 @@
             </div>
         <div class="content-course-content">
             <div class="subtitle-copycourse flex-row">
-                <div class="tabs-options flex-row">
-                    <h3 class="option-tabs bold" [class.selected]="selectedTab=='content-course'" (click)="changeSelectedTab('content-course')">Contenido del curso</h3>
-                    @if (course.is_my_course) {
-                        <h3 class="option-tabs bold" [class.selected]="selectedTab=='content-pull-request'" (click)="changeSelectedTab('content-pull-request')">Peticiones de cambios</h3>
-                    }
-                </div>
+                                <div class="pr-sub-tabs flex-row">
+                                    <button
+                                        class="pr-tab-btn"
+                                        [class.active]="selectedTab === 'content-course'"
+                                        (click)="changeSelectedTab('content-course')"
+                                        type="button"
+                                    >
+                                        <span class="material-icons">menu_book</span>
+                                        Contenido
+                                    </button>
+                                    @if (course.is_my_course) {
+                                        <button
+                                            class="pr-tab-btn"
+                                            [class.active]="selectedTab === 'content-pull-request'"
+                                            (click)="changeSelectedTab('content-pull-request')"
+                                            type="button"
+                                        >
+                                            <span class="material-icons">change_circle</span>
+                                            Peticiones de cambio
+                                            <span class="badge">{{ pulls.length }}</span>
+                                        </button>
+                                    }
+                                </div>
                 @if (course && !course.is_my_course){
                     <div class="copy-course flex-row" (click)="copyCourse(course.id_course)">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -299,10 +316,10 @@
             }
             <div class="info-content flex-column">
                 <ul class="list-content-course flex-column">
-                    <li class="flex-row list-item"><span class="material-icons">video_camera_back</span><p>Videos:{{2}}</p></li>
-                    <li class="flex-row list-item"><span class="material-icons">picture_as_pdf</span><p>Archivos PDF:25</p></li>
-                    <li class="flex-row"><span>Archivos PPTX:25</span></li>
-                    <li class="flex-row list-item"><span class="material-icons">note</span><p>Notas:25</p></li>
+                    <li class="flex-row list-item"><span class="material-icons">image</span><p>Imagenes: {{course.num_images}}</p></li>
+                    <li class="flex-row list-item"><span class="material-icons">video_camera_back</span><p>Videos: {{course.num_videos}}</p></li>
+                    <li class="flex-row list-item"><span class="material-icons">picture_as_pdf</span><p>Archivos: {{course.num_files}}</p></li>
+                    <li class="flex-row list-item"><span class="material-icons">note</span><p>Notas: {{course.num_notes}}</p></li>
                 </ul>
 
             </div>
@@ -315,8 +332,7 @@
             <div class="text-info-use flex-column">
                 <strong>{{course.user.username}}</strong>
                 <div class="followers-courses flex-row">
-                    <p>400 seguidores</p>
-                    <p>10 cursos</p>
+                    <p>{{course.user.email}}</p>
                 </div>
             </div>
         </div>
@@ -334,7 +350,7 @@
             </div>
         } @else {
             <div class="no-collaborators-message">
-                <div class="no-collaborators-icon">👥</div>
+                <div class="no-collaborators-icon"><span class="material-icons">group</span></div>
                 <p class="no-collaborators-text">Sin colaboradores</p>
                 <p class="no-collaborators-subtitle">Aún no hay colaboradores en este curso</p>
             </div>

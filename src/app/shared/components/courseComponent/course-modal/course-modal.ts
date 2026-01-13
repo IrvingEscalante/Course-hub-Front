@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ErrorMessageComponent } from "../../error-message/error-message.component";
 
 export type ActionType = 'add' | 'edit';
 export type ElementType = 'module' | 'publication' | 'content';
@@ -30,7 +31,7 @@ export interface ModalData {
 
 @Component({
   selector: 'app-course-modal',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ErrorMessageComponent],
   templateUrl: './course-modal.html',
   styleUrl: './course-modal.css'
 })
