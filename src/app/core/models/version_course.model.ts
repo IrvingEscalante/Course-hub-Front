@@ -1,4 +1,5 @@
 import { ModuleResponse } from './detail_course.model';
+import { UserOut } from './user.model';
 
 /**
  * Interfaz que representa el snapshot JSON almacenado en la BD
@@ -30,7 +31,7 @@ export interface CourseVersionResponse {
   version_number: number;
   snapshot: CourseVersionSnapshot;
   created_at: Date;
-  created_by: number;
+  user: UserOut | null;
 }
 
 /**
@@ -41,7 +42,7 @@ export interface CourseVersionListResponse {
   id_course: number;
   version_number: number;
   created_at: Date;
-  created_by: number;
+  user: UserOut | null;
 }
 
 /**
