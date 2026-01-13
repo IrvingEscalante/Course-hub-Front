@@ -1,11 +1,11 @@
-<div class="pr-detail-container flex-column">
-  <!-- LOADER -->
   @if (isLoading) {
     <div class="loader-center">
       <div class="loader"></div>
     </div>
   }
 
+<main>
+<div class="pr-detail-container flex-column">
   <!-- ERROR STATE -->
   @if (error && !isLoading) {
     <div class="error-card flex-column">
@@ -174,7 +174,7 @@
     </div>
 
     <!-- ACTION BUTTONS -->
-    @if (pr.status_pull === 'open') {
+    @if (pr.status_pull === 'open' && isReceiver()) {
       <div class="action-buttons flex-row">
         <button (click)="showRejectModal()" [disabled]="isProcessing" class="btn-reject">
           <span class="material-icons">close</span>
@@ -219,3 +219,4 @@
     }
   }
 </div>
+</main>

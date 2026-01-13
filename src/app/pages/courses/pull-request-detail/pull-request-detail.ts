@@ -6,6 +6,7 @@ import { PullRequestBasicOut, PullRequestChange } from '../../../core/models/pul
 import { PullRequestChangeItemComponent } from '../../../shared/components/pull-request-components/pull-request-change-item/pull-request-change-item.component';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { PullRequestService } from '../../../core/services/pull_request/pull-request.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 
 interface GroupedChanges {
@@ -27,33 +28,62 @@ export class PullRequestDetail implements OnInit {
   changes: PullRequestChange[] = [];
   groupedChanges: GroupedChanges = { added: [], updated: [], deleted: [] };
   
+
   isLoading: boolean = true;
   isProcessing: boolean = false;
   error: string | null = null;
   showModalAccept: boolean = false;
   showModalReject: boolean = false;
+
+  currentUser: any = null;
+
   showAcceptModal() {
     this.showModalAccept = true;
   }
+  showRejectModal() {
+    this.showModalReject = true;
+  }
 
-    showRejectModal() {
-      this.showModalReject = true;
-    }
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private prService: PullRequestService
+    private prService: PullRequestService,
+    private authService: AuthService
   ) {}
+
 
   ngOnInit() {
     this.prId = +this.route.snapshot.paramMap.get('id')!;
+    // Obtener usuario actual
+    this.currentUser = this.authService.currentUserValue;
+    if (!this.currentUser) {
+      // Si no está cargado, intentar cargarlo (por si refrescaron la página)
+      this.authService.loadCurrentUser().subscribe(user => {
+        this.currentUser = user;
+        this.initPRLoad();
+      });
+    } else {
+      this.initPRLoad();
+    }
+  }
+
+  private initPRLoad() {
     if (this.prId) {
       this.loadPRDetails();
     } else {
       this.error = 'ID de PR inválido';
       this.isLoading = false;
     }
+  }
+  // Saber si la PR la envía el usuario autenticado
+  isSender(): boolean {
+    return !!(this.pr && this.currentUser && this.pr.user.username === this.currentUser.username);
+  }
+
+  // Saber si la PR la recibe el usuario autenticado
+  isReceiver(): boolean {
+    return !!(this.pr && this.currentUser && this.pr.user.username !== this.currentUser.username);
   }
 
   loadPRDetails() {
@@ -131,7 +161,13 @@ export class PullRequestDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/course', 'detail', this.pr?.id_course_target?.toString()]);
+    let url='';
+    if (this.isReceiver()){
+      url = '/course/detail/' + this.pr?.id_course_target?.toString();
+    }else if (this.isSender()){
+      url = '/course/detail/' + this.pr?.id_course_source?.toString();
+    }
+    this.router.navigate([url]);
   }
 
   getEntityIcon(entityType: string): string {

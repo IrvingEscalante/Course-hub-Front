@@ -16,7 +16,7 @@
             <a [routerLink]="'/'+course?.user?.username"><app-avatar [size]="25" [name]="course?.user?.name || ''" [photo]="course?.user?.photo || ''"></app-avatar></a>
             <span class="name-creator">By {{course?.user?.username}}</span>
         </div>
-        <p class="description-course">{{course?.description_course}}</p>
+        <p class="description-course" [title]="course?.description_course">{{course?.description_course}}</p>
         <div class="rating-course flex-row">
             <div class="rating-course flex-row">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -11,7 +11,12 @@
   z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
-
+.loader-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -28,7 +33,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     
-    width: 420px;
+    width: 450px;
     max-height: 80vh;
     padding: 22px;
 
@@ -116,4 +121,13 @@
 /* Cuando ya se sigue */
 .follow-btn.unfollow {
     background: var(--color-unfollow);
+}
+
+@media(max-width:600px){
+    .followers-modal{
+        width: 100%;
+    }
+    .modal-overlay{
+        padding-inline: 20px;
+    }
 }
