@@ -823,6 +823,7 @@
 }
 
 @media(max-width:900px){
+
 .principal-container-detail-course{
     padding-inline: 20px;
     grid-template-columns: 1fr;
@@ -833,5 +834,12 @@
 .container-rating{
     background: transparent;
     border: none;
+}
+}
+
+@media(max-width:400px){
+.pr-sub-tabs{
+    flex-direction: column;
+    width: 100%;
 }
 }

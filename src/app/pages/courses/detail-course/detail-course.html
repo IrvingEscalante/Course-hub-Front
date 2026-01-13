@@ -1,10 +1,10 @@
-<main>
 @if (isLoading) {
         <div class="loader-center">
             <div class="loader"></div>
         </div>
-    }
+}
  @if (!isLoading && course) {
+<main>
 <div class="principal-container-detail-course">
     <div class="content-course">
             <div class="info-course flex-column">
@@ -371,8 +371,9 @@
     }
 </div>
 </div>
-} 
+
 </main>
+ }
 
 
 <app-course-modal
