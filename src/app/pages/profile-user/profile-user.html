@@ -1,11 +1,11 @@
 
-<main>
 @if (loading){
     <div class="loader-center">
       <div class="loader"></div>
     </div>
 }
 @else if (userExist){
+<main>
 <div class="principal-content-profile">
     <div class="container-profile flex-column">
         <div class="header-data-user flex-column">
@@ -67,5 +67,8 @@
         </app-course-list>
     }
 </div>
-}@else {Usuario no encontrado}
+
 </main>
+} @else {
+    <app-not-found></app-not-found>
+}

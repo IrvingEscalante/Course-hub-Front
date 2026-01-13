@@ -39,9 +39,13 @@
     </div>
 
         <!-- Courses List Paginado -->
-    @if (courses && courses.length) {
-        @for (page of getCoursePages(); track $index) {
-            <app-course-list [title]="selectedFilter" [courseList]="page" [isLoading]="loading"></app-course-list>
+    @if (loading || (courses && courses.length)) {
+        @if (loading) {
+            <app-course-list [title]="selectedFilter" [courseList]="[]" [isLoading]="true"></app-course-list>
+        } @else {
+            @for (page of getCoursePages(); track $index) {
+                <app-course-list [title]="selectedFilter" [courseList]="page" [isLoading]="loading"></app-course-list>
+            }
         }
     }
 </div>

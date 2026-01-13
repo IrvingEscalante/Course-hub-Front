@@ -11,10 +11,11 @@ import { FavoritesService } from '../../core/services/courses/favorites.service'
 import { FollowService } from '../../core/services/follow/follow.service';
 import { FollowerFollowingModal } from "../../shared/components/follower-following-modal/follower-following-modal";
 import { ToastService } from '../../core/services/toast.service';
+import { NotFoundPage } from "../not-found/not-found";
 
 @Component({
   selector: 'app-profile-user',
-  imports: [CourseList, RouterModule, Avatar, FollowerFollowingModal],
+  imports: [CourseList, RouterModule, Avatar, FollowerFollowingModal, NotFoundPage],
   templateUrl: './profile-user.html',
   styleUrl: './profile-user.css'
 })
@@ -107,7 +108,6 @@ openFollowing() {
         this.courses_favorites = data;
       },
       error:(err)=>{
-        this.toastService.error("Error al obtener favoritos");
       }
     })
   }
